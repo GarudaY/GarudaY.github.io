@@ -1,0 +1,486 @@
+import type { Course } from "@/types/content";
+
+export const courses: Course[] = [
+  {
+    id: "course-german-a1",
+    slug: "nimetska-dlya-zhyttya-a1-a2",
+    status: "published",
+    enrollmentStatus: "open",
+    category: "language",
+    title: { uk: "Німецька для життя A1-A2", de: "Deutsch im Alltag A1-A2" },
+    summary: {
+      uk: "Практичний курс для розмов у школі, лікарні, транспорті та адміністративних ситуаціях.",
+      de: "Praxisnaher Kurs für Schule, Arztbesuche, Verkehr und Behördenkontakte.",
+    },
+    description: {
+      uk: "Курс допомагає впевненіше говорити німецькою у повсякденних ситуаціях. Уроки побудовані навколо реальних сценаріїв, коротких діалогів і повторюваних фраз.",
+      de: "Der Kurs stärkt Deutsch im Alltag mit echten Situationen, kurzen Dialogen und wiederholbaren Formulierungen.",
+    },
+    outcomes: {
+      uk: [
+        "пояснити проблему на прийомі",
+        "написати коротке повідомлення",
+        "зрозуміти прості офіційні листи",
+      ],
+      de: [
+        "ein Anliegen beim Termin erklären",
+        "kurze Nachrichten schreiben",
+        "einfache offizielle Briefe verstehen",
+      ],
+    },
+    materials: {
+      uk: ["зошит", "ручка", "смартфон для вправ"],
+      de: ["Heft", "Stift", "Smartphone für Übungen"],
+    },
+    ageGroup: { uk: "дорослі", de: "Erwachsene" },
+    language: { uk: "українська + німецька", de: "Ukrainisch + Deutsch" },
+    format: { uk: "очно", de: "vor Ort" },
+    location: { uk: "Demohaus, кімната 2", de: "Demohaus, Raum 2" },
+    schedule: [
+      {
+        weekday: { uk: "середа", de: "Mittwoch" },
+        time: "18:00-19:30",
+        cadence: { uk: "щотижня", de: "wöchentlich" },
+      },
+    ],
+    price: { uk: "40 EUR / місяць, demo", de: "40 EUR / Monat, Demo" },
+    startsAt: "2026-09-09",
+    duration: { uk: "12 тижнів", de: "12 Wochen" },
+    seatsTotal: 14,
+    seatsAvailable: 5,
+    teacherIds: ["person-marko-demo"],
+    relatedCourseIds: ["course-integration", "course-conversation"],
+    image: {
+      src: "/images/generated/course-german-a1-v1.webp",
+      alt: {
+        uk: "Учасники практикують німецьку мову в малій групі",
+        de: "Teilnehmende üben Deutsch in einer kleinen Gruppe",
+      },
+    },
+    isFeatured: true,
+    order: 1,
+    seo: {
+      title: { uk: "Німецька для життя A1-A2", de: "Deutsch im Alltag A1-A2" },
+      description: {
+        uk: "Практичний демонстраційний курс німецької для українців у Німеччині.",
+        de: "Praktischer Demo-Deutschkurs für Ukrainerinnen und Ukrainer.",
+      },
+    },
+    createdAt: "2026-02-01",
+    updatedAt: "2026-06-22",
+  },
+  {
+    id: "course-children-art",
+    slug: "tvorcha-maysternya-dity",
+    status: "published",
+    enrollmentStatus: "open",
+    category: "children",
+    title: {
+      uk: "Творча майстерня для дітей",
+      de: "Kreativwerkstatt für Kinder",
+    },
+    summary: {
+      uk: "Малювання, аплікації та маленькі проєкти українською мовою.",
+      de: "Malen, Basteln und kleine Projekte auf Ukrainisch.",
+    },
+    description: {
+      uk: "Заняття дають дітям простір для творчості та спілкування українською. Програма підходить для дітей, які вже відвідують німецьку школу.",
+      de: "Das Angebot schafft Raum für Kreativität und ukrainische Sprache. Geeignet für Kinder in der deutschen Schule.",
+    },
+    outcomes: {
+      uk: [
+        "створити власний проєкт",
+        "попрактикувати українську",
+        "познайомитися з однолітками",
+      ],
+      de: [
+        "ein eigenes Projekt gestalten",
+        "Ukrainisch üben",
+        "Gleichaltrige kennenlernen",
+      ],
+    },
+    materials: {
+      uk: ["матеріали включені у внесок"],
+      de: ["Materialien im Beitrag enthalten"],
+    },
+    ageGroup: { uk: "6-10 років", de: "6-10 Jahre" },
+    language: { uk: "українська", de: "Ukrainisch" },
+    format: { uk: "очно", de: "vor Ort" },
+    location: { uk: "Demohaus, творча кімната", de: "Demohaus, Kreativraum" },
+    schedule: [
+      {
+        weekday: { uk: "субота", de: "Samstag" },
+        time: "10:30-12:00",
+        cadence: { uk: "двічі на місяць", de: "zweimal im Monat" },
+      },
+    ],
+    price: { uk: "25 EUR / місяць, demo", de: "25 EUR / Monat, Demo" },
+    startsAt: "2026-09-19",
+    duration: { uk: "семестр", de: "Semester" },
+    seatsTotal: 12,
+    seatsAvailable: 3,
+    teacherIds: ["person-ira-demo"],
+    relatedCourseIds: ["course-ukrainian-children"],
+    image: {
+      src: "/images/generated/course-children-art-v1.webp",
+      alt: {
+        uk: "Діти малюють і створюють колажі у творчій майстерні",
+        de: "Kinder malen und gestalten Collagen in einer Kreativwerkstatt",
+      },
+    },
+    isFeatured: true,
+    order: 2,
+    seo: {
+      title: {
+        uk: "Творча майстерня для дітей",
+        de: "Kreativwerkstatt für Kinder",
+      },
+      description: {
+        uk: "Демонстраційний творчий курс для дітей українською.",
+        de: "Demo-Kreativkurs für Kinder auf Ukrainisch.",
+      },
+    },
+    createdAt: "2026-02-02",
+    updatedAt: "2026-06-22",
+  },
+  {
+    id: "course-ukrainian-children",
+    slug: "ukrainska-mova-dlya-ditey",
+    status: "published",
+    enrollmentStatus: "waitlist",
+    category: "children",
+    title: { uk: "Українська мова для дітей", de: "Ukrainisch für Kinder" },
+    summary: {
+      uk: "Підтримка читання, письма та розмовної української у двомовному середовищі.",
+      de: "Lesen, Schreiben und Sprechen in zweisprachigen Familien stärken.",
+    },
+    description: {
+      uk: "Курс допомагає дітям зберігати зв'язок з українською мовою через історії, ігри та короткі письмові вправи.",
+      de: "Der Kurs stärkt die Verbindung zur ukrainischen Sprache durch Geschichten, Spiele und kurze Schreibübungen.",
+    },
+    outcomes: {
+      uk: [
+        "читати короткі тексти",
+        "переказувати історії",
+        "писати прості речення",
+      ],
+      de: [
+        "kurze Texte lesen",
+        "Geschichten nacherzählen",
+        "einfache Sätze schreiben",
+      ],
+    },
+    materials: { uk: ["зошит", "олівці"], de: ["Heft", "Stifte"] },
+    ageGroup: { uk: "7-11 років", de: "7-11 Jahre" },
+    language: { uk: "українська", de: "Ukrainisch" },
+    format: { uk: "очно", de: "vor Ort" },
+    location: { uk: "Demohaus, кімната 1", de: "Demohaus, Raum 1" },
+    schedule: [
+      {
+        weekday: { uk: "п'ятниця", de: "Freitag" },
+        time: "16:30-17:30",
+        cadence: { uk: "щотижня", de: "wöchentlich" },
+      },
+    ],
+    price: { uk: "30 EUR / місяць, demo", de: "30 EUR / Monat, Demo" },
+    startsAt: "2026-09-11",
+    duration: { uk: "10 тижнів", de: "10 Wochen" },
+    seatsTotal: 10,
+    seatsAvailable: 0,
+    teacherIds: ["person-sofia-demo", "person-ira-demo"],
+    relatedCourseIds: ["course-children-art"],
+    image: {
+      src: "/images/generated/course-ukrainian-children-v1.webp",
+      alt: {
+        uk: "Викладачка читає ілюстровану історію дітям",
+        de: "Eine Lehrerin liest Kindern eine Bildergeschichte vor",
+      },
+    },
+    isFeatured: true,
+    order: 3,
+    seo: {
+      title: { uk: "Українська мова для дітей", de: "Ukrainisch für Kinder" },
+      description: {
+        uk: "Демонстраційний курс української мови для дітей.",
+        de: "Demo-Ukrainischkurs für Kinder.",
+      },
+    },
+    createdAt: "2026-02-03",
+    updatedAt: "2026-06-22",
+  },
+  {
+    id: "course-integration",
+    slug: "orientatsiya-u-nimetskiy-systemi",
+    status: "published",
+    enrollmentStatus: "planned",
+    category: "integration",
+    title: {
+      uk: "Орієнтація у німецькій системі",
+      de: "Orientierung im deutschen System",
+    },
+    summary: {
+      uk: "Короткі інформаційні зустрічі про листи, терміни, школу та побут.",
+      de: "Kurze Info-Treffen zu Briefen, Terminen, Schule und Alltag.",
+    },
+    description: {
+      uk: "Серія зустрічей для тих, хто хоче краще розуміти повсякденні процеси в Німеччині. Не є юридичною консультацією.",
+      de: "Eine Reihe von Treffen für mehr Orientierung im deutschen Alltag. Keine Rechtsberatung.",
+    },
+    outcomes: {
+      uk: [
+        "структурувати питання",
+        "знати, куди звертатися",
+        "краще читати офіційні листи",
+      ],
+      de: [
+        "Fragen strukturieren",
+        "Anlaufstellen kennen",
+        "offizielle Briefe besser lesen",
+      ],
+    },
+    materials: {
+      uk: ["папка з власними питаннями"],
+      de: ["Mappe mit eigenen Fragen"],
+    },
+    ageGroup: { uk: "дорослі", de: "Erwachsene" },
+    language: { uk: "українська", de: "Ukrainisch" },
+    format: { uk: "гібридно", de: "hybrid" },
+    location: { uk: "Demohaus + online", de: "Demohaus + online" },
+    schedule: [
+      {
+        weekday: { uk: "понеділок", de: "Montag" },
+        time: "18:00-19:00",
+        cadence: { uk: "раз на місяць", de: "monatlich" },
+      },
+    ],
+    price: { uk: "безкоштовно, demo", de: "kostenfrei, Demo" },
+    startsAt: "2026-10-05",
+    duration: { uk: "4 зустрічі", de: "4 Termine" },
+    seatsTotal: 20,
+    seatsAvailable: 20,
+    teacherIds: ["person-andriy-demo", "person-olena-demo"],
+    relatedCourseIds: ["course-german-a1"],
+    image: {
+      src: "/images/generated/course-integration-v1.webp",
+      alt: {
+        uk: "Учасники разом упорядковують документи на інформаційній зустрічі",
+        de: "Teilnehmende ordnen gemeinsam Unterlagen bei einem Info-Treffen",
+      },
+    },
+    isFeatured: false,
+    order: 4,
+    seo: {
+      title: {
+        uk: "Орієнтація у німецькій системі",
+        de: "Orientierung im deutschen System",
+      },
+      description: {
+        uk: "Демонстраційна серія інтеграційних зустрічей.",
+        de: "Demo-Reihe zu Integration und Orientierung.",
+      },
+    },
+    createdAt: "2026-02-04",
+    updatedAt: "2026-06-22",
+  },
+  {
+    id: "course-conversation",
+    slug: "rozmovnyy-klub-nimetskoyi",
+    status: "published",
+    enrollmentStatus: "open",
+    category: "language",
+    title: { uk: "Розмовний клуб німецької", de: "Deutsch-Konversationsclub" },
+    summary: {
+      uk: "Неформальна практика розмови у малих групах.",
+      de: "Informelle Sprachpraxis in kleinen Gruppen.",
+    },
+    description: {
+      uk: "Клуб підходить для тих, хто вже має базу і хоче більше говорити. Теми змінюються щотижня.",
+      de: "Für alle mit Grundkenntnissen, die mehr sprechen möchten. Die Themen wechseln wöchentlich.",
+    },
+    outcomes: {
+      uk: [
+        "говорити без довгих пауз",
+        "розширити словник",
+        "відпрацювати типові теми",
+      ],
+      de: [
+        "flüssiger sprechen",
+        "Wortschatz erweitern",
+        "typische Themen üben",
+      ],
+    },
+    materials: { uk: ["без підручника"], de: ["kein Lehrbuch nötig"] },
+    ageGroup: { uk: "дорослі", de: "Erwachsene" },
+    language: { uk: "німецька", de: "Deutsch" },
+    format: { uk: "очно", de: "vor Ort" },
+    location: { uk: "Demohaus, кафе-зона", de: "Demohaus, Cafébereich" },
+    schedule: [
+      {
+        weekday: { uk: "четвер", de: "Donnerstag" },
+        time: "18:30-20:00",
+        cadence: { uk: "щотижня", de: "wöchentlich" },
+      },
+    ],
+    price: { uk: "донат за можливості", de: "Spende nach Möglichkeit" },
+    startsAt: "2026-09-17",
+    duration: { uk: "відкритий формат", de: "offenes Format" },
+    seatsTotal: 16,
+    seatsAvailable: 7,
+    teacherIds: ["person-marko-demo"],
+    relatedCourseIds: ["course-german-a1"],
+    image: {
+      src: "/images/generated/course-conversation-v1.webp",
+      alt: {
+        uk: "Учасники невимушено розмовляють німецькою за столом",
+        de: "Teilnehmende unterhalten sich entspannt auf Deutsch am Tisch",
+      },
+    },
+    isFeatured: false,
+    order: 5,
+    seo: {
+      title: {
+        uk: "Розмовний клуб німецької",
+        de: "Deutsch-Konversationsclub",
+      },
+      description: {
+        uk: "Демонстраційний розмовний клуб німецької мови.",
+        de: "Demo-Konversationsclub für Deutsch.",
+      },
+    },
+    createdAt: "2026-02-05",
+    updatedAt: "2026-06-22",
+  },
+  {
+    id: "course-choir",
+    slug: "spilnyy-spiv",
+    status: "published",
+    enrollmentStatus: "open",
+    category: "culture",
+    title: { uk: "Спільний спів", de: "Gemeinsames Singen" },
+    summary: {
+      uk: "Українські пісні, голосові вправи і тепла зустріч раз на тиждень.",
+      de: "Ukrainische Lieder, Stimmübungen und ein warmes Treffen pro Woche.",
+    },
+    description: {
+      uk: "Культурний формат для дорослих і підлітків. Не потрібна професійна підготовка.",
+      de: "Kulturelles Angebot für Erwachsene und Jugendliche. Keine professionelle Erfahrung nötig.",
+    },
+    outcomes: {
+      uk: [
+        "познайомитися з репертуаром",
+        "співати у групі",
+        "виступити на відкритій зустрічі",
+      ],
+      de: [
+        "Repertoire kennenlernen",
+        "in der Gruppe singen",
+        "bei einem offenen Treffen auftreten",
+      ],
+    },
+    materials: { uk: ["тексти надаються"], de: ["Texte werden gestellt"] },
+    ageGroup: { uk: "від 14 років", de: "ab 14 Jahren" },
+    language: { uk: "українська", de: "Ukrainisch" },
+    format: { uk: "очно", de: "vor Ort" },
+    location: { uk: "Demohaus, зала", de: "Demohaus, Saal" },
+    schedule: [
+      {
+        weekday: { uk: "вівторок", de: "Dienstag" },
+        time: "19:00-20:30",
+        cadence: { uk: "щотижня", de: "wöchentlich" },
+      },
+    ],
+    price: { uk: "15 EUR / місяць, demo", de: "15 EUR / Monat, Demo" },
+    startsAt: "2026-09-08",
+    duration: { uk: "семестр", de: "Semester" },
+    seatsTotal: 24,
+    seatsAvailable: 10,
+    teacherIds: ["person-natalia-demo"],
+    relatedCourseIds: ["course-culture"],
+    image: {
+      src: "/images/generated/course-choir-v1.webp",
+      alt: {
+        uk: "Громадський хор репетирує у світлій залі",
+        de: "Ein Community-Chor probt in einem hellen Saal",
+      },
+    },
+    isFeatured: false,
+    order: 6,
+    seo: {
+      title: { uk: "Спільний спів", de: "Gemeinsames Singen" },
+      description: {
+        uk: "Демонстраційний культурний курс для громади.",
+        de: "Demo-Kulturangebot für die Community.",
+      },
+    },
+    createdAt: "2026-02-06",
+    updatedAt: "2026-06-22",
+  },
+  {
+    id: "course-culture",
+    slug: "kultura-ta-istoriyi",
+    status: "published",
+    enrollmentStatus: "planned",
+    category: "culture",
+    title: { uk: "Культура та історії", de: "Kultur und Geschichten" },
+    summary: {
+      uk: "Зустрічі про традиції, сучасну культуру і сімейні історії.",
+      de: "Treffen zu Traditionen, Gegenwartskultur und Familiengeschichten.",
+    },
+    description: {
+      uk: "Легка освітня програма для тих, хто хоче більше говорити про українську культуру в Німеччині.",
+      de: "Ein niedrigschwelliges Bildungsangebot zur ukrainischen Kultur in Deutschland.",
+    },
+    outcomes: {
+      uk: [
+        "підготувати коротку історію",
+        "обговорити культурні теми",
+        "створити матеріал для спільної виставки",
+      ],
+      de: [
+        "eine kurze Geschichte vorbereiten",
+        "Kulturthemen besprechen",
+        "Material für eine gemeinsame Ausstellung erstellen",
+      ],
+    },
+    materials: {
+      uk: ["за бажанням сімейні фото або предмети"],
+      de: ["optional Familienfotos oder Gegenstände"],
+    },
+    ageGroup: { uk: "дорослі та підлітки", de: "Erwachsene und Jugendliche" },
+    language: { uk: "українська + німецька", de: "Ukrainisch + Deutsch" },
+    format: { uk: "очно", de: "vor Ort" },
+    location: { uk: "Demohaus, зала", de: "Demohaus, Saal" },
+    schedule: [
+      {
+        weekday: { uk: "неділя", de: "Sonntag" },
+        time: "15:00-17:00",
+        cadence: { uk: "раз на місяць", de: "monatlich" },
+      },
+    ],
+    price: { uk: "безкоштовно, demo", de: "kostenfrei, Demo" },
+    startsAt: "2026-10-11",
+    duration: { uk: "6 зустрічей", de: "6 Termine" },
+    seatsTotal: 18,
+    seatsAvailable: 18,
+    teacherIds: ["person-natalia-demo"],
+    relatedCourseIds: ["course-choir"],
+    image: {
+      src: "/images/generated/course-culture-v1.webp",
+      alt: {
+        uk: "Учасники діляться родинними історіями та фотографіями",
+        de: "Teilnehmende teilen Familiengeschichten und Fotografien",
+      },
+    },
+    isFeatured: false,
+    order: 7,
+    seo: {
+      title: { uk: "Культура та історії", de: "Kultur und Geschichten" },
+      description: {
+        uk: "Демонстраційна програма про українську культуру.",
+        de: "Demo-Angebot zur ukrainischen Kultur.",
+      },
+    },
+    createdAt: "2026-02-07",
+    updatedAt: "2026-06-22",
+  },
+];
