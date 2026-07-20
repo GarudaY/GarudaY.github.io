@@ -86,6 +86,11 @@ await run(
 );
 
 await cp(path.join(workDirectory, "out"), outputDirectory, { recursive: true });
+await cp(
+  path.join(root, ".github", "workflows", "pages.yml"),
+  path.join(outputDirectory, ".github", "workflows", "pages.yml"),
+  { recursive: true },
+);
 await writeFile(path.join(outputDirectory, ".nojekyll"), "", "utf8");
 
 console.log(`GitHub Pages export ready: ${outputDirectory}`);
