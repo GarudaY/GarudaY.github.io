@@ -1,0 +1,9 @@
+<svg width="600" height="220" viewBox="0 0 600 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="220" rx="28" fill="#FFFEFA"/>
+  <path d="M45 62c40-10 76 2 99 23v94c-23-21-59-33-99-23V62Z" fill="#245F8F"/>
+  <path d="M243 62c-40-10-76 2-99 23v94c23-21 59-33 99-23V62Z" fill="#8DAF67"/>
+  <path d="M144 85v94" stroke="#173957" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="144" cy="52" r="20" fill="#F4C84A"/>
+  <text x="282" y="105" fill="#173957" font-family="Segoe UI, Arial, sans-serif" font-size="31" font-weight="700">Demo</text>
+  <text x="282" y="145" fill="#245F8F" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="600">Bibliothek</text>
+</svg>
