@@ -42,7 +42,7 @@ export function RegistrationStatusClient({ locale }: { locale: Locale }) {
     if (!validToken) return;
 
     const controller = new AbortController();
-    fetch(apiUrl(`/api/registrations/${token}`), {
+    fetch(apiUrl(`/api/registrations/${token}?client=github-pages`), {
       cache: "no-store",
       signal: controller.signal,
     })

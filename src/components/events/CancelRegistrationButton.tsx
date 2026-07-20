@@ -56,7 +56,7 @@ export function CancelRegistrationButton({
           setError(false);
           try {
             const response = await fetch(
-              apiUrl(`/api/registrations/${token}`),
+              apiUrl(`/api/registrations/${token}?client=github-pages`),
               {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
