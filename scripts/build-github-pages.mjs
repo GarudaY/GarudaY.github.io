@@ -59,7 +59,7 @@ await symlink(
 for (const serverOnlyPath of [
   path.join(workDirectory, "src", "app", "api"),
   path.join(workDirectory, "src", "app", "[locale]", "admin"),
-  path.join(workDirectory, "src", "app", "[locale]", "registration"),
+  path.join(workDirectory, "src", "app", "[locale]", "registration", "[token]"),
   path.join(workDirectory, "src", "middleware.ts"),
 ]) {
   assertGeneratedPath(serverOnlyPath);

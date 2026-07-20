@@ -183,7 +183,12 @@ export function EventRegistrationForm({
               </Alert>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link
-                  href={apiUrl(confirmation.cancellationPath)}
+                  href={`/${locale}/registration/?token=${encodeURIComponent(
+                    confirmation.cancellationPath
+                      .split("/")
+                      .filter(Boolean)
+                      .at(-1) ?? "",
+                  )}`}
                   className="button-motion focus-ring inline-flex min-h-11 items-center justify-center rounded-full bg-blue-strong px-5 py-2.5 text-sm font-semibold text-white"
                 >
                   {isUk ? "Статус і скасування" : "Status und Stornierung"}

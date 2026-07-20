@@ -12,10 +12,12 @@ export function CancelRegistrationButton({
   token,
   locale,
   initialStatus,
+  onCancelled,
 }: {
   token: string;
   locale: Locale;
   initialStatus: RegistrationStatus;
+  onCancelled?: () => void;
 }) {
   const [status, setStatus] = useState(initialStatus);
   const [pending, setPending] = useState(false);
@@ -63,6 +65,7 @@ export function CancelRegistrationButton({
             );
             if (!response.ok) throw new Error("cancel_failed");
             setStatus("cancelled");
+            onCancelled?.();
             window.dispatchEvent(new Event("registration:changed"));
           } catch {
             setError(true);
