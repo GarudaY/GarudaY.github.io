@@ -20,7 +20,9 @@ export function SiteLogo({ locale }: { locale: Locale }) {
           {siteConfig.shortName[locale]}
         </span>
         <span className="hidden text-xs text-ink-muted sm:block">
-          {locale === "uk" ? "demo Verein" : "Demo-Verein"}
+          {locale === "uk"
+            ? "Спільнота у Німеччині"
+            : "Gemeinschaft in Deutschland"}
         </span>
       </span>
     </Link>

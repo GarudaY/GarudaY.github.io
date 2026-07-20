@@ -11,8 +11,8 @@ export const siteConfig = {
     de: "Ukrainischer Verein in Deutschland",
   },
   shortName: {
-    uk: "Ukrainian Verein",
-    de: "Ukrainian Verein",
+    uk: "Український Verein",
+    de: "Ukrainischer Verein",
   },
   demoNotice: {
     uk: "Демонстраційний прототип. Контент, адреси та реквізити є вигаданими.",
