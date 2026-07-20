@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url>
+<loc>https://garuday.github.io/uk</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/about</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/about" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/ueber-uns" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/courses</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/events</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/news</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/donate</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/donate" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/spenden" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/contact</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/contact" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kontakt" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/ueber-uns</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/about" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/ueber-uns" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/kurse</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/veranstaltungen</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/neuigkeiten</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/spenden</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/donate" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/spenden" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/kontakt</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/contact" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kontakt" />
+<lastmod>2026-07-20T19:45:06.832Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/courses/nimetska-dlya-zhyttya-a1-a2</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/nimetska-dlya-zhyttya-a1-a2" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/nimetska-dlya-zhyttya-a1-a2" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/courses/tvorcha-maysternya-dity</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/tvorcha-maysternya-dity" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/tvorcha-maysternya-dity" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/courses/ukrainska-mova-dlya-ditey</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/ukrainska-mova-dlya-ditey" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/ukrainska-mova-dlya-ditey" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/courses/orientatsiya-u-nimetskiy-systemi</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/orientatsiya-u-nimetskiy-systemi" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/orientatsiya-u-nimetskiy-systemi" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/courses/rozmovnyy-klub-nimetskoyi</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/rozmovnyy-klub-nimetskoyi" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/rozmovnyy-klub-nimetskoyi" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/courses/spilnyy-spiv</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/spilnyy-spiv" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/spilnyy-spiv" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/courses/kultura-ta-istoriyi</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/kultura-ta-istoriyi" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/kultura-ta-istoriyi" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/kurse/nimetska-dlya-zhyttya-a1-a2</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/nimetska-dlya-zhyttya-a1-a2" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/nimetska-dlya-zhyttya-a1-a2" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/kurse/tvorcha-maysternya-dity</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/tvorcha-maysternya-dity" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/tvorcha-maysternya-dity" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/kurse/ukrainska-mova-dlya-ditey</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/ukrainska-mova-dlya-ditey" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/ukrainska-mova-dlya-ditey" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/kurse/orientatsiya-u-nimetskiy-systemi</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/orientatsiya-u-nimetskiy-systemi" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/orientatsiya-u-nimetskiy-systemi" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/kurse/rozmovnyy-klub-nimetskoyi</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/rozmovnyy-klub-nimetskoyi" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/rozmovnyy-klub-nimetskoyi" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/kurse/spilnyy-spiv</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/spilnyy-spiv" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/spilnyy-spiv" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/kurse/kultura-ta-istoriyi</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/courses/kultura-ta-istoriyi" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/kurse/kultura-ta-istoriyi" />
+<lastmod>2026-06-22T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/events/vesnyana-zustrich-2026</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/vesnyana-zustrich-2026" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/vesnyana-zustrich-2026" />
+<lastmod>2026-04-15T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.45</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/events/ukrainska-nedilya</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/ukrainska-nedilya" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/ukrainska-nedilya" />
+<lastmod>2026-06-20T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/events/info-zustrich-shkola</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/info-zustrich-shkola" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/info-zustrich-shkola" />
+<lastmod>2026-06-20T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/events/vechir-pisen-ta-istoriy</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/vechir-pisen-ta-istoriy" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/vechir-pisen-ta-istoriy" />
+<lastmod>2026-06-20T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/events/blagodiyna-maysternya</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/blagodiyna-maysternya" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/blagodiyna-maysternya" />
+<lastmod>2026-06-20T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/veranstaltungen/vesnyana-zustrich-2026</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/vesnyana-zustrich-2026" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/vesnyana-zustrich-2026" />
+<lastmod>2026-04-15T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.45</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/veranstaltungen/ukrainska-nedilya</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/ukrainska-nedilya" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/ukrainska-nedilya" />
+<lastmod>2026-06-20T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/veranstaltungen/info-zustrich-shkola</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/info-zustrich-shkola" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/info-zustrich-shkola" />
+<lastmod>2026-06-20T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/veranstaltungen/vechir-pisen-ta-istoriy</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/vechir-pisen-ta-istoriy" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/vechir-pisen-ta-istoriy" />
+<lastmod>2026-06-20T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/veranstaltungen/blagodiyna-maysternya</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/events/blagodiyna-maysternya" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/veranstaltungen/blagodiyna-maysternya" />
+<lastmod>2026-06-20T00:00:00.000Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.85</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/news/vidkryto-osinniy-sezon</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news/vidkryto-osinniy-sezon" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten/vidkryto-osinniy-sezon" />
+<lastmod>2026-07-01T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.65</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/news/materialy-dlya-integratsiynykh-zustrichey</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news/materialy-dlya-integratsiynykh-zustrichey" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten/materialy-dlya-integratsiynykh-zustrichey" />
+<lastmod>2026-06-18T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.65</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/news/initsiatyva-dytyachi-materialy</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news/initsiatyva-dytyachi-materialy" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten/initsiatyva-dytyachi-materialy" />
+<lastmod>2026-06-05T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.65</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/uk/news/yak-proyshla-vesnyana-zustrich</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news/yak-proyshla-vesnyana-zustrich" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten/yak-proyshla-vesnyana-zustrich" />
+<lastmod>2026-04-16T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.65</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/neuigkeiten/vidkryto-osinniy-sezon</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news/vidkryto-osinniy-sezon" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten/vidkryto-osinniy-sezon" />
+<lastmod>2026-07-01T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.65</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/neuigkeiten/materialy-dlya-integratsiynykh-zustrichey</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news/materialy-dlya-integratsiynykh-zustrichey" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten/materialy-dlya-integratsiynykh-zustrichey" />
+<lastmod>2026-06-18T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.65</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/neuigkeiten/initsiatyva-dytyachi-materialy</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news/initsiatyva-dytyachi-materialy" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten/initsiatyva-dytyachi-materialy" />
+<lastmod>2026-06-05T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.65</priority>
+</url>
+<url>
+<loc>https://garuday.github.io/de/neuigkeiten/yak-proyshla-vesnyana-zustrich</loc>
+<xhtml:link rel="alternate" hreflang="uk" href="https://garuday.github.io/uk/news/yak-proyshla-vesnyana-zustrich" />
+<xhtml:link rel="alternate" hreflang="de" href="https://garuday.github.io/de/neuigkeiten/yak-proyshla-vesnyana-zustrich" />
+<lastmod>2026-04-16T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.65</priority>
+</url>
+</urlset>

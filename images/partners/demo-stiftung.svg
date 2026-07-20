@@ -1,0 +1,8 @@
+<svg width="600" height="220" viewBox="0 0 600 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="220" rx="28" fill="#FFFEFA"/>
+  <path d="M42 164c0-62 38-108 92-108s92 46 92 108" stroke="#173957" stroke-width="26" stroke-linecap="round"/>
+  <path d="M73 164c0-39 25-69 61-69s61 30 61 69" stroke="#245F8F" stroke-width="22" stroke-linecap="round"/>
+  <circle cx="134" cy="164" r="22" fill="#F4C84A"/>
+  <text x="278" y="105" fill="#173957" font-family="Segoe UI, Arial, sans-serif" font-size="31" font-weight="700">Demo</text>
+  <text x="278" y="145" fill="#245F8F" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="600">Stiftung</text>
+</svg>
