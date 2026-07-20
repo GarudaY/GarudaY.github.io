@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MapPinned } from "lucide-react";
-import {
-  getCourseBySlug,
-  getEventBySlug,
-  getSiteSettings,
-} from "@/data/content";
+import { getSiteSettings } from "@/data/content";
 import { isLocale, type Locale } from "@/i18n/config";
 import { buildMetadata } from "@/lib/metadata";
 import { t } from "@/lib/localize";
@@ -18,10 +14,7 @@ import { ContactForm } from "@/components/contact/ContactForm";
 
 type PageProps = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ topic?: string | string[] }>;
 };
-
-type ContactTopic = "courses" | "events" | "donation" | "partnership";
 
 async function resolveLocale(
   params: Promise<{ locale: string }>,
@@ -46,45 +39,9 @@ export async function generateMetadata({
   });
 }
 
-async function resolveRequestContext(
-  value: string | undefined,
-  locale: Locale,
-) {
-  if (!value) return {};
-
-  if (value.startsWith("course-")) {
-    const course = await getCourseBySlug(value.slice("course-".length));
-    return {
-      initialTopic: "courses" as ContactTopic,
-      requestContext: value,
-      requestLabel: course ? t(course.title, locale) : undefined,
-    };
-  }
-
-  if (value.startsWith("event-")) {
-    const event = await getEventBySlug(value.slice("event-".length));
-    return {
-      initialTopic: "events" as ContactTopic,
-      requestContext: value,
-      requestLabel: event ? t(event.title, locale) : undefined,
-    };
-  }
-
-  if (["courses", "events", "donation", "partnership"].includes(value)) {
-    return { initialTopic: value as ContactTopic };
-  }
-
-  return {};
-}
-
-export default async function ContactPage({ params, searchParams }: PageProps) {
+export default async function ContactPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
-  const topicValue = (await searchParams).topic;
-  const topic = Array.isArray(topicValue) ? topicValue[0] : topicValue;
-  const [settings, requestContext] = await Promise.all([
-    getSiteSettings(),
-    resolveRequestContext(topic, locale),
-  ]);
+  const settings = await getSiteSettings();
 
   return (
     <>
@@ -117,7 +74,10 @@ export default async function ContactPage({ params, searchParams }: PageProps) {
               <div className="absolute -bottom-20 -left-14 h-52 w-52 rounded-full bg-blue/50" />
               <div className="relative flex h-full min-h-58 flex-col justify-between">
                 <span className="grid h-14 w-14 place-items-center rounded-full bg-white/12">
-                  <MapPinned aria-hidden="true" className="h-7 w-7 text-yellow" />
+                  <MapPinned
+                    aria-hidden="true"
+                    className="h-7 w-7 text-yellow"
+                  />
                 </span>
                 <div className="mt-12 max-w-md">
                   <p className="text-2xl font-bold">
@@ -135,7 +95,7 @@ export default async function ContactPage({ params, searchParams }: PageProps) {
               </div>
             </div>
           </div>
-          <ContactForm locale={locale} {...requestContext} />
+          <ContactForm locale={locale} />
         </div>
       </Section>
     </>

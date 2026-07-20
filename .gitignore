@@ -18,6 +18,8 @@
 /.open-next/
 /.sites-bundle/
 /.wrangler/
+/.pages-work/
+/.pages-out/
 /out/
 
 # production

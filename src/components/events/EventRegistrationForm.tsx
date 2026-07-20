@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { Locale } from "@/i18n/config";
+import { apiUrl } from "@/lib/api-url";
 import type { RegistrationReceipt } from "@/types/operations";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
@@ -58,8 +59,9 @@ export function EventRegistrationForm({
   capacity,
   seatsAvailable,
 }: EventRegistrationFormProps) {
-  const [confirmation, setConfirmation] =
-    useState<RegistrationReceipt | null>(null);
+  const [confirmation, setConfirmation] = useState<RegistrationReceipt | null>(
+    null,
+  );
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const confirmationRef = useRef<HTMLDivElement>(null);
@@ -84,9 +86,7 @@ export function EventRegistrationForm({
             {isUk ? "Онлайн-реєстрація" : "Online-Anmeldung"}
           </p>
           <h2 className="mt-3 text-3xl font-bold">
-            {isUk
-              ? "Місце без листування"
-              : "Ein Platz ohne E-Mail-Pingpong"}
+            {isUk ? "Місце без листування" : "Ein Platz ohne E-Mail-Pingpong"}
           </h2>
           <p className="mt-4 leading-7 text-white/78">
             {isUk
@@ -140,7 +140,10 @@ export function EventRegistrationForm({
           </ol>
         </div>
 
-        <div id="event-registration" className="scroll-mt-28 p-6 sm:p-8 lg:p-10">
+        <div
+          id="event-registration"
+          className="scroll-mt-28 p-6 sm:p-8 lg:p-10"
+        >
           {confirmation ? (
             <div
               ref={confirmationRef}
@@ -180,7 +183,7 @@ export function EventRegistrationForm({
               </Alert>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link
-                  href={confirmation.cancellationPath}
+                  href={apiUrl(confirmation.cancellationPath)}
                   className="button-motion focus-ring inline-flex min-h-11 items-center justify-center rounded-full bg-blue-strong px-5 py-2.5 text-sm font-semibold text-white"
                 >
                   {isUk ? "Статус і скасування" : "Status und Stornierung"}
@@ -207,7 +210,7 @@ export function EventRegistrationForm({
                 setPending(true);
                 setError(null);
                 try {
-                  const response = await fetch("/api/registrations", {
+                  const response = await fetch(apiUrl("/api/registrations"), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -223,8 +226,7 @@ export function EventRegistrationForm({
                     }),
                   });
                   const result = (await response.json()) as
-                    | RegistrationReceipt
-                    | { code?: string };
+                    RegistrationReceipt | { code?: string };
                   if (!response.ok || !("reference" in result)) {
                     throw new Error("code" in result ? result.code : undefined);
                   }
@@ -375,7 +377,10 @@ export function EventRegistrationForm({
                 className="w-full disabled:cursor-wait disabled:opacity-65 sm:w-auto sm:justify-self-start"
               >
                 {pending ? (
-                  <LoaderCircle aria-hidden="true" className="h-4 w-4 animate-spin" />
+                  <LoaderCircle
+                    aria-hidden="true"
+                    className="h-4 w-4 animate-spin"
+                  />
                 ) : null}
                 {pending
                   ? isUk

@@ -3,6 +3,7 @@
 import { LoaderCircle, XCircle } from "lucide-react";
 import { useState } from "react";
 import type { Locale } from "@/i18n/config";
+import { apiUrl } from "@/lib/api-url";
 import type { RegistrationStatus } from "@/types/operations";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
@@ -52,11 +53,14 @@ export function CancelRegistrationButton({
           setPending(true);
           setError(false);
           try {
-            const response = await fetch(`/api/registrations/${token}`, {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-              body: "{}",
-            });
+            const response = await fetch(
+              apiUrl(`/api/registrations/${token}`),
+              {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: "{}",
+              },
+            );
             if (!response.ok) throw new Error("cancel_failed");
             setStatus("cancelled");
             window.dispatchEvent(new Event("registration:changed"));

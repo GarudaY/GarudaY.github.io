@@ -1,8 +1,9 @@
 "use client";
 
 import { CheckCircle2, LoaderCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import type { Locale } from "@/i18n/config";
+import { apiUrl } from "@/lib/api-url";
 import type { ContactReceipt, ContactTopic } from "@/types/operations";
 import { Button } from "@/components/ui/Button";
 import { fieldClassName, FormField } from "@/components/ui/FormField";
@@ -30,6 +31,21 @@ function contactError(code: string, locale: Locale) {
     : "Die Anfrage konnte nicht gespeichert werden. Ihre Eingaben bleiben erhalten — bitte versuchen Sie es erneut.";
 }
 
+function subscribeToLocation(callback: () => void) {
+  window.addEventListener("popstate", callback);
+  return () => window.removeEventListener("popstate", callback);
+}
+
+function topicFromContext(value: string | undefined): ContactTopic | undefined {
+  if (!value) return undefined;
+  if (value.startsWith("course-")) return "courses";
+  if (value.startsWith("event-")) return "events";
+  if (["courses", "events", "donation", "partnership"].includes(value)) {
+    return value as ContactTopic;
+  }
+  return undefined;
+}
+
 export function ContactForm({
   locale,
   initialTopic = "courses",
@@ -44,6 +60,19 @@ export function ContactForm({
   const [receipt, setReceipt] = useState<ContactReceipt | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedTopic, setSelectedTopic] = useState<
+    ContactTopic | undefined
+  >();
+  const search = useSyncExternalStore(
+    subscribeToLocation,
+    () => window.location.search,
+    () => "",
+  );
+  const clientContext = new URLSearchParams(search).get("topic") ?? undefined;
+  const topic =
+    selectedTopic ??
+    topicFromContext(requestContext ?? clientContext) ??
+    initialTopic;
   const isUk = locale === "uk";
 
   return (
@@ -56,7 +85,7 @@ export function ContactForm({
         setPending(true);
         setError(null);
         try {
-          const response = await fetch("/api/contact", {
+          const response = await fetch(apiUrl("/api/contact"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -65,14 +94,13 @@ export function ContactForm({
               email: data.get("email"),
               topic: data.get("topic"),
               message: data.get("message"),
-              context: requestContext,
+              context: requestContext ?? clientContext,
               consent: data.get("consent") === "on",
               company: data.get("company"),
             }),
           });
           const result = (await response.json()) as
-            | ContactReceipt
-            | { code?: string };
+            ContactReceipt | { code?: string };
           if (!response.ok || !("reference" in result)) {
             throw new Error("code" in result ? result.code : undefined);
           }
@@ -103,7 +131,7 @@ export function ContactForm({
         </p>
         {requestLabel ? (
           <p className="mt-4 rounded-[8px] bg-surface-muted p-3 text-sm text-blue-strong">
-            {isUk ? "Запит стосується:" : "Anfrage zu:"} {" "}
+            {isUk ? "Запит стосується:" : "Anfrage zu:"}{" "}
             <strong>{requestLabel}</strong>
           </p>
         ) : null}
@@ -164,7 +192,10 @@ export function ContactForm({
           id="topic"
           name="topic"
           className={fieldClassName}
-          defaultValue={initialTopic}
+          value={topic}
+          onChange={(event) =>
+            setSelectedTopic(event.target.value as ContactTopic)
+          }
         >
           <option value="courses">{isUk ? "Курси" : "Kurse"}</option>
           <option value="events">{isUk ? "Події" : "Veranstaltungen"}</option>
@@ -198,7 +229,11 @@ export function ContactForm({
             : "Ich stimme der lokalen Speicherung meiner Daten zur Bearbeitung dieser Anfrage zu."}
         </span>
       </label>
-      <Button type="submit" disabled={pending} className="disabled:cursor-wait disabled:opacity-65">
+      <Button
+        type="submit"
+        disabled={pending}
+        className="disabled:cursor-wait disabled:opacity-65"
+      >
         {pending ? (
           <LoaderCircle aria-hidden="true" className="h-4 w-4 animate-spin" />
         ) : null}

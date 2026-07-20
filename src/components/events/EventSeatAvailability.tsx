@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { Locale } from "@/i18n/config";
+import { apiUrl } from "@/lib/api-url";
 import type { RegistrationAvailability } from "@/types/operations";
 
 export function EventSeatAvailability({
@@ -28,7 +29,7 @@ export function EventSeatAvailability({
   const refresh = useCallback(async () => {
     try {
       const response = await fetch(
-        `/api/registrations?event=${encodeURIComponent(eventSlug)}`,
+        apiUrl(`/api/registrations?event=${encodeURIComponent(eventSlug)}`),
         { cache: "no-store" },
       );
       if (response.ok) {

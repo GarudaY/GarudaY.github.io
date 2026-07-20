@@ -1,4 +1,5 @@
 import "server-only";
+import { isAllowedPublicOrigin, publicCorsHeaders } from "@/server/public-cors";
 
 type RateEntry = { count: number; resetAt: number };
 
@@ -21,18 +22,30 @@ function clientAddress(request: Request) {
 export function guardPublicWrite(request: Request, scope: string) {
   const url = new URL(request.url);
   const origin = request.headers.get("origin");
-  if (origin && new URL(origin).host !== url.host) {
+  if (
+    origin &&
+    new URL(origin).host !== url.host &&
+    !isAllowedPublicOrigin(origin)
+  ) {
     return Response.json({ code: "invalid_origin" }, { status: 403 });
   }
 
+  const corsHeaders = publicCorsHeaders(request);
+
   const contentType = request.headers.get("content-type") ?? "";
   if (!contentType.includes("application/json")) {
-    return Response.json({ code: "invalid_content_type" }, { status: 415 });
+    return Response.json(
+      { code: "invalid_content_type" },
+      { status: 415, headers: corsHeaders },
+    );
   }
 
   const contentLength = Number(request.headers.get("content-length") ?? 0);
   if (contentLength > 20_000) {
-    return Response.json({ code: "payload_too_large" }, { status: 413 });
+    return Response.json(
+      { code: "payload_too_large" },
+      { status: 413, headers: corsHeaders },
+    );
   }
 
   const now = Date.now();
@@ -46,7 +59,7 @@ export function guardPublicWrite(request: Request, scope: string) {
   if (current.count >= limit) {
     return Response.json(
       { code: "rate_limited" },
-      { status: 429, headers: { "Retry-After": "600" } },
+      { status: 429, headers: { ...corsHeaders, "Retry-After": "600" } },
     );
   }
   current.count += 1;
@@ -55,7 +68,9 @@ export function guardPublicWrite(request: Request, scope: string) {
 
 export function isLocalAdminHost(host: string | null) {
   const hostname = (host ?? "").split(":")[0]?.toLowerCase();
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+  return (
+    hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1"
+  );
 }
 
 export function guardLocalAdmin(request: Request) {

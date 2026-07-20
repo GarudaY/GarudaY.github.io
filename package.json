@@ -7,6 +7,7 @@
     "build": "next build --webpack",
     "build:sites": "opennextjs-cloudflare build",
     "bundle:sites": "npm run build:sites && wrangler deploy --dry-run --outdir .sites-bundle && node scripts/prepare-sites-bundle.mjs",
+    "build:pages": "node scripts/build-github-pages.mjs",
     "typecheck": "tsc --noEmit",
     "start": "next start",
     "lint": "eslint",

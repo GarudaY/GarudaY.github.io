@@ -9,6 +9,8 @@ import {
 import { locales } from "@/i18n/config";
 import { getPath, type RouteKey } from "@/i18n/routing";
 
+export const dynamic = "force-static";
+
 const staticRoutes: RouteKey[] = [
   "home",
   "about",

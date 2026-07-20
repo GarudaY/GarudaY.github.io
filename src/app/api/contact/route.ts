@@ -1,11 +1,21 @@
-import { createContactSubmission, OperationsError } from "@/server/operations-service";
+import {
+  createContactSubmission,
+  OperationsError,
+} from "@/server/operations-service";
 import { guardPublicWrite } from "@/server/request-guard";
+import { publicCorsHeaders, publicCorsPreflight } from "@/server/public-cors";
 import { contactRequestSchema } from "@/server/operations-validation";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const noStoreHeaders = { "Cache-Control": "no-store" };
+function noStoreHeaders(request: Request) {
+  return { "Cache-Control": "no-store", ...publicCorsHeaders(request) };
+}
+
+export function OPTIONS(request: Request) {
+  return publicCorsPreflight(request);
+}
 
 export async function POST(request: Request) {
   const guard = guardPublicWrite(request, "contact");
@@ -21,7 +31,7 @@ export async function POST(request: Request) {
     ) {
       return Response.json(
         { accepted: true },
-        { status: 202, headers: noStoreHeaders },
+        { status: 202, headers: noStoreHeaders(request) },
       );
     }
 
@@ -29,22 +39,25 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return Response.json(
         { code: "invalid_contact" },
-        { status: 400, headers: noStoreHeaders },
+        { status: 400, headers: noStoreHeaders(request) },
       );
     }
     const receipt = await createContactSubmission(parsed.data);
-    return Response.json(receipt, { status: 201, headers: noStoreHeaders });
+    return Response.json(receipt, {
+      status: 201,
+      headers: noStoreHeaders(request),
+    });
   } catch (error) {
     if (error instanceof OperationsError) {
       return Response.json(
         { code: error.code },
-        { status: error.status, headers: noStoreHeaders },
+        { status: error.status, headers: noStoreHeaders(request) },
       );
     }
     console.error("Contact write failed", error);
     return Response.json(
       { code: "storage_unavailable" },
-      { status: 500, headers: noStoreHeaders },
+      { status: 500, headers: noStoreHeaders(request) },
     );
   }
 }
