@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "build:sites": "opennextjs-cloudflare build",
+    "bundle:sites": "npm run build:sites && wrangler deploy --dry-run --outdir .sites-bundle",
     "typecheck": "tsc --noEmit",
     "start": "next start",
     "lint": "eslint",

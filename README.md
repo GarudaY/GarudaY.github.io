@@ -77,10 +77,10 @@ public/images/partners/  Векторные demo-логотипы партнер
 
 ## Публичный demo-хостинг
 
-Cloudflare/OpenNext-сборка создаётся командой:
+Cloudflare/OpenNext-сборка и готовый bundled Worker создаются командой:
 
 ```bash
-npm run build:sites
+npm run bundle:sites
 ```
 
 Для бесплатного публичного preview устанавливается runtime-переменная `HOSTED_DEMO=true`. В этом режиме заявки и обращения хранятся в памяти Worker: весь flow работает, но demo-данные могут сброситься при перезапуске изолята. Локальный режим без этой переменной по-прежнему использует `.data/operations.json`. Для production с реальными заявками нужна постоянная транзакционная база данных.

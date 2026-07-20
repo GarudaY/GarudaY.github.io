@@ -16,6 +16,7 @@
 # next.js
 /.next/
 /.open-next/
+/.sites-bundle/
 /.wrangler/
 /out/
 
