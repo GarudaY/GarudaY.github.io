@@ -17,10 +17,15 @@ const emptyStore = (): OperationsStore => ({
 });
 
 const globalOperations = globalThis as typeof globalThis & {
+  __hostedOperationsStore?: OperationsStore;
   __operationsWriteQueue?: Promise<unknown>;
 };
 
 async function readStoreFile(): Promise<OperationsStore> {
+  if (process.env.HOSTED_DEMO === "true") {
+    return structuredClone(globalOperations.__hostedOperationsStore ?? emptyStore());
+  }
+
   try {
     const raw = await readFile(dataFile, "utf8");
     const parsed = operationsStoreSchema.safeParse(JSON.parse(raw));
@@ -55,6 +60,11 @@ function pruneExpiredRecords(store: OperationsStore) {
 }
 
 async function persistStore(store: OperationsStore) {
+  if (process.env.HOSTED_DEMO === "true") {
+    globalOperations.__hostedOperationsStore = structuredClone(store);
+    return;
+  }
+
   await mkdir(dataDirectory, { recursive: true });
   const temporaryFile = `${dataFile}.${crypto.randomUUID()}.tmp`;
   await writeFile(temporaryFile, `${JSON.stringify(store, null, 2)}\n`, "utf8");
