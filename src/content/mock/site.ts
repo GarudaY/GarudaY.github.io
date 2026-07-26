@@ -7,37 +7,41 @@ import type {
 export const siteSettings: SiteSettings = {
   id: "site-settings",
   name: {
-    uk: "Український Verein у Німеччині",
-    de: "Ukrainischer Verein in Deutschland",
+    uk: "SONNENBLUME — Ukraine Community MG e.V.",
+    de: "SONNENBLUME — Ukraine Community MG e.V.",
   },
   tagline: {
-    uk: "Курси, події та підтримка для української спільноти",
-    de: "Kurse, Veranstaltungen und Unterstützung für die ukrainische Community",
+    uk: "Культура, освіта, інтеграція та взаємопідтримка у Мьонхенгладбаху",
+    de: "Kultur, Bildung, Integration und Zusammenhalt in Mönchengladbach",
   },
   description: {
-    uk: "Демо-сайт громадського об'єднання, яке допомагає українцям у Німеччині навчатися, зустрічатися та зберігати культурний зв'язок.",
-    de: "Demo-Website eines Vereins, der Ukrainerinnen und Ukrainer in Deutschland mit Kursen, Begegnungen und Kulturangeboten unterstützt.",
+    uk: "SONNENBLUME об'єднує українську громаду Мьонхенгладбаха через культурні й освітні програми, практичну інтеграційну підтримку та волонтерство.",
+    de: "SONNENBLUME verbindet die ukrainische Community in Mönchengladbach durch Kultur- und Bildungsangebote, praktische Integrationshilfe und ehrenamtliches Engagement.",
   },
   contact: {
-    email: "kontakt@example-verein.de",
-    phone: "+49 000 000000",
+    email: "kontakt@sonnenblume-mg.com",
     address: {
-      uk: "Demohaus, Musterstrasse 12, 00000 Musterstadt",
-      de: "Demohaus, Musterstrasse 12, 00000 Musterstadt",
+      uk: "Welfenstraße 10, 41238 Mönchengladbach",
+      de: "Welfenstraße 10, 41238 Mönchengladbach",
     },
     officeHours: {
-      uk: "Вівторок і четвер, 15:00-18:00",
-      de: "Dienstag und Donnerstag, 15:00-18:00 Uhr",
+      uk: "Зустрічі за попередньою домовленістю",
+      de: "Termine nach vorheriger Vereinbarung",
     },
     mapNote: {
-      uk: "Адреса демонстраційна. Перед публікацією її потрібно підтвердити та додати privacy-friendly карту.",
-      de: "Die Adresse ist fiktiv. Vor Veröffentlichung bitte bestätigen und eine datensparsame Karte ergänzen.",
+      uk: "Перед першим візитом напишіть нам — команда підтвердить час і потрібну контактну особу.",
+      de: "Bitte schreiben Sie uns vor dem ersten Besuch. Das Team bestätigt Zeit und Ansprechperson.",
     },
   },
   navigation: [
     {
       label: { uk: "Про нас", de: "Über uns" },
       route: "about",
+      priority: "primary",
+    },
+    {
+      label: { uk: "Долучитися", de: "Mitmachen" },
+      route: "join",
       priority: "primary",
     },
     {
@@ -80,48 +84,43 @@ export const siteSettings: SiteSettings = {
   socialLinks: [
     {
       label: "Instagram",
-      href: "https://example.com/instagram-demo",
+      href: "https://www.instagram.com/sonnenblume_mg/",
       type: "instagram",
     },
     {
-      label: "Facebook",
-      href: "https://example.com/facebook-demo",
-      type: "facebook",
-    },
-    {
-      label: "Telegram",
-      href: "https://example.com/telegram-demo",
-      type: "telegram",
+      label: "Website",
+      href: "https://sonnenblume-mg.com/",
+      type: "website",
     },
   ],
   stats: [
     {
-      id: "courses",
-      value: "18+",
+      id: "languages",
+      value: "DE · UK",
       label: {
-        uk: "курсів і регулярних занять",
-        de: "Kurse und regelmäßige Angebote",
+        uk: "двомовна інформація",
+        de: "zweisprachige Informationen",
       },
     },
     {
-      id: "events",
-      value: "60+",
-      label: { uk: "подій для громади", de: "Community-Veranstaltungen" },
+      id: "legal",
+      value: "e.V.",
+      label: { uk: "зареєстроване об'єднання", de: "eingetragener Verein" },
     },
     {
-      id: "families",
-      value: "350+",
-      label: { uk: "учасників у demo-даних", de: "Teilnehmende in Demo-Daten" },
+      id: "location",
+      value: "MG",
+      label: { uk: "поруч у Мьонхенгладбаху", de: "vor Ort in Mönchengladbach" },
     },
   ],
   seo: {
     title: {
-      uk: "Український Verein у Німеччині",
-      de: "Ukrainischer Verein in Deutschland",
+      uk: "SONNENBLUME — українська громада у Мьонхенгладбаху",
+      de: "SONNENBLUME — Ukraine Community in Mönchengladbach",
     },
     description: {
-      uk: "Курси, події, інтеграційна підтримка та благодійні ініціативи для українців у Німеччині.",
-      de: "Kurse, Veranstaltungen, Integrationshilfe und Spendeninitiativen für Ukrainerinnen und Ukrainer in Deutschland.",
+      uk: "Культурні та освітні програми, інтеграційна підтримка, події й волонтерство для української громади Мьонхенгладбаха.",
+      de: "Kultur- und Bildungsangebote, Integrationshilfe, Veranstaltungen und Ehrenamt für die ukrainische Community in Mönchengladbach.",
     },
   },
 };
@@ -175,12 +174,12 @@ export const featuredContent: FeaturedContent[] = [
 
 export const donationSettings: DonationSettings = {
   title: {
-    uk: "Підтримати роботу Verein",
-    de: "Die Vereinsarbeit unterstützen",
+    uk: "Підтримати SONNENBLUME",
+    de: "SONNENBLUME unterstützen",
   },
   description: {
-    uk: "Пожертви допомагають робити курси доступнішими, оплачувати матеріали та підтримувати події для громади. Усі реквізити нижче є демонстраційними.",
-    de: "Spenden helfen, Kurse zugänglicher zu machen, Materialien zu finanzieren und Community-Angebote zu ermöglichen. Alle Angaben sind Demo-Daten.",
+    uk: "Пожертви допомагають фінансувати матеріали, приміщення та доступні програми для громади. Переказ надходить безпосередньо на рахунок Verein.",
+    de: "Spenden helfen bei Materialien, Räumen und zugänglichen Community-Angeboten. Die Überweisung geht direkt auf das Vereinskonto.",
   },
   impact: {
     uk: [
@@ -198,61 +197,47 @@ export const donationSettings: DonationSettings = {
   },
   methods: [
     {
-      id: "bank-demo",
+      id: "bank-transfer",
       type: "bank",
       title: { uk: "Банківський переказ", de: "Banküberweisung" },
       description: {
-        uk: "Демонстраційна структура реквізитів — реальні дані додаються лише після верифікації Verein.",
-        de: "Demo-Struktur der Bankdaten — echte Angaben folgen erst nach Verifizierung des Vereins.",
+        uk: "Прямий переказ на рахунок SONNENBLUME у Stadtsparkasse Mönchengladbach.",
+        de: "Direkte Überweisung auf das Konto von SONNENBLUME bei der Stadtsparkasse Mönchengladbach.",
       },
       details: {
         uk: [
-          "IBAN: DE00 0000 0000 0000 0000 00",
-          "BIC: DEMODE00XXX",
-          "Призначення: Spende Demo",
+          "IBAN: DE83 3105 0000 1004 2098 37",
+          "BIC: MGLSDE33XXX",
+          "Призначення: Spende",
         ],
         de: [
-          "IBAN: DE00 0000 0000 0000 0000 00",
-          "BIC: DEMODE00XXX",
-          "Verwendungszweck: Spende Demo",
+          "IBAN: DE83 3105 0000 1004 2098 37",
+          "BIC: MGLSDE33XXX",
+          "Verwendungszweck: Spende",
         ],
       },
-      isDemo: true,
+      isDemo: false,
     },
     {
-      id: "paypal-demo",
-      type: "paypal",
-      title: { uk: "PayPal", de: "PayPal" },
+      id: "in-kind-and-time",
+      type: "in-kind",
+      title: { uk: "Час і практична допомога", de: "Zeit und praktische Hilfe" },
       description: {
-        uk: "Кнопка активується після підключення офіційного PayPal-акаунта Verein.",
-        de: "Die Schaltfläche wird nach Anbindung des offiziellen Vereinskontos aktiviert.",
+        uk: "Матеріали, експертні години, приміщення або допомога на подіях — після короткого узгодження з командою.",
+        de: "Materialien, Fachstunden, Räume oder Hilfe bei Veranstaltungen – nach kurzer Abstimmung mit dem Team.",
       },
       details: {
-        uk: ["https://paypal.me/example-verein-demo"],
-        de: ["https://paypal.me/example-verein-demo"],
+        uk: ["Опис пропозиції можна надіслати через структуровану контактну форму."],
+        de: ["Angebote können über das strukturierte Kontaktformular beschrieben werden."],
       },
-      isDemo: true,
-    },
-    {
-      id: "qr-demo",
-      type: "qr",
-      title: { uk: "Швидка оплата", de: "Schnell bezahlen" },
-      description: {
-        uk: "Захищений платіжний QR з'явиться автоматично після підключення перевірених реквізитів.",
-        de: "Ein sicherer Zahlungs-QR erscheint automatisch nach Anbindung verifizierter Zahlungsdaten.",
-      },
-      details: {
-        uk: ["QR буде згенеровано після підключення реальних реквізитів."],
-        de: ["Der QR-Code wird nach Einbindung echter Zahlungsdaten erstellt."],
-      },
-      isDemo: true,
+      isDemo: false,
     },
   ],
   seo: {
-    title: { uk: "Підтримати Verein", de: "Verein unterstützen" },
+    title: { uk: "Підтримати SONNENBLUME", de: "SONNENBLUME unterstützen" },
     description: {
-      uk: "Дізнайтеся, як підтримати український Verein у Німеччині. Демонстраційні реквізити.",
-      de: "Erfahren Sie, wie Sie den ukrainischen Verein in Deutschland unterstützen können. Demo-Daten.",
+      uk: "Банківський переказ, волонтерський час і практична допомога для SONNENBLUME.",
+      de: "Banküberweisung, ehrenamtliche Zeit und praktische Hilfe für SONNENBLUME.",
     },
   },
 };

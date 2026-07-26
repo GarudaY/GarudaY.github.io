@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
 import { buildMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Alert } from "@/components/ui/Alert";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -27,20 +25,24 @@ export async function generateMetadata({
     route: "cookies",
     title: locale === "uk" ? "Cookie-налаштування" : "Cookie-Einstellungen",
     description:
-      "Cookie placeholder. No optional cookies are used in this prototype.",
-    noIndex: true,
+      locale === "uk"
+        ? "Інформація про cookies на сайті SONNENBLUME."
+        : "Informationen zu Cookies auf der Website von SONNENBLUME.",
   });
 }
 
 export default async function CookiesPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
-  const dict = getDictionary(locale);
   return (
     <>
       <PageHeader
         eyebrow="Legal"
         title={locale === "uk" ? "Cookie-налаштування" : "Cookie-Einstellungen"}
-        description={dict.legal.german}
+        description={
+          locale === "uk"
+            ? "Сайт працює без аналітики, рекламного tracking та необов'язкових cookies."
+            : "Die Website funktioniert ohne Analytics, Werbe-Tracking und optionale Cookies."
+        }
       >
         <Breadcrumbs
           locale={locale}
@@ -57,20 +59,19 @@ export default async function CookiesPage({ params }: PageProps) {
       </PageHeader>
       <Section size="narrow">
         <div className="grid gap-6">
-          <Alert tone="warning">{dict.legal.placeholder}</Alert>
-          <div className="rounded-[8px] border border-border bg-surface p-6 leading-7 text-ink-muted">
+          <div className="rounded-[18px] border border-border bg-surface p-6 leading-7 text-ink-muted">
             <h2 className="text-2xl font-bold text-blue-strong">
               {locale === "uk" ? "Поточний стан" : "Aktueller Stand"}
             </h2>
             <p className="mt-4">
               {locale === "uk"
-                ? "На цьому етапі сайт не використовує аналітику, tracking або необов'язкові cookies, тому cookie banner не додано."
-                : "In dieser Phase nutzt die Website keine Analytics, kein Tracking und keine optionalen Cookies. Deshalb gibt es keinen Cookie-Banner."}
+                ? "Сайт не використовує аналітику, рекламний tracking або необов'язкові cookies, тому банер згоди не потрібен."
+                : "Die Website nutzt keine Analytics, kein Werbe-Tracking und keine optionalen Cookies. Deshalb ist kein Einwilligungsbanner erforderlich."}
             </p>
             <p className="mt-4">
               {locale === "uk"
-                ? "Архітектура дозволяє додати consent management пізніше, якщо будуть підключені карти, відео, аналітика або платежі."
-                : "Die Architektur erlaubt später Consent Management, falls Karten, Videos, Analytics oder Zahlungen eingebunden werden."}
+                ? "Якщо пізніше буде підключено карти, зовнішні відео, аналітику або платежі, ця інформація та механізм згоди мають бути оновлені до активації сервісів."
+                : "Falls später Karten, externe Videos, Analytics oder Zahlungen eingebunden werden, werden diese Information und ein erforderliches Einwilligungsmanagement vor der Aktivierung ergänzt."}
             </p>
           </div>
         </div>

@@ -43,7 +43,7 @@ export async function generateMetadata({
     title: t(person.seo.title, locale),
     description: t(person.seo.description, locale),
     image: person.image.src,
-    noIndex: person.isDemo,
+    noIndex: person.isDemo || person.seo.noIndex,
   });
 }
 
@@ -98,26 +98,30 @@ export default async function PersonPage({ params }: PageProps) {
               {t(person.bio, locale)}
             </p>
             <dl className="mt-8 grid gap-4 rounded-[8px] border border-border bg-surface p-5 sm:grid-cols-2">
-              <div>
-                <dt className="text-sm font-semibold text-blue-strong">
-                  {locale === "uk" ? "Мови" : "Sprachen"}
-                </dt>
-                <dd className="mt-1 text-ink-muted">
-                  {person.languages
-                    .map((lang) => lang.toUpperCase())
-                    .join(" / ")}
-                </dd>
-              </div>
+              {person.languages.length ? (
+                <div>
+                  <dt className="text-sm font-semibold text-blue-strong">
+                    {locale === "uk" ? "Мови" : "Sprachen"}
+                  </dt>
+                  <dd className="mt-1 text-ink-muted">
+                    {person.languages
+                      .map((lang) => lang.toUpperCase())
+                      .join(" / ")}
+                  </dd>
+                </div>
+              ) : null}
               <div>
                 <dt className="text-sm font-semibold text-blue-strong">
                   {locale === "uk" ? "Профіль" : "Profil"}
                 </dt>
                 <dd className="mt-1 text-ink-muted">
-                  {person.isDemo
+                  {person.seo.noIndex
                     ? locale === "uk"
-                      ? "Демонстраційний"
-                      : "Demo"
-                    : "Real"}
+                      ? "Профіль напряму"
+                      : "Bereichsprofil"
+                    : locale === "uk"
+                      ? "Підтверджено"
+                      : "Bestätigt"}
                 </dd>
               </div>
             </dl>

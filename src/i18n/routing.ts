@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/config";
 export type RouteKey =
   | "home"
   | "about"
+  | "join"
   | "courses"
   | "people"
   | "events"
@@ -17,6 +18,7 @@ export type RouteKey =
 export const localizedSegments: Record<RouteKey, Record<Locale, string>> = {
   home: { uk: "", de: "" },
   about: { uk: "about", de: "ueber-uns" },
+  join: { uk: "join", de: "join" },
   courses: { uk: "courses", de: "kurse" },
   people: { uk: "people", de: "menschen" },
   events: { uk: "events", de: "veranstaltungen" },
@@ -30,6 +32,7 @@ export const localizedSegments: Record<RouteKey, Record<Locale, string>> = {
 
 export const internalSegments: Record<Exclude<RouteKey, "home">, string> = {
   about: "about",
+  join: "join",
   courses: "courses",
   people: "people",
   events: "events",
@@ -75,8 +78,14 @@ export const internalToPublicSegment: Record<Locale, Record<string, string>> = {
   ),
 };
 
+const useInternalStaticPaths =
+  process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
+
 export function getPath(locale: Locale, route: RouteKey, slug?: string) {
-  const segment = localizedSegments[route][locale];
+  const segment =
+    useInternalStaticPaths && route !== "home"
+      ? internalSegments[route]
+      : localizedSegments[route][locale];
   const parts = [locale, segment, slug].filter(Boolean);
   return `/${parts.join("/")}`;
 }

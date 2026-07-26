@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { localeLabels, locales, type Locale } from "@/i18n/config";
 import {
+  getPath,
   localizedSegments,
   publicToInternalSegment,
   type RouteKey,
@@ -36,13 +37,7 @@ function getLocalizedPath(
     return `/${[targetLocale, ...segments.slice(1)].join("/")}`;
   }
 
-  return `/${[
-    targetLocale,
-    localizedSegments[route][targetLocale],
-    ...segments.slice(2),
-  ]
-    .filter(Boolean)
-    .join("/")}`;
+  return getPath(targetLocale, route, segments[2]);
 }
 
 export function LanguageSwitcher({ locale }: { locale: Locale }) {

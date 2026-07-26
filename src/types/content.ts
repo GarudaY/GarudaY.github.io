@@ -19,6 +19,7 @@ export type ImageAsset = {
   alt: LocalizedString;
   width?: number;
   height?: number;
+  fit?: "cover" | "contain";
   credit?: string;
 };
 
@@ -35,13 +36,20 @@ export type LegalLink = {
 
 export type NavigationItem = {
   label: LocalizedString;
-  route: "about" | "courses" | "events" | "news" | "donate" | "contact";
+  route:
+    | "about"
+    | "join"
+    | "courses"
+    | "events"
+    | "news"
+    | "donate"
+    | "contact";
   priority: "primary" | "secondary";
 };
 
 export type ContactSettings = {
   email: string;
-  phone: string;
+  phone?: string;
   address: LocalizedString;
   officeHours: LocalizedString;
   mapNote: LocalizedString;

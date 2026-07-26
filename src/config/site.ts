@@ -2,20 +2,15 @@ import type { Locale } from "@/i18n/config";
 
 export const siteConfig = {
   defaultLocale: "uk" satisfies Locale,
-  baseUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example-verein.de",
-  baseUrlNote: "Replace https://example-verein.de before production.",
+  baseUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://garuday.github.io",
   timeZone: "Europe/Berlin",
-  organizationId: "demo-ukrainian-verein",
+  organizationId: "sonnenblume-ukraine-community-mg",
   organizationName: {
-    uk: "Український Verein у Німеччині",
-    de: "Ukrainischer Verein in Deutschland",
+    uk: "SONNENBLUME — Ukraine Community MG e.V.",
+    de: "SONNENBLUME — Ukraine Community MG e.V.",
   },
   shortName: {
-    uk: "Український Verein",
-    de: "Ukrainischer Verein",
-  },
-  demoNotice: {
-    uk: "Демонстраційний прототип. Контент, адреси та реквізити є вигаданими.",
-    de: "Demo-Prototyp. Inhalte, Adressen und Zahlungsdaten sind Platzhalter.",
+    uk: "SONNENBLUME",
+    de: "SONNENBLUME",
   },
 } as const;

@@ -14,7 +14,7 @@ export default function LocaleNotFound() {
           Сторінку не знайдено
         </h1>
         <p className="mt-4 leading-7 text-ink-muted">
-          Маршрут або матеріал ще не опублікований у demo-контенті.
+          Маршрут або матеріал ще не опублікований.
         </p>
         <Link
           href={getPath(defaultLocale, "home")}

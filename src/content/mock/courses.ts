@@ -48,7 +48,7 @@ export const courses: Course[] = [
     duration: { uk: "12 тижнів", de: "12 Wochen" },
     seatsTotal: 14,
     seatsAvailable: 5,
-    teacherIds: ["person-marko-demo"],
+    teacherIds: ["person-language-programs"],
     relatedCourseIds: ["course-integration", "course-conversation"],
     image: {
       src: "/images/generated/course-german-a1-v1.webp",
@@ -119,7 +119,7 @@ export const courses: Course[] = [
     duration: { uk: "семестр", de: "Semester" },
     seatsTotal: 12,
     seatsAvailable: 3,
-    teacherIds: ["person-ira-demo"],
+    teacherIds: ["person-children-creative-programs"],
     relatedCourseIds: ["course-ukrainian-children"],
     image: {
       src: "/images/generated/course-children-art-v1.webp",
@@ -187,7 +187,10 @@ export const courses: Course[] = [
     duration: { uk: "10 тижнів", de: "10 Wochen" },
     seatsTotal: 10,
     seatsAvailable: 0,
-    teacherIds: ["person-sofia-demo", "person-ira-demo"],
+    teacherIds: [
+      "person-ukrainian-for-children",
+      "person-children-creative-programs",
+    ],
     relatedCourseIds: ["course-children-art"],
     image: {
       src: "/images/generated/course-ukrainian-children-v1.webp",
@@ -326,7 +329,7 @@ export const courses: Course[] = [
     duration: { uk: "відкритий формат", de: "offenes Format" },
     seatsTotal: 16,
     seatsAvailable: 7,
-    teacherIds: ["person-marko-demo"],
+    teacherIds: ["person-language-programs"],
     relatedCourseIds: ["course-german-a1"],
     image: {
       src: "/images/generated/course-conversation-v1.webp",

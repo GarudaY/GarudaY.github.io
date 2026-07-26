@@ -3,13 +3,13 @@ import "../globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Український Verein у Німеччині",
-    template: "%s | Український Verein",
+    default: "SONNENBLUME — Ukraine Community MG e.V.",
+    template: "%s | SONNENBLUME",
   },
   description:
-    "Курси, події та підтримка для української спільноти у Німеччині.",
+    "Культура, освіта, інтеграція та волонтерство для української громади Мьонхенгладбаха.",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://example-verein.de",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://garuday.github.io",
   ),
 };
 

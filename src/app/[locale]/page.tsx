@@ -97,8 +97,8 @@ export default async function HomePage({ params }: PageProps) {
           <div className="hero-content relative z-10">
             <p className="hero-badge mb-5 inline-flex items-center gap-3 rounded-full bg-yellow/24 px-4 py-2 text-sm font-semibold text-blue-strong backdrop-blur-sm">
               {locale === "uk"
-                ? "Демо-прототип для українського Verein"
-                : "Demo-Prototyp für einen ukrainischen Verein"}
+                ? "SONNENBLUME · Mönchengladbach"
+                : "SONNENBLUME · Mönchengladbach"}
             </p>
             <h1 className="hero-title text-balance text-4xl font-bold leading-[1.06] text-blue-strong sm:text-6xl">
               {locale === "uk"
@@ -116,8 +116,8 @@ export default async function HomePage({ params }: PageProps) {
               <LinkButton href={getPath(locale, "events")} variant="ghost">
                 {dict.common.allEvents}
               </LinkButton>
-              <LinkButton href={getPath(locale, "donate")} variant="secondary">
-                {dict.common.donate}
+              <LinkButton href={getPath(locale, "join")} variant="secondary">
+                {locale === "uk" ? "Долучитися" : "Mitmachen"}
               </LinkButton>
             </div>
           </div>
@@ -304,8 +304,8 @@ export default async function HomePage({ params }: PageProps) {
                 </h2>
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-ink-muted">
                   {locale === "uk"
-                    ? "Пожертви в демо не приймаються — сторінка показує майбутній прозорий процес підтримки."
-                    : "Im Demo werden keine Spenden angenommen – die Seite zeigt den künftigen transparenten Ablauf."}
+                    ? "Підтримати можна не лише коштами: волонтерство, партнерство й експертна допомога також мають значення."
+                    : "Unterstützung ist mehr als Geld: Ehrenamt, Partnerschaften und Fachwissen machen ebenfalls einen Unterschied."}
                 </p>
               </div>
               <LinkButton href={getPath(locale, "donate")}>

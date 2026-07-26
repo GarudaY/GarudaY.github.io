@@ -58,10 +58,10 @@ export default async function DonatePage({ params }: PageProps) {
       <Section>
         <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
           <div className="grid gap-6">
-            <Alert tone="warning">
+            <Alert>
               {locale === "uk"
-                ? "У прототипі немає реальних платежів, PayPal API або справжнього QR-коду. Це архітектурна підготовка."
-                : "Im Prototyp gibt es keine echten Zahlungen, PayPal API oder echten QR-Code. Dies ist eine vorbereitete Architektur."}
+                ? "Сайт не використовує платіжні віджети або сторонні платіжні сервіси: реквізити призначені для прямого банківського переказу."
+                : "Die Website nutzt keine Zahlungswidgets oder externen Zahlungsdienste. Die Angaben sind für eine direkte Banküberweisung bestimmt."}
             </Alert>
             <div className="rounded-[8px] border border-border bg-surface p-5">
               <h2 className="text-2xl font-bold text-blue-strong">

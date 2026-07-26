@@ -78,6 +78,7 @@ await run(
     env: {
       ...process.env,
       GITHUB_PAGES_EXPORT: "true",
+      NEXT_PUBLIC_STATIC_EXPORT: "true",
       NEXT_PUBLIC_SITE_URL: "https://garuday.github.io",
       NEXT_PUBLIC_API_BASE_URL:
         "https://ukrainian-verein-demo.daskevich1122.chatgpt.site",

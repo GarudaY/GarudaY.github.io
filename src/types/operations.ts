@@ -3,7 +3,13 @@ import type { Locale } from "@/i18n/config";
 export type RegistrationStatus = "confirmed" | "waitlist" | "cancelled";
 export type RegistrationGroup = "adults" | "family" | "children";
 export type ContactStatus = "new" | "in_progress" | "resolved";
-export type ContactTopic = "courses" | "events" | "donation" | "partnership";
+export type ContactTopic =
+  | "courses"
+  | "events"
+  | "volunteering"
+  | "membership"
+  | "donation"
+  | "partnership";
 
 export type EventRegistration = {
   id: string;

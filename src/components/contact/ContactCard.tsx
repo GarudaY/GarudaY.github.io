@@ -34,25 +34,27 @@ export function ContactCard({
             </dd>
           </div>
         </div>
-        <div className="flex gap-3">
-          <Phone
-            aria-hidden="true"
-            className="mt-0.5 h-5 w-5 shrink-0 text-blue"
-          />
-          <div>
-            <dt className="font-semibold text-blue-strong">
-              {locale === "uk" ? "Телефон" : "Telefon"}
-            </dt>
-            <dd>
-              <a
-                href={`tel:${contact.phone.replaceAll(" ", "")}`}
-                className="focus-ring -my-2 inline-flex min-h-11 items-center rounded-full hover:text-blue"
-              >
-                {contact.phone}
-              </a>
-            </dd>
+        {contact.phone ? (
+          <div className="flex gap-3">
+            <Phone
+              aria-hidden="true"
+              className="mt-0.5 h-5 w-5 shrink-0 text-blue"
+            />
+            <div>
+              <dt className="font-semibold text-blue-strong">
+                {locale === "uk" ? "Телефон" : "Telefon"}
+              </dt>
+              <dd>
+                <a
+                  href={`tel:${contact.phone.replaceAll(" ", "")}`}
+                  className="focus-ring -my-2 inline-flex min-h-11 items-center rounded-full hover:text-blue"
+                >
+                  {contact.phone}
+                </a>
+              </dd>
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className="flex gap-3">
           <MapPin
             aria-hidden="true"

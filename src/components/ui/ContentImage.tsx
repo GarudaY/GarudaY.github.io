@@ -36,7 +36,10 @@ export function ContentImage({
         loading={preload ? undefined : eager ? "eager" : undefined}
         quality={82}
         sizes={sizes}
-        className="select-none object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+        className={cn(
+          "select-none transition-transform duration-700 ease-out group-hover:scale-[1.035]",
+          image.fit === "contain" ? "object-contain p-7" : "object-cover",
+        )}
       />
     </div>
   );

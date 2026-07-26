@@ -26,7 +26,7 @@ export function buildMetadata({
   slug,
   title,
   description,
-  image = "/images/generated/community-hero-v1.webp",
+  image = "/og.png",
   noIndex,
   openGraphType = "website",
   publishedTime,

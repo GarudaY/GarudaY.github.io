@@ -40,7 +40,16 @@ function topicFromContext(value: string | undefined): ContactTopic | undefined {
   if (!value) return undefined;
   if (value.startsWith("course-")) return "courses";
   if (value.startsWith("event-")) return "events";
-  if (["courses", "events", "donation", "partnership"].includes(value)) {
+  if (
+    [
+      "courses",
+      "events",
+      "volunteering",
+      "membership",
+      "donation",
+      "partnership",
+    ].includes(value)
+  ) {
     return value as ContactTopic;
   }
   return undefined;
@@ -126,8 +135,8 @@ export function ContactForm({
         </h2>
         <p className="mt-2 text-sm leading-6 text-ink-muted">
           {isUk
-            ? "Звернення зберігається у структурованій локальній черзі, де команда може змінювати його статус і експортувати список."
-            : "Die Anfrage wird in einer strukturierten lokalen Warteschlange gespeichert, in der das Team Status und Export verwalten kann."}
+            ? "Це не звичайний лист: звернення потрапить у структуровану чергу, де команда бачить тему, статус і наступний крок."
+            : "Das ist keine gewöhnliche E-Mail: Die Anfrage landet in einer strukturierten Warteschlange mit Thema, Status und nächstem Schritt."}
         </p>
         {requestLabel ? (
           <p className="mt-4 rounded-[8px] bg-surface-muted p-3 text-sm text-blue-strong">
@@ -199,6 +208,12 @@ export function ContactForm({
         >
           <option value="courses">{isUk ? "Курси" : "Kurse"}</option>
           <option value="events">{isUk ? "Події" : "Veranstaltungen"}</option>
+          <option value="volunteering">
+            {isUk ? "Волонтерство без членства" : "Ehrenamt ohne Mitgliedschaft"}
+          </option>
+          <option value="membership">
+            {isUk ? "Членство у Verein" : "Mitgliedschaft im Verein"}
+          </option>
           <option value="donation">{isUk ? "Пожертви" : "Spenden"}</option>
           <option value="partnership">
             {isUk ? "Співпраця" : "Partnerschaft"}

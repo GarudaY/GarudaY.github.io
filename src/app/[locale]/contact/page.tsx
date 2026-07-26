@@ -47,7 +47,7 @@ export default async function ContactPage({ params }: PageProps) {
     <>
       <PageHeader
         eyebrow={locale === "uk" ? "Контакти" : "Kontakt"}
-        title={locale === "uk" ? "Зв'язатися з Verein" : "Kontakt zum Verein"}
+        title={locale === "uk" ? "Зв'язатися з SONNENBLUME" : "Kontakt zu SONNENBLUME"}
         description={
           locale === "uk"
             ? "Один зрозумілий шлях для курсів, подій, партнерств і волонтерства."

@@ -148,11 +148,13 @@ export function PeopleCarousel({
                 <p className="mt-2 line-clamp-3 text-sm leading-6 text-ink-muted">
                   {t(person.bio, locale)}
                 </p>
-                <p className="mt-5 text-sm font-semibold text-blue">
-                  {person.languages
-                    .map((lang) => lang.toUpperCase())
-                    .join(" / ")}
-                </p>
+                {person.languages.length ? (
+                  <p className="mt-5 text-sm font-semibold text-blue">
+                    {person.languages
+                      .map((lang) => lang.toUpperCase())
+                      .join(" / ")}
+                  </p>
+                ) : null}
               </div>
             </Link>
           </Card>

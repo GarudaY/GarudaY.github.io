@@ -52,11 +52,11 @@ export function Header({ locale, navigation }: HeaderProps) {
 
   return (
     <header className="header-glass sticky top-0 z-40 border-b border-border/70 bg-background/88 backdrop-blur-xl">
-      <div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-20 max-w-[90rem] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <SiteLogo locale={locale} />
         <nav
           aria-label={locale === "uk" ? "Основна навігація" : "Hauptnavigation"}
-          className="hidden items-center gap-1 lg:flex"
+          className="hidden items-center gap-0.5 xl:flex"
         >
           {navigation.map((item) => (
             <Link
@@ -66,7 +66,7 @@ export function Header({ locale, navigation }: HeaderProps) {
                 isActive(pathname, locale, item) ? "page" : undefined
               }
               className={cn(
-                "nav-pill focus-ring inline-flex min-h-11 items-center justify-center rounded-full px-4 py-2 text-sm font-semibold leading-none",
+                "nav-pill focus-ring inline-flex min-h-11 items-center justify-center rounded-full px-3 py-2 text-[13px] font-semibold leading-none 2xl:px-4 2xl:text-sm",
                 isActive(pathname, locale, item)
                   ? "bg-blue-strong text-white"
                   : "text-blue-strong hover:bg-surface-muted",
@@ -79,13 +79,13 @@ export function Header({ locale, navigation }: HeaderProps) {
             </Link>
           ))}
         </nav>
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-3 xl:flex">
           <LanguageSwitcher locale={locale} />
         </div>
         <button
           ref={menuButtonRef}
           type="button"
-          className="focus-ring inline-flex min-h-11 items-center justify-center rounded-full border border-border bg-surface px-3 text-blue-strong lg:hidden"
+          className="focus-ring inline-flex min-h-11 items-center justify-center rounded-full border border-border bg-surface px-3 text-blue-strong xl:hidden"
           aria-expanded={open}
           aria-controls="mobile-navigation"
           onClick={() => setOpen((value) => !value)}
@@ -106,12 +106,12 @@ export function Header({ locale, navigation }: HeaderProps) {
             type="button"
             tabIndex={-1}
             aria-label={dict.nav.close}
-            className="mobile-menu-scrim fixed inset-x-0 bottom-0 top-20 z-40 bg-blue-strong/12 backdrop-blur-[2px] lg:hidden"
+            className="mobile-menu-scrim fixed inset-x-0 bottom-0 top-20 z-40 bg-blue-strong/12 backdrop-blur-[2px] xl:hidden"
             onClick={() => setOpen(false)}
           />
           <div
             id="mobile-navigation"
-            className="mobile-menu-enter fixed inset-x-0 top-20 z-50 max-h-[calc(100dvh-5rem)] overflow-y-auto rounded-b-[24px] border-b border-border bg-background/96 px-4 pb-6 pt-2 shadow-[0_24px_60px_rgba(23,57,87,0.18)] backdrop-blur-xl lg:hidden"
+            className="mobile-menu-enter fixed inset-x-0 top-20 z-50 max-h-[calc(100dvh-5rem)] overflow-y-auto rounded-b-[24px] border-b border-border bg-background/96 px-4 pb-6 pt-2 shadow-[0_24px_60px_rgba(23,57,87,0.18)] backdrop-blur-xl xl:hidden"
           >
             <nav
               aria-label={

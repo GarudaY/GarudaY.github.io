@@ -53,6 +53,8 @@ function contactTopicLabel(topic: AdminContact["topic"], locale: Locale) {
   const labels = {
     courses: { uk: "курси", de: "Kurse" },
     events: { uk: "події", de: "Veranstaltungen" },
+    volunteering: { uk: "волонтерство", de: "Ehrenamt" },
+    membership: { uk: "членство", de: "Mitgliedschaft" },
     donation: { uk: "пожертви", de: "Spenden" },
     partnership: { uk: "співпраця", de: "Partnerschaft" },
   } as const;

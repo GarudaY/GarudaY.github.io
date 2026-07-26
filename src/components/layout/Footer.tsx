@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -84,7 +85,29 @@ export function Footer({
               aria-hidden="true"
               className="h-2 w-2 rounded-full bg-yellow shadow-[0_0_0_5px_rgba(244,200,74,0.14)]"
             />
-            {dict.footer.demo}
+            e.V. · Mönchengladbach
+          </p>
+        </div>
+
+        <div className="mt-5 grid gap-4 rounded-[20px] border border-border bg-white p-5 sm:grid-cols-[15rem_1fr] sm:items-center">
+          <a
+            href="https://www.deutsche-stiftung-engagement-und-ehrenamt.de/"
+            target="_blank"
+            rel="noreferrer"
+            className="focus-ring block rounded-[10px]"
+          >
+            <Image
+              src="/images/partners/dsee-foerderlogo.svg"
+              alt="Gefördert durch Deutsche Stiftung für Engagement und Ehrenamt"
+              width={560}
+              height={240}
+              className="h-auto w-full"
+            />
+          </a>
+          <p className="text-sm leading-6 text-ink-muted">
+            {locale === "uk"
+              ? "Багатомовний сайт і залучення нових волонтерів підтримано DSEE у межах проєкту «Digitale Brücken bauen»."
+              : "Die mehrsprachige Website und die Gewinnung neuer Ehrenamtlicher werden im Projekt „Digitale Brücken bauen“ durch die DSEE gefördert."}
           </p>
         </div>
 
@@ -113,17 +136,19 @@ export function Footer({
                   {settings.contact.email}
                 </a>
               </li>
-              <li className="flex items-center gap-3 sm:col-span-2 lg:col-span-1">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-surface text-blue shadow-sm">
-                  <Phone aria-hidden="true" className="h-4 w-4" />
-                </span>
-                <a
-                  className="footer-link focus-ring inline-flex min-h-11 items-center rounded-full"
-                  href={`tel:${settings.contact.phone.replaceAll(" ", "")}`}
-                >
-                  {settings.contact.phone}
-                </a>
-              </li>
+              {settings.contact.phone ? (
+                <li className="flex items-center gap-3 sm:col-span-2 lg:col-span-1">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-surface text-blue shadow-sm">
+                    <Phone aria-hidden="true" className="h-4 w-4" />
+                  </span>
+                  <a
+                    className="footer-link focus-ring inline-flex min-h-11 items-center rounded-full"
+                    href={`tel:${settings.contact.phone.replaceAll(" ", "")}`}
+                  >
+                    {settings.contact.phone}
+                  </a>
+                </li>
+              ) : null}
             </ul>
           </section>
 
@@ -171,7 +196,7 @@ export function Footer({
         </div>
 
         <div className="mt-10 flex flex-col gap-2 border-t border-border pt-6 text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>{t(settings.name, locale)} · Demo</p>
+          <p>{t(settings.name, locale)}</p>
           <p>
             {locale === "uk"
               ? "Спільнота, освіта та взаємопідтримка"
