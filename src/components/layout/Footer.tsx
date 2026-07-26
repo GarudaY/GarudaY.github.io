@@ -73,43 +73,60 @@ export function Footer({
   return (
     <footer className="site-footer border-t border-border/80 text-blue-strong">
       <Container className="py-10 sm:py-12 lg:py-14">
-        <div className="footer-brand-panel grid gap-6 rounded-[26px] border border-border bg-surface/88 p-6 shadow-soft backdrop-blur sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div className="max-w-2xl">
+        <section
+          aria-labelledby="footer-identity"
+          className="footer-intro"
+        >
+          <div className="footer-intro-copy">
+            <h2 id="footer-identity" className="sr-only">
+              {t(settings.name, locale)}
+            </h2>
             <SiteLogo locale={locale} />
-            <p className="mt-5 max-w-xl text-sm leading-7 text-ink-muted">
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-ink-muted">
               {t(settings.description, locale)}
             </p>
+            <p className="mt-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-blue">
+              <span
+                aria-hidden="true"
+                className="h-2 w-2 rounded-full bg-yellow shadow-[0_0_0_5px_rgba(244,200,74,0.14)]"
+              />
+              e.V. · Mönchengladbach
+            </p>
           </div>
-          <p className="inline-flex w-fit items-center gap-2 rounded-full bg-yellow/24 px-4 py-2 text-sm font-semibold text-blue-strong">
-            <span
-              aria-hidden="true"
-              className="h-2 w-2 rounded-full bg-yellow shadow-[0_0_0_5px_rgba(244,200,74,0.14)]"
-            />
-            e.V. · Mönchengladbach
-          </p>
-        </div>
 
-        <div className="mt-5 grid gap-4 rounded-[20px] border border-border bg-white p-5 sm:grid-cols-[15rem_1fr] sm:items-center">
-          <a
-            href="https://www.deutsche-stiftung-engagement-und-ehrenamt.de/"
-            target="_blank"
-            rel="noreferrer"
-            className="focus-ring block rounded-[10px]"
-          >
-            <Image
-              src="/images/partners/dsee-foerderlogo.svg"
-              alt="Gefördert durch Deutsche Stiftung für Engagement und Ehrenamt"
-              width={560}
-              height={240}
-              className="h-auto w-full"
-            />
-          </a>
-          <p className="text-sm leading-6 text-ink-muted">
-            {locale === "uk"
-              ? "Багатомовний сайт і залучення нових волонтерів підтримано DSEE у межах проєкту «Digitale Brücken bauen»."
-              : "Die mehrsprachige Website und die Gewinnung neuer Ehrenamtlicher werden im Projekt „Digitale Brücken bauen“ durch die DSEE gefördert."}
-          </p>
-        </div>
+          <div className="footer-funding">
+            <p className="footer-funding-label">
+              <span aria-hidden="true" />
+              {locale === "uk" ? "Проєкт підтримано" : "Projektförderung"}
+            </p>
+            <div className="mt-5 grid gap-5 sm:grid-cols-[10.5rem_1fr] sm:items-center lg:grid-cols-1 xl:grid-cols-[10.5rem_1fr]">
+              <a
+                href="https://www.deutsche-stiftung-engagement-und-ehrenamt.de/"
+                target="_blank"
+                rel="noreferrer"
+                className="focus-ring block w-full max-w-[10.5rem] rounded-[8px] bg-white p-2"
+              >
+                <Image
+                  src="/images/partners/dsee-foerderlogo.svg"
+                  alt="Gefördert durch Deutsche Stiftung für Engagement und Ehrenamt"
+                  width={560}
+                  height={240}
+                  className="h-auto w-full"
+                />
+              </a>
+              <div>
+                <p className="text-base font-bold text-blue-strong">
+                  Digitale Brücken bauen
+                </p>
+                <p className="mt-2 text-sm leading-6 text-ink-muted">
+                  {locale === "uk"
+                    ? "Новий сайт і залучення волонтерів реалізуються за підтримки DSEE."
+                    : "Website und Ehrenamtsgewinnung werden durch die DSEE unterstützt."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[1.35fr_0.75fr_0.9fr]">
           <section>
