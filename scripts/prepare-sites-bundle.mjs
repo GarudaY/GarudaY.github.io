@@ -17,6 +17,9 @@ if (!worker.includes(marker)) {
   await writeFile(workerPath, `${requireShim}${worker}`, "utf8");
 }
 await cp(workerPath, path.join(bundleDirectory, "index.js"));
+await cp(path.resolve(".open-next", "assets"), bundleDirectory, {
+  recursive: true,
+});
 
 await mkdir(bundleOpenAiDirectory, { recursive: true });
 await cp(
