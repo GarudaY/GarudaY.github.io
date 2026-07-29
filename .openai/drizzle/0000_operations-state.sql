@@ -1,4 +1,4 @@
-CREATE TABLE `operations_state` (
+CREATE TABLE IF NOT EXISTS `operations_state` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`revision` integer DEFAULT 1 NOT NULL,
 	`payload` text NOT NULL,
