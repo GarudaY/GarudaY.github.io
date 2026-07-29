@@ -16,6 +16,7 @@ const worker = await readFile(workerPath, "utf8");
 if (!worker.includes(marker)) {
   await writeFile(workerPath, `${requireShim}${worker}`, "utf8");
 }
+await cp(workerPath, path.join(bundleDirectory, "index.js"));
 
 await mkdir(bundleOpenAiDirectory, { recursive: true });
 await cp(
