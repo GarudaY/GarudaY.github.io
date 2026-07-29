@@ -6,12 +6,22 @@ const dateTimeSchema = z.string().datetime({ offset: true });
 
 export const registrationRequestSchema = z.object({
   locale: localeSchema,
-  eventSlug: z.string().trim().min(2).max(120).regex(/^[a-z0-9-]+$/),
+  eventSlug: z
+    .string()
+    .trim()
+    .min(2)
+    .max(120)
+    .regex(/^[a-z0-9-]+$/),
   name: z.string().trim().min(2).max(100),
   email: z.string().trim().toLowerCase().email().max(200),
   participants: z.coerce.number().int().min(1).max(5),
   group: z.enum(["adults", "family", "children"]),
-  note: z.string().trim().max(1000).optional().transform((value) => value || undefined),
+  note: z
+    .string()
+    .trim()
+    .max(1000)
+    .optional()
+    .transform((value) => value || undefined),
   consent: z.literal(true),
   company: z.string().max(0).optional(),
 });
@@ -29,7 +39,12 @@ export const contactRequestSchema = z.object({
     "partnership",
   ]),
   message: z.string().trim().min(5).max(3000),
-  context: z.string().trim().max(240).optional().transform((value) => value || undefined),
+  context: z
+    .string()
+    .trim()
+    .max(240)
+    .optional()
+    .transform((value) => value || undefined),
   consent: z.literal(true),
   company: z.string().max(0).optional(),
 });
@@ -48,6 +63,16 @@ export const registrationSchema = z.object({
   group: z.enum(["adults", "family", "children"]),
   note: z.string().optional(),
   status: z.enum(["confirmed", "waitlist", "cancelled"]),
+  notificationStatus: z
+    .enum(["pending", "sent", "failed"])
+    .optional()
+    .default("pending"),
+  notificationTarget: z
+    .string()
+    .optional()
+    .default("kontakt@sonnenblume-mg.com"),
+  notificationSentAt: dateTimeSchema.optional(),
+  notificationError: z.string().optional(),
   consentAt: dateTimeSchema,
   createdAt: dateTimeSchema,
   updatedAt: dateTimeSchema,
@@ -71,6 +96,16 @@ export const contactSubmissionSchema = z.object({
   message: z.string(),
   context: z.string().optional(),
   status: z.enum(["new", "in_progress", "resolved"]),
+  notificationStatus: z
+    .enum(["pending", "sent", "failed"])
+    .optional()
+    .default("pending"),
+  notificationTarget: z
+    .string()
+    .optional()
+    .default("kontakt@sonnenblume-mg.com"),
+  notificationSentAt: dateTimeSchema.optional(),
+  notificationError: z.string().optional(),
   consentAt: dateTimeSchema,
   createdAt: dateTimeSchema,
   updatedAt: dateTimeSchema,

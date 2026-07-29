@@ -1,7 +1,16 @@
 import "server-only";
 import { getEventBySlug } from "@/data/content";
 import { t } from "@/lib/localize";
-import { readOperationsStore, updateOperationsStore } from "@/server/operations-store";
+import {
+  readOperationsStore,
+  updateOperationsStore,
+} from "@/server/operations-store";
+import {
+  contactNotificationTarget,
+  registrationNotificationTarget,
+  sendContactNotification,
+  sendRegistrationNotification,
+} from "@/server/email-notifications";
 import type {
   ContactStatus,
   ContactSubmission,
@@ -30,7 +39,11 @@ export class OperationsError extends Error {
 
 function reference(prefix: "REG" | "MSG") {
   const date = new Date().toISOString().slice(0, 10).replaceAll("-", "");
-  const suffix = crypto.randomUUID().replaceAll("-", "").slice(0, 6).toUpperCase();
+  const suffix = crypto
+    .randomUUID()
+    .replaceAll("-", "")
+    .slice(0, 6)
+    .toUpperCase();
   return `${prefix}-${date}-${suffix}`;
 }
 
@@ -69,9 +82,7 @@ async function promoteWaitlist(store: OperationsStore, eventSlug: string) {
 
   let { remainingSeats } = availabilityFromStore(event, store);
   const waitlist = store.registrations
-    .filter(
-      (item) => item.eventId === event.id && item.status === "waitlist",
-    )
+    .filter((item) => item.eventId === event.id && item.status === "waitlist")
     .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
 
   for (const item of waitlist) {
@@ -97,7 +108,7 @@ export async function createRegistration(
     throw new OperationsError("event_unavailable", 404);
   }
 
-  return updateOperationsStore((store) => {
+  const created = await updateOperationsStore((store) => {
     const duplicate = store.registrations.find(
       (item) =>
         item.eventId === event.id &&
@@ -108,7 +119,7 @@ export async function createRegistration(
 
     const now = new Date().toISOString();
     const availability = availabilityFromStore(event, store);
-    const status =
+    const status: RegistrationReceipt["status"] =
       input.participants <= availability.remainingSeats
         ? "confirmed"
         : "waitlist";
@@ -127,6 +138,8 @@ export async function createRegistration(
       group: input.group,
       note: input.note,
       status,
+      notificationStatus: "pending",
+      notificationTarget: registrationNotificationTarget(),
       consentAt: now,
       createdAt: now,
       updatedAt: now,
@@ -134,16 +147,47 @@ export async function createRegistration(
     store.registrations.push(registration);
 
     return {
-      reference: registration.reference,
-      participants: registration.participants,
-      status,
-      cancellationPath: `/${input.locale}/registration/${token}`,
-      remainingSeats:
-        status === "confirmed"
-          ? availability.remainingSeats - registration.participants
-          : availability.remainingSeats,
+      registration,
+      receipt: {
+        reference: registration.reference,
+        participants: registration.participants,
+        status,
+        cancellationPath: `/${input.locale}/registration/${token}`,
+        remainingSeats:
+          status === "confirmed"
+            ? availability.remainingSeats - registration.participants
+            : availability.remainingSeats,
+        notificationStatus: "pending" as const,
+      },
     };
   });
+
+  let notificationStatus: "sent" | "failed" = "sent";
+  let notificationError: string | undefined;
+  try {
+    await sendRegistrationNotification(created.registration);
+  } catch (error) {
+    notificationStatus = "failed";
+    notificationError =
+      error instanceof Error
+        ? error.message.slice(0, 160)
+        : "notification_failed";
+    console.error("Registration notification failed", error);
+  }
+
+  await updateOperationsStore((store) => {
+    const item = store.registrations.find(
+      (registration) => registration.id === created.registration.id,
+    );
+    if (!item) return;
+    item.notificationStatus = notificationStatus;
+    item.notificationError = notificationError;
+    item.notificationSentAt =
+      notificationStatus === "sent" ? new Date().toISOString() : undefined;
+    item.updatedAt = new Date().toISOString();
+  });
+
+  return { ...created.receipt, notificationStatus };
 }
 
 export async function getRegistrationByToken(token: string) {
@@ -192,7 +236,7 @@ export async function cancelRegistrationById(id: string) {
 }
 
 export async function createContactSubmission(input: ContactInput) {
-  return updateOperationsStore((store) => {
+  const created = await updateOperationsStore((store) => {
     const tenMinutesAgo = Date.now() - 10 * 60 * 1000;
     const duplicate = store.contacts.find(
       (item) =>
@@ -213,13 +257,49 @@ export async function createContactSubmission(input: ContactInput) {
       message: input.message,
       context: input.context,
       status: "new",
+      notificationStatus: "pending",
+      notificationTarget: contactNotificationTarget(input.topic),
       consentAt: now,
       createdAt: now,
       updatedAt: now,
     };
     store.contacts.push(contact);
-    return { reference: contact.reference, status: contact.status };
+    return {
+      contact,
+      receipt: {
+        reference: contact.reference,
+        status: contact.status,
+        notificationStatus: "pending" as const,
+      },
+    };
   });
+
+  let notificationStatus: "sent" | "failed" = "sent";
+  let notificationError: string | undefined;
+  try {
+    await sendContactNotification(created.contact);
+  } catch (error) {
+    notificationStatus = "failed";
+    notificationError =
+      error instanceof Error
+        ? error.message.slice(0, 160)
+        : "notification_failed";
+    console.error("Contact notification failed", error);
+  }
+
+  await updateOperationsStore((store) => {
+    const item = store.contacts.find(
+      (contact) => contact.id === created.contact.id,
+    );
+    if (!item) return;
+    item.notificationStatus = notificationStatus;
+    item.notificationError = notificationError;
+    item.notificationSentAt =
+      notificationStatus === "sent" ? new Date().toISOString() : undefined;
+    item.updatedAt = new Date().toISOString();
+  });
+
+  return { ...created.receipt, notificationStatus };
 }
 
 export async function updateContactStatus(id: string, status: ContactStatus) {

@@ -1,7 +1,9 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const workerPath = path.resolve(".sites-bundle", "worker.js");
+const bundleDirectory = path.resolve(".sites-bundle");
+const workerPath = path.join(bundleDirectory, "worker.js");
+const bundleOpenAiDirectory = path.join(bundleDirectory, ".openai");
 const marker = "__sitesCreateRequire";
 const requireShim = [
   'import { createRequire as __sitesCreateRequire } from "node:module";',
@@ -14,3 +16,14 @@ const worker = await readFile(workerPath, "utf8");
 if (!worker.includes(marker)) {
   await writeFile(workerPath, `${requireShim}${worker}`, "utf8");
 }
+
+await mkdir(bundleOpenAiDirectory, { recursive: true });
+await cp(
+  path.resolve(".openai", "hosting.json"),
+  path.join(bundleOpenAiDirectory, "hosting.json"),
+);
+await cp(
+  path.resolve(".openai", "drizzle"),
+  path.join(bundleOpenAiDirectory, "drizzle"),
+  { recursive: true },
+);

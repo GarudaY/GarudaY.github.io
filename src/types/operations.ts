@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/config";
 export type RegistrationStatus = "confirmed" | "waitlist" | "cancelled";
 export type RegistrationGroup = "adults" | "family" | "children";
 export type ContactStatus = "new" | "in_progress" | "resolved";
+export type NotificationStatus = "pending" | "sent" | "failed";
 export type ContactTopic =
   | "courses"
   | "events"
@@ -25,6 +26,10 @@ export type EventRegistration = {
   group: RegistrationGroup;
   note?: string;
   status: RegistrationStatus;
+  notificationStatus: NotificationStatus;
+  notificationTarget: string;
+  notificationSentAt?: string;
+  notificationError?: string;
   consentAt: string;
   createdAt: string;
   updatedAt: string;
@@ -41,6 +46,10 @@ export type ContactSubmission = {
   message: string;
   context?: string;
   status: ContactStatus;
+  notificationStatus: NotificationStatus;
+  notificationTarget: string;
+  notificationSentAt?: string;
+  notificationError?: string;
   consentAt: string;
   createdAt: string;
   updatedAt: string;
@@ -66,15 +75,14 @@ export type RegistrationReceipt = {
   status: Exclude<RegistrationStatus, "cancelled">;
   cancellationPath: string;
   remainingSeats: number;
+  notificationStatus: NotificationStatus;
 };
 
 export type ContactReceipt = {
   reference: string;
   status: ContactStatus;
+  notificationStatus: NotificationStatus;
 };
 
-export type AdminRegistration = Omit<
-  EventRegistration,
-  "cancellationToken"
->;
+export type AdminRegistration = Omit<EventRegistration, "cancellationToken">;
 export type AdminContact = ContactSubmission;

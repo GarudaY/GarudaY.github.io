@@ -1,6 +1,16 @@
 "use client";
 
-import { Download, LoaderCircle, RefreshCw, XCircle } from "lucide-react";
+import {
+  Download,
+  ExternalLink,
+  LoaderCircle,
+  LogOut,
+  MailCheck,
+  MailWarning,
+  Newspaper,
+  RefreshCw,
+  XCircle,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Locale } from "@/i18n/config";
@@ -31,7 +41,10 @@ function statusClass(status: string) {
   return "bg-blue/10 text-blue-strong";
 }
 
-function registrationStatusLabel(status: AdminRegistration["status"], locale: Locale) {
+function registrationStatusLabel(
+  status: AdminRegistration["status"],
+  locale: Locale,
+) {
   const labels = {
     confirmed: { uk: "Підтверджено", de: "Bestätigt" },
     waitlist: { uk: "У черзі", de: "Warteliste" },
@@ -103,6 +116,59 @@ export function AdminOperations({
         </Alert>
       ) : null}
 
+      <section className="grid gap-4 lg:grid-cols-2">
+        <article className="rounded-[18px] border border-border bg-surface p-5 shadow-soft sm:p-6">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-strong text-yellow">
+            <Newspaper aria-hidden="true" className="h-5 w-5" />
+          </div>
+          <h2 className="mt-5 text-2xl font-bold text-blue-strong">
+            {isUk ? "Редагування новин" : "Neuigkeiten bearbeiten"}
+          </h2>
+          <p className="mt-3 leading-7 text-ink-muted">
+            {isUk
+              ? "Новини редагуються у знайомій панелі WordPress. Після публікації вони автоматично з'являються у стрічці нового сайту — код і GitHub не потрібні."
+              : "Neuigkeiten werden im vertrauten WordPress-Bereich bearbeitet. Nach der Veröffentlichung erscheinen sie automatisch auf der neuen Website — ohne Code oder GitHub."}
+          </p>
+          <a
+            href="https://sonnenblume-mg.com/wp-admin/edit.php"
+            target="_blank"
+            rel="noreferrer"
+            className="button-motion focus-ring mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-blue-strong hover:border-blue/35 hover:bg-surface-muted"
+          >
+            {isUk ? "Відкрити редактор" : "Editor öffnen"}
+            <ExternalLink aria-hidden="true" className="h-4 w-4" />
+          </a>
+        </article>
+        <article className="rounded-[18px] border border-border bg-surface p-5 shadow-soft sm:p-6">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.12em] text-blue">
+                {isUk ? "Безпека" : "Sicherheit"}
+              </p>
+              <h2 className="mt-2 text-2xl font-bold text-blue-strong">
+                {isUk ? "Закрита робоча зона" : "Geschützter Arbeitsbereich"}
+              </h2>
+            </div>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={async () => {
+                await fetch("/api/admin/session", { method: "DELETE" });
+                window.location.reload();
+              }}
+            >
+              <LogOut aria-hidden="true" className="h-4 w-4" />
+              {isUk ? "Вийти" : "Abmelden"}
+            </Button>
+          </div>
+          <p className="mt-3 leading-7 text-ink-muted">
+            {isUk
+              ? "Посилання на цю сторінку можна передати координатору, а окремо — код доступу. Сесію автоматично закриє через 8 годин."
+              : "Der Link und der Zugangscode können getrennt an eine koordinierende Person weitergegeben werden. Die Sitzung endet automatisch nach 8 Stunden."}
+          </p>
+        </article>
+      </section>
+
       <section className="min-w-0">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -125,35 +191,79 @@ export function AdminOperations({
           <table className="min-w-[980px] w-full border-collapse text-left text-sm">
             <thead className="bg-surface-muted text-blue-strong">
               <tr>
-                <th className="p-4 font-semibold">{isUk ? "Заявка" : "Anmeldung"}</th>
-                <th className="p-4 font-semibold">{isUk ? "Подія" : "Event"}</th>
-                <th className="p-4 font-semibold">{isUk ? "Контакт" : "Kontakt"}</th>
-                <th className="p-4 font-semibold">{isUk ? "Люди" : "Personen"}</th>
-                <th className="p-4 font-semibold">{isUk ? "Статус" : "Status"}</th>
+                <th className="p-4 font-semibold">
+                  {isUk ? "Заявка" : "Anmeldung"}
+                </th>
+                <th className="p-4 font-semibold">
+                  {isUk ? "Подія" : "Event"}
+                </th>
+                <th className="p-4 font-semibold">
+                  {isUk ? "Контакт" : "Kontakt"}
+                </th>
+                <th className="p-4 font-semibold">
+                  {isUk ? "Люди" : "Personen"}
+                </th>
+                <th className="p-4 font-semibold">
+                  {isUk ? "Статус" : "Status"}
+                </th>
                 <th className="p-4 font-semibold">{isUk ? "Дія" : "Aktion"}</th>
               </tr>
             </thead>
             <tbody>
               {registrations.length ? (
                 registrations.map((item) => (
-                  <tr key={item.id} className="border-t border-border align-top">
+                  <tr
+                    key={item.id}
+                    className="border-t border-border align-top"
+                  >
                     <td className="p-4">
-                      <strong className="block text-blue-strong">{item.reference}</strong>
+                      <strong className="block text-blue-strong">
+                        {item.reference}
+                      </strong>
                       <span className="mt-1 block text-xs text-ink-muted">
                         {formatDate(item.createdAt, locale)}
                       </span>
                     </td>
-                    <td className="max-w-64 p-4 text-ink-muted">{item.eventTitle}</td>
+                    <td className="max-w-64 p-4 text-ink-muted">
+                      {item.eventTitle}
+                    </td>
                     <td className="p-4 text-ink-muted">
-                      <strong className="block text-blue-strong">{item.name}</strong>
-                      <a className="hover:text-blue" href={`mailto:${item.email}`}>
+                      <strong className="block text-blue-strong">
+                        {item.name}
+                      </strong>
+                      <a
+                        className="hover:text-blue"
+                        href={`mailto:${item.email}`}
+                      >
                         {item.email}
                       </a>
                     </td>
                     <td className="p-4 text-ink-muted">{item.participants}</td>
                     <td className="p-4">
-                      <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${statusClass(item.status)}`}>
+                      <span
+                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${statusClass(item.status)}`}
+                      >
                         {registrationStatusLabel(item.status, locale)}
+                      </span>
+                      <span className="mt-2 flex items-center gap-1.5 text-xs text-ink-muted">
+                        {item.notificationStatus === "sent" ? (
+                          <MailCheck
+                            aria-hidden="true"
+                            className="h-3.5 w-3.5 text-green"
+                          />
+                        ) : (
+                          <MailWarning
+                            aria-hidden="true"
+                            className="h-3.5 w-3.5 text-danger"
+                          />
+                        )}
+                        {item.notificationStatus === "sent"
+                          ? isUk
+                            ? "Email надіслано"
+                            : "E-Mail gesendet"
+                          : isUk
+                            ? "Email не надіслано"
+                            : "E-Mail nicht gesendet"}
                       </span>
                     </td>
                     <td className="p-4">
@@ -164,13 +274,20 @@ export function AdminOperations({
                           disabled={pendingId === item.id}
                           onClick={() =>
                             update(
-                              { kind: "registration", id: item.id, action: "cancel" },
+                              {
+                                kind: "registration",
+                                id: item.id,
+                                action: "cancel",
+                              },
                               item.id,
                             )
                           }
                         >
                           {pendingId === item.id ? (
-                            <LoaderCircle aria-hidden="true" className="h-4 w-4 animate-spin" />
+                            <LoaderCircle
+                              aria-hidden="true"
+                              className="h-4 w-4 animate-spin"
+                            />
                           ) : (
                             <XCircle aria-hidden="true" className="h-4 w-4" />
                           )}
@@ -205,7 +322,11 @@ export function AdminOperations({
             </h2>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="quiet" onClick={() => router.refresh()}>
+            <Button
+              type="button"
+              variant="quiet"
+              onClick={() => router.refresh()}
+            >
               <RefreshCw aria-hidden="true" className="h-4 w-4" />
               {isUk ? "Оновити" : "Aktualisieren"}
             </Button>
@@ -218,14 +339,22 @@ export function AdminOperations({
         <div className="mt-6 grid gap-4">
           {contacts.length ? (
             contacts.map((item) => (
-              <article key={item.id} className="rounded-[18px] border border-border bg-surface p-5 shadow-soft">
+              <article
+                key={item.id}
+                className="rounded-[18px] border border-border bg-surface p-5 shadow-soft"
+              >
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.1em] text-blue">
                       {item.reference} · {contactTopicLabel(item.topic, locale)}
                     </p>
-                    <h3 className="mt-2 text-xl font-bold text-blue-strong">{item.name}</h3>
-                    <a className="mt-1 inline-block text-sm text-ink-muted hover:text-blue" href={`mailto:${item.email}`}>
+                    <h3 className="mt-2 text-xl font-bold text-blue-strong">
+                      {item.name}
+                    </h3>
+                    <a
+                      className="mt-1 inline-block text-sm text-ink-muted hover:text-blue"
+                      href={`mailto:${item.email}`}
+                    >
                       {item.email}
                     </a>
                   </div>
@@ -245,14 +374,40 @@ export function AdminOperations({
                       )
                     }
                   >
-                    {(["new", "in_progress", "resolved"] as const).map((status) => (
-                      <option key={status} value={status}>
-                        {contactStatusLabel(status, locale)}
-                      </option>
-                    ))}
+                    {(["new", "in_progress", "resolved"] as const).map(
+                      (status) => (
+                        <option key={status} value={status}>
+                          {contactStatusLabel(status, locale)}
+                        </option>
+                      ),
+                    )}
                   </select>
                 </div>
-                <p className="mt-4 whitespace-pre-wrap leading-7 text-ink-muted">{item.message}</p>
+                <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-ink-muted">
+                  {item.notificationStatus === "sent" ? (
+                    <MailCheck
+                      aria-hidden="true"
+                      className="h-4 w-4 text-green"
+                    />
+                  ) : (
+                    <MailWarning
+                      aria-hidden="true"
+                      className="h-4 w-4 text-danger"
+                    />
+                  )}
+                  <span>
+                    {item.notificationStatus === "sent"
+                      ? isUk
+                        ? `Email надіслано: ${item.notificationTarget}`
+                        : `E-Mail gesendet: ${item.notificationTarget}`
+                      : isUk
+                        ? `Email не надіслано: ${item.notificationTarget}`
+                        : `E-Mail nicht gesendet: ${item.notificationTarget}`}
+                  </span>
+                </div>
+                <p className="mt-4 whitespace-pre-wrap leading-7 text-ink-muted">
+                  {item.message}
+                </p>
                 <p className="mt-4 text-xs text-ink-muted">
                   {formatDate(item.createdAt, locale)}
                   {item.context ? ` · ${item.context}` : ""}

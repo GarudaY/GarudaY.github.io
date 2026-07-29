@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { NewsCard } from "@/components/content/NewsCard";
+import { WordPressNewsFeed } from "@/components/content/WordPressNewsFeed";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -64,6 +65,34 @@ export default async function NewsPage({ params }: PageProps) {
         />
       </PageHeader>
       <Section>
+        <div className="mb-8 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+            {locale === "uk"
+              ? "Актуальне від редакції"
+              : "Aktuell aus der Redaktion"}
+          </p>
+          <h2 className="mt-2 text-3xl font-bold text-blue-strong">
+            {locale === "uk" ? "Останні публікації" : "Neueste Beiträge"}
+          </h2>
+          <p className="mt-3 leading-7 text-ink-muted">
+            {locale === "uk"
+              ? "Цей блок оновлюється автоматично після публікації у WordPress."
+              : "Dieser Bereich wird nach einer Veröffentlichung in WordPress automatisch aktualisiert."}
+          </p>
+        </div>
+        <WordPressNewsFeed locale={locale} />
+      </Section>
+      <Section className="section-soft">
+        <div className="mb-8 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+            {locale === "uk" ? "Матеріали сайту" : "Website-Inhalte"}
+          </p>
+          <h2 className="mt-2 text-3xl font-bold text-blue-strong">
+            {locale === "uk"
+              ? "Програми та оголошення"
+              : "Programme und Hinweise"}
+          </h2>
+        </div>
         {news.length ? (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {news.map((article) => (

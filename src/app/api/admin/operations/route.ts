@@ -4,7 +4,7 @@ import {
   OperationsError,
   updateContactStatus,
 } from "@/server/operations-service";
-import { guardLocalAdmin, guardPublicWrite } from "@/server/request-guard";
+import { guardAdminRequest } from "@/server/admin-auth";
 import { adminUpdateSchema } from "@/server/operations-validation";
 
 export const runtime = "nodejs";
@@ -13,16 +13,14 @@ export const dynamic = "force-dynamic";
 const noStoreHeaders = { "Cache-Control": "no-store" };
 
 export async function GET(request: Request) {
-  const guard = guardLocalAdmin(request);
+  const guard = await guardAdminRequest(request);
   if (guard) return guard;
   return Response.json(await getAdminOperations(), { headers: noStoreHeaders });
 }
 
 export async function PATCH(request: Request) {
-  const localGuard = guardLocalAdmin(request);
-  if (localGuard) return localGuard;
-  const writeGuard = guardPublicWrite(request, "admin-update");
-  if (writeGuard) return writeGuard;
+  const guard = await guardAdminRequest(request, { write: true });
+  if (guard) return guard;
 
   try {
     const parsed = adminUpdateSchema.safeParse(await request.json());

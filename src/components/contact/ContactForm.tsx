@@ -135,8 +135,8 @@ export function ContactForm({
         </h2>
         <p className="mt-2 text-sm leading-6 text-ink-muted">
           {isUk
-            ? "Це не звичайний лист: звернення потрапить у структуровану чергу, де команда бачить тему, статус і наступний крок."
-            : "Das ist keine gewöhnliche E-Mail: Die Anfrage landet in einer strukturierten Warteschlange mit Thema, Status und nächstem Schritt."}
+            ? "Звернення потрапить у структуровану чергу, а відповідальна команда одразу отримає email-сповіщення за обраною темою."
+            : "Die Anfrage landet in einer strukturierten Warteschlange; das zuständige Team erhält sofort eine E-Mail-Benachrichtigung zum gewählten Thema."}
         </p>
         {requestLabel ? (
           <p className="mt-4 rounded-[8px] bg-surface-muted p-3 text-sm text-blue-strong">
@@ -146,7 +146,10 @@ export function ContactForm({
         ) : null}
       </div>
       {receipt ? (
-        <Alert role="status">
+        <Alert
+          role="status"
+          tone={receipt.notificationStatus === "sent" ? "info" : "warning"}
+        >
           <span className="flex items-start gap-3">
             <CheckCircle2
               aria-hidden="true"
@@ -154,8 +157,12 @@ export function ContactForm({
             />
             <span>
               {isUk
-                ? `Звернення ${receipt.reference} збережено в локальній черзі. Команда побачить його в адмін-панелі.`
-                : `Die Anfrage ${receipt.reference} wurde in der lokalen Warteschlange gespeichert und ist im Admin-Bereich sichtbar.`}
+                ? receipt.notificationStatus === "sent"
+                  ? `Звернення ${receipt.reference} збережено, а відповідальна команда отримала email-сповіщення.`
+                  : `Звернення ${receipt.reference} надійно збережено, але email-сповіщення не пройшло. Команда все одно бачить його в панелі.`
+                : receipt.notificationStatus === "sent"
+                  ? `Die Anfrage ${receipt.reference} wurde gespeichert und das zuständige Team per E-Mail benachrichtigt.`
+                  : `Die Anfrage ${receipt.reference} wurde sicher gespeichert, aber die E-Mail-Benachrichtigung ist fehlgeschlagen. Im Team-Bereich bleibt sie sichtbar.`}
             </span>
           </span>
         </Alert>
@@ -209,7 +216,9 @@ export function ContactForm({
           <option value="courses">{isUk ? "Курси" : "Kurse"}</option>
           <option value="events">{isUk ? "Події" : "Veranstaltungen"}</option>
           <option value="volunteering">
-            {isUk ? "Волонтерство без членства" : "Ehrenamt ohne Mitgliedschaft"}
+            {isUk
+              ? "Волонтерство без членства"
+              : "Ehrenamt ohne Mitgliedschaft"}
           </option>
           <option value="membership">
             {isUk ? "Членство у Verein" : "Mitgliedschaft im Verein"}
@@ -240,8 +249,8 @@ export function ContactForm({
         />
         <span>
           {isUk
-            ? "Погоджуюся на локальне збереження даних для опрацювання цього звернення."
-            : "Ich stimme der lokalen Speicherung meiner Daten zur Bearbeitung dieser Anfrage zu."}
+            ? "Погоджуюся на захищене збереження та передачу даних відповідальній команді для опрацювання звернення."
+            : "Ich stimme der geschützten Speicherung und Weitergabe an das zuständige Team zur Bearbeitung meiner Anfrage zu."}
         </span>
       </label>
       <Button
@@ -254,11 +263,11 @@ export function ContactForm({
         ) : null}
         {pending
           ? isUk
-            ? "Зберігаємо…"
-            : "Wird gespeichert…"
+            ? "Надсилаємо…"
+            : "Wird gesendet…"
           : isUk
             ? "Надіслати звернення"
-            : "Anfrage speichern"}
+            : "Anfrage senden"}
       </Button>
     </form>
   );

@@ -90,8 +90,8 @@ export function EventRegistrationForm({
           </h2>
           <p className="mt-4 leading-7 text-white/78">
             {isUk
-              ? "Заявка одразу потрапляє до структурованого локального списку. Організатор бачить кількість людей, статус і примітки в одному місці."
-              : "Die Anmeldung landet direkt in einer strukturierten lokalen Liste. Anzahl, Status und Hinweise sind zentral sichtbar."}
+              ? "Заявка одразу потрапляє до захищеного списку, а організатор отримує email-сповіщення з кількістю людей, статусом і примітками."
+              : "Die Anmeldung landet direkt in einer geschützten Liste; das Organisationsteam erhält eine E-Mail mit Personenzahl, Status und Hinweisen."}
           </p>
 
           <div className="mt-7 rounded-[12px] bg-white/10 p-4">
@@ -176,10 +176,21 @@ export function EventRegistrationForm({
                   ? `Кількість учасників: ${confirmation.participants}. Після заявки залишилося ${confirmation.remainingSeats} вільних місць.`
                   : `Personenzahl: ${confirmation.participants}. Nach der Anmeldung sind ${confirmation.remainingSeats} Plätze frei.`}
               </p>
-              <Alert className="mt-6">
+              <Alert
+                className="mt-6"
+                tone={
+                  confirmation.notificationStatus === "sent"
+                    ? "info"
+                    : "warning"
+                }
+              >
                 {isUk
-                  ? "Заявка збережена лише на цьому сервері. Поштова служба не підключена, тому обов'язково збережіть приватне посилання для перегляду або скасування."
-                  : "Die Anmeldung wurde nur auf diesem Server gespeichert. Da kein E-Mail-Dienst verbunden ist, speichern Sie bitte den privaten Status- und Stornierungslink."}
+                  ? confirmation.notificationStatus === "sent"
+                    ? "Заявка надійно збережена, організатор отримав email-сповіщення. Збережіть приватне посилання для перегляду або скасування."
+                    : "Заявка надійно збережена, але email-сповіщення не пройшло. Організатор усе одно бачить її в панелі; збережіть приватне посилання."
+                  : confirmation.notificationStatus === "sent"
+                    ? "Die Anmeldung ist sicher gespeichert und das Organisationsteam wurde per E-Mail benachrichtigt. Speichern Sie den privaten Status- und Stornierungslink."
+                    : "Die Anmeldung ist sicher gespeichert, aber die E-Mail-Benachrichtigung ist fehlgeschlagen. Im Team-Bereich bleibt sie sichtbar; speichern Sie den privaten Link."}
               </Alert>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link
@@ -372,8 +383,8 @@ export function EventRegistrationForm({
                 />
                 <span>
                   {isUk
-                    ? "Погоджуюся на локальне збереження даних для організації цієї події. Заявку можна скасувати за приватним посиланням."
-                    : "Ich stimme der lokalen Datenspeicherung zur Organisation dieser Veranstaltung zu. Die Anmeldung kann über einen privaten Link storniert werden."}
+                    ? "Погоджуюся на захищене збереження та передачу даних організаторам цієї події. Заявку можна скасувати за приватним посиланням."
+                    : "Ich stimme der geschützten Speicherung und Weitergabe an das Organisationsteam zu. Die Anmeldung kann über einen privaten Link storniert werden."}
                 </span>
               </label>
               <Button
@@ -389,8 +400,8 @@ export function EventRegistrationForm({
                 ) : null}
                 {pending
                   ? isUk
-                    ? "Зберігаємо…"
-                    : "Wird gespeichert…"
+                    ? "Надсилаємо…"
+                    : "Wird gesendet…"
                   : isUk
                     ? "Зареєструватися"
                     : "Jetzt anmelden"}

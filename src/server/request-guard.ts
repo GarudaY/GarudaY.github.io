@@ -55,7 +55,8 @@ export function guardPublicWrite(request: Request, scope: string) {
     rateLimits.set(key, { count: 1, resetAt: now + 10 * 60 * 1000 });
     return null;
   }
-  const limit = scope.startsWith("admin") ? 60 : 8;
+  const limit =
+    scope === "admin-login" ? 6 : scope.startsWith("admin") ? 60 : 8;
   if (current.count >= limit) {
     return Response.json(
       { code: "rate_limited" },

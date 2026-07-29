@@ -1,5 +1,5 @@
 import { getAdminOperations } from "@/server/operations-service";
-import { guardLocalAdmin } from "@/server/request-guard";
+import { guardAdminRequest } from "@/server/admin-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,7 +11,7 @@ function csvCell(value: unknown) {
 }
 
 export async function GET(request: Request) {
-  const guard = guardLocalAdmin(request);
+  const guard = await guardAdminRequest(request);
   if (guard) return guard;
   const kind = new URL(request.url).searchParams.get("kind");
   const data = await getAdminOperations();
