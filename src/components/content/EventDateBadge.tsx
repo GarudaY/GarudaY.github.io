@@ -5,9 +5,11 @@ import { siteConfig } from "@/config/site";
 export function EventDateBadge({
   date,
   locale,
+  label,
 }: {
   date: string;
   locale: Locale;
+  label?: string;
 }) {
   const parsed = new Date(date);
   const day = new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "de-DE", {
@@ -20,14 +22,24 @@ export function EventDateBadge({
   }).format(parsed);
 
   return (
-    <div className="grid h-18 w-18 shrink-0 place-items-center rounded-[14px] bg-blue-strong px-2 py-2 text-center text-white shadow-sm">
-      <span aria-hidden="true" className="text-2xl font-bold leading-none">
-        {day}
-      </span>
-      <span aria-hidden="true" className="text-xs font-semibold uppercase">
-        {month}
-      </span>
-      <span className="sr-only">{formatDate(date, locale)}</span>
+    <div
+      className={`grid h-18 shrink-0 place-items-center rounded-[14px] bg-blue-strong px-2 py-2 text-center text-white shadow-sm ${
+        label ? "w-24" : "w-18"
+      }`}
+    >
+      {label ? (
+        <span className="text-xs font-bold leading-4">{label}</span>
+      ) : (
+        <>
+          <span aria-hidden="true" className="text-2xl font-bold leading-none">
+            {day}
+          </span>
+          <span aria-hidden="true" className="text-xs font-semibold uppercase">
+            {month}
+          </span>
+          <span className="sr-only">{formatDate(date, locale)}</span>
+        </>
+      )}
     </div>
   );
 }

@@ -88,23 +88,28 @@ export function PhotoCarousel({
 
       {images.length > 1 ? (
         <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
-          <div className="flex gap-1.5 rounded-full bg-blue-strong/72 p-2.5 backdrop-blur-md">
+          <div className="flex rounded-full bg-blue-strong/72 p-1.5 backdrop-blur-md">
             {images.map((image, index) => (
               <button
                 key={image.src}
                 type="button"
                 onClick={() => setActive(index)}
-                className={cn(
-                  "focus-ring h-2.5 rounded-full transition-all",
-                  index === active ? "w-7 bg-yellow" : "w-2.5 bg-white/65",
-                )}
+                className="focus-ring grid h-8 min-w-8 place-items-center rounded-full"
                 aria-label={
                   locale === "uk"
                     ? `Показати фото ${index + 1}`
                     : `Foto ${index + 1} anzeigen`
                 }
                 aria-current={index === active ? "true" : undefined}
-              />
+              >
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "h-2.5 rounded-full transition-all",
+                    index === active ? "w-5 bg-yellow" : "w-2.5 bg-white/65",
+                  )}
+                />
+              </button>
             ))}
           </div>
           <div className="flex gap-2">

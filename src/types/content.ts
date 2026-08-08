@@ -142,6 +142,8 @@ export type Event = {
   description: LocalizedString;
   startsAt: string;
   endsAt?: string;
+  dateLabel?: LocalizedString;
+  timeLabel?: LocalizedString;
   location: LocalizedString;
   price: LocalizedString;
   registrationLabel: LocalizedString;

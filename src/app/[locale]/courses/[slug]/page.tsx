@@ -166,20 +166,22 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   ))}
                 </ul>
               </section>
-              <section>
-                <h2 className="text-2xl font-bold text-blue-strong">
-                  {locale === "uk" ? "Викладачі" : "Dozentinnen und Dozenten"}
-                </h2>
-                <div className="mt-5 grid gap-5">
-                  {teachers.map((teacher) => (
-                    <PersonCard
-                      key={teacher.id}
-                      person={teacher}
-                      locale={locale}
-                    />
-                  ))}
-                </div>
-              </section>
+              {teachers.length ? (
+                <section>
+                  <h2 className="text-2xl font-bold text-blue-strong">
+                    {locale === "uk" ? "Викладачі" : "Dozentinnen und Dozenten"}
+                  </h2>
+                  <div className="mt-5 grid gap-5">
+                    {teachers.map((teacher) => (
+                      <PersonCard
+                        key={teacher.id}
+                        person={teacher}
+                        locale={locale}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ) : null}
             </div>
           </article>
 
@@ -260,24 +262,26 @@ export default async function CourseDetailPage({ params }: PageProps) {
                     </div>
                   </div>
                 ) : null}
-                <div className="flex gap-3">
-                  <Clock
-                    aria-hidden="true"
-                    className="mt-0.5 h-5 w-5 shrink-0 text-blue"
-                  />
-                  <div>
-                    <dt className="font-semibold text-blue-strong">
-                      {locale === "uk" ? "Розклад" : "Zeitplan"}
-                    </dt>
-                    <dd>
-                      {course.schedule
-                        .map(
-                          (item) => `${t(item.weekday, locale)} ${item.time}`,
-                        )
-                        .join(", ")}
-                    </dd>
+                {course.schedule.length ? (
+                  <div className="flex gap-3">
+                    <Clock
+                      aria-hidden="true"
+                      className="mt-0.5 h-5 w-5 shrink-0 text-blue"
+                    />
+                    <div>
+                      <dt className="font-semibold text-blue-strong">
+                        {locale === "uk" ? "Розклад" : "Zeitplan"}
+                      </dt>
+                      <dd>
+                        {course.schedule
+                          .map(
+                            (item) => `${t(item.weekday, locale)} ${item.time}`,
+                          )
+                          .join(", ")}
+                      </dd>
+                    </div>
                   </div>
-                </div>
+                ) : null}
               </dl>
               <div className="mt-6 rounded-[8px] bg-surface-muted p-4">
                 <p className="text-sm font-semibold text-blue-strong">

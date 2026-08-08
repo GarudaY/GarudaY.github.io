@@ -2,6 +2,128 @@ import type { Event } from "@/types/content";
 
 export const events: Event[] = [
   {
+    id: "event-independence-day-2026",
+    slug: "den-nezalezhnosti-ukrainy-2026",
+    status: "published",
+    eventStatus: "upcoming",
+    category: "culture",
+    title: {
+      uk: "Святкування Дня Незалежності України",
+      de: "Feier zum ukrainischen Unabhängigkeitstag",
+    },
+    summary: {
+      uk: "23 серпня SONNENBLUME запрошує громаду разом відзначити День Незалежності України.",
+      de: "Am 23. August lädt SONNENBLUME die Community ein, gemeinsam den ukrainischen Unabhängigkeitstag zu feiern.",
+    },
+    description: {
+      uk: "Зустрінемося, щоб провести цей день разом, підтримати одне одного та відзначити українську культуру й незалежність. Детальну програму, час і організаційні умови команда опублікує додатково.",
+      de: "Wir kommen zusammen, um diesen Tag miteinander zu verbringen, uns gegenseitig zu stärken und ukrainische Kultur und Unabhängigkeit zu feiern. Programm, Uhrzeit und organisatorische Hinweise veröffentlicht das Team noch separat.",
+    },
+    startsAt: "2026-08-23",
+    timeLabel: {
+      uk: "Час буде оголошено",
+      de: "Uhrzeit folgt",
+    },
+    location: { uk: "Mönchengladbach", de: "Mönchengladbach" },
+    price: {
+      uk: "Деталі участі незабаром",
+      de: "Teilnahmeinfos folgen",
+    },
+    registrationLabel: {
+      uk: "Запитати про подію",
+      de: "Zur Veranstaltung fragen",
+    },
+    capacity: 0,
+    seatsAvailable: 0,
+    contactEmail: "kontakt@sonnenblume-mg.com",
+    image: {
+      src: "/images/community/community-festival.jpg",
+      alt: {
+        uk: "Українська громада на святі SONNENBLUME",
+        de: "Ukrainische Community bei einem Fest von SONNENBLUME",
+      },
+    },
+    gallery: [],
+    relatedArticleIds: [],
+    relatedCourseIds: [],
+    isFeatured: true,
+    seo: {
+      title: {
+        uk: "День Незалежності України 2026",
+        de: "Ukrainischer Unabhängigkeitstag 2026",
+      },
+      description: {
+        uk: "Анонс святкування Дня Незалежності України 23 серпня у Mönchengladbach.",
+        de: "Ankündigung zur Feier des ukrainischen Unabhängigkeitstags am 23. August in Mönchengladbach.",
+      },
+    },
+    createdAt: "2026-08-08",
+    updatedAt: "2026-08-08",
+  },
+  {
+    id: "event-ai-volunteering-workshop-2026",
+    slug: "ai-instrumenty-u-volonterstvi-2026",
+    status: "published",
+    eventStatus: "upcoming",
+    category: "community",
+    title: {
+      uk: "Воркшоп: AI-інструменти у волонтерстві",
+      de: "Workshop: KI-Tools im Ehrenamt",
+    },
+    summary: {
+      uk: "Практична зустріч про те, як відповідально використовувати AI-інструменти у волонтерській роботі.",
+      de: "Ein praxisnahes Treffen zum verantwortungsvollen Einsatz von KI-Tools in der ehrenamtlichen Arbeit.",
+    },
+    description: {
+      uk: "Поговоримо про практичні сценарії, у яких AI може допомагати волонтерським командам, і про межі безпечного та відповідального використання. Воркшоп планується на кінець вересня; точну дату й час оголосимо окремо.",
+      de: "Wir besprechen praktische Situationen, in denen KI ehrenamtliche Teams unterstützen kann, sowie die Grenzen einer sicheren und verantwortungsvollen Nutzung. Der Workshop ist für Ende September geplant; Datum und Uhrzeit folgen.",
+    },
+    startsAt: "2026-09-30",
+    dateLabel: {
+      uk: "Кінець вересня 2026",
+      de: "Ende September 2026",
+    },
+    timeLabel: {
+      uk: "Точну дату й час буде оголошено",
+      de: "Datum und Uhrzeit folgen",
+    },
+    location: { uk: "Mönchengladbach", de: "Mönchengladbach" },
+    price: {
+      uk: "Деталі участі незабаром",
+      de: "Teilnahmeinfos folgen",
+    },
+    registrationLabel: {
+      uk: "Повідомити про інтерес",
+      de: "Interesse mitteilen",
+    },
+    capacity: 0,
+    seatsAvailable: 0,
+    contactEmail: "kontakt@sonnenblume-mg.com",
+    image: {
+      src: "/images/generated/event-ai-volunteering-workshop-v1.webp",
+      alt: {
+        uk: "Учасники практичного воркшопу працюють разом",
+        de: "Teilnehmende arbeiten gemeinsam in einem Workshop",
+      },
+    },
+    gallery: [],
+    relatedArticleIds: [],
+    relatedCourseIds: [],
+    isFeatured: true,
+    seo: {
+      title: {
+        uk: "AI-інструменти у волонтерстві",
+        de: "KI-Tools im Ehrenamt",
+      },
+      description: {
+        uk: "Анонс практичного воркшопу SONNENBLUME про AI-інструменти у волонтерстві.",
+        de: "Ankündigung eines SONNENBLUME-Workshops zu KI-Tools im Ehrenamt.",
+      },
+    },
+    createdAt: "2026-08-08",
+    updatedAt: "2026-08-08",
+  },
+  {
     id: "event-children-day-2025",
     slug: "mizhnarodnyi-den-zakhystu-ditei-2025",
     status: "published",

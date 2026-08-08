@@ -85,20 +85,22 @@ export function CourseCard({
                 {t(course.language, locale)} · {t(course.format, locale)}
               </dd>
             </div>
-            <div className="flex gap-2">
-              <CalendarDays
-                aria-hidden="true"
-                className="mt-0.5 h-4 w-4 shrink-0 text-blue"
-              />
-              <dt className="sr-only">
-                {locale === "uk" ? "Розклад" : "Zeitplan"}
-              </dt>
-              <dd>
-                {course.schedule
-                  .map((item) => `${t(item.weekday, locale)} ${item.time}`)
-                  .join(", ")}
-              </dd>
-            </div>
+            {course.schedule.length ? (
+              <div className="flex gap-2">
+                <CalendarDays
+                  aria-hidden="true"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-blue"
+                />
+                <dt className="sr-only">
+                  {locale === "uk" ? "Розклад" : "Zeitplan"}
+                </dt>
+                <dd>
+                  {course.schedule
+                    .map((item) => `${t(item.weekday, locale)} ${item.time}`)
+                    .join(", ")}
+                </dd>
+              </div>
+            ) : null}
             <div className="flex gap-2">
               <MapPin
                 aria-hidden="true"
@@ -110,9 +112,13 @@ export function CourseCard({
           </dl>
           <div className="flex items-center justify-between gap-4 border-t border-border pt-4">
             <div className="min-w-0">
-              <p className="truncate text-sm text-ink-muted">
-                {teachers.map((teacher) => t(teacher.name, locale)).join(", ")}
-              </p>
+              {teachers.length ? (
+                <p className="truncate text-sm text-ink-muted">
+                  {teachers
+                    .map((teacher) => t(teacher.name, locale))
+                    .join(", ")}
+                </p>
+              ) : null}
               <p className="mt-1 text-sm font-semibold text-blue-strong">
                 {t(course.price, locale)}
               </p>

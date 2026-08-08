@@ -10,12 +10,10 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { LinkButton } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { PeopleCarousel } from "@/components/content/PeopleCarousel";
-import { PersonPortrait } from "@/components/content/PersonPortrait";
+import { PeopleGrid, PersonProfileCard } from "@/components/content/PeopleGrid";
 import { PhotoCarousel } from "@/components/content/PhotoCarousel";
 import { PartnerLogo } from "@/components/content/PartnerLogo";
 import { CTASection } from "@/components/content/CTASection";
-import { Badge } from "@/components/ui/Badge";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -174,39 +172,32 @@ export default async function AboutPage({ params }: PageProps) {
 
       <Section className="section-soft">
         <div className="grid min-w-0 gap-14 lg:gap-18">
-          <section aria-labelledby="chair-title">
+          <section
+            aria-labelledby="chair-title"
+            className="min-w-0 text-center"
+          >
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
               {isUk ? "Правління" : "Vorstand"}
             </p>
             <h2
               id="chair-title"
-              className="mt-3 text-4xl font-bold text-blue-strong"
+              className="mt-3 break-words text-4xl font-bold text-blue-strong"
             >
               {isUk ? "Голова правління" : "Vorstandsvorsitzende"}
             </h2>
             {chair ? (
-              <article className="mt-6 grid overflow-hidden rounded-[24px] border border-blue/20 bg-surface shadow-soft sm:grid-cols-[minmax(12rem,0.68fr)_1.32fr]">
-                <PersonPortrait
+              <div className="mt-7">
+                <PersonProfileCard
                   person={chair}
                   locale={locale}
+                  featured
                   preload
-                  className="aspect-[4/3] rounded-none sm:h-full"
-                  sizes="(min-width: 640px) 32vw, 100vw"
                 />
-                <div className="flex flex-col justify-center p-6 sm:p-8">
-                  <Badge tone="yellow">{t(chair.roleLabel, locale)}</Badge>
-                  <h3 className="mt-4 text-3xl font-bold text-blue-strong">
-                    {t(chair.name, locale)}
-                  </h3>
-                  <p className="mt-4 text-base leading-7 text-ink-muted">
-                    {t(chair.bio, locale)}
-                  </p>
-                </div>
-              </article>
+              </div>
             ) : null}
           </section>
 
-          <PeopleCarousel
+          <PeopleGrid
             locale={locale}
             people={boardMembers}
             title={isUk ? "Члени правління" : "Weitere Vorstandsmitglieder"}
@@ -218,7 +209,7 @@ export default async function AboutPage({ params }: PageProps) {
           />
 
           <div className="min-w-0 border-t border-border/80 pt-12 lg:pt-16">
-            <PeopleCarousel
+            <PeopleGrid
               locale={locale}
               people={teachers}
               title={isUk ? "Викладачі" : "Kursleitungen"}

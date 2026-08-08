@@ -1,11 +1,6 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
-import {
-  getCourses,
-  getEvents,
-  getNewsArticles,
-  getPeople,
-} from "@/data/content";
+import { getCourses, getEvents, getPeople } from "@/data/content";
 import { locales } from "@/i18n/config";
 import { getPath, type RouteKey } from "@/i18n/routing";
 
@@ -17,7 +12,6 @@ const staticRoutes: RouteKey[] = [
   "join",
   "courses",
   "events",
-  "news",
   "donate",
   "contact",
 ];
@@ -35,10 +29,9 @@ function languageAlternates(route: RouteKey, slug?: string) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [courses, events, news, people] = await Promise.all([
+  const [courses, events, people] = await Promise.all([
     getCourses(),
     getEvents(),
-    getNewsArticles(),
     getPeople(),
   ]);
   const now = new Date();
@@ -74,16 +67,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   );
 
-  const newsEntries = locales.flatMap((locale) =>
-    news.map((article) => ({
-      url: url(getPath(locale, "news", article.slug)),
-      lastModified: new Date(article.updatedAt),
-      changeFrequency: "monthly" as const,
-      priority: 0.65,
-      alternates: languageAlternates("news", article.slug),
-    })),
-  );
-
   const peopleEntries = locales.flatMap((locale) =>
     people
       .filter((person) => !person.isDemo && !person.seo.noIndex)
@@ -100,7 +83,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticEntries,
     ...courseEntries,
     ...eventEntries,
-    ...newsEntries,
     ...peopleEntries,
   ];
 }

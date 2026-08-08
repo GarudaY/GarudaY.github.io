@@ -1,16 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import {
-  ArrowDownToLine,
-  BriefcaseBusiness,
-  Check,
-  FileText,
-  HandHeart,
-  ShieldCheck,
-  Sparkles,
-  UsersRound,
-} from "lucide-react";
+import { Check, HandHeart, Sparkles, UsersRound } from "lucide-react";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getPath } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/metadata";
@@ -78,8 +69,8 @@ export default async function JoinPage({ params }: PageProps) {
             "Kenntnis der Satzung",
             "Separate Datenschutzinformation",
           ],
-      href: "#membership-documents",
-      cta: isUk ? "Завантажити документи" : "Unterlagen herunterladen",
+      href: "#mitmachen-formular",
+      cta: isUk ? "Написати про вступ" : "Zum Beitritt schreiben",
     },
     {
       icon: Sparkles,
@@ -97,42 +88,6 @@ export default async function JoinPage({ params }: PageProps) {
           ],
       href: `${getPath(locale, "contact")}?topic=partnership`,
       cta: isUk ? "Обговорити співпрацю" : "Zusammenarbeit besprechen",
-    },
-  ];
-
-  const documents = [
-    {
-      title: isUk
-        ? "Заява на вступ — українською"
-        : "Aufnahmeantrag — Ukrainisch",
-      note: isUk ? "Форма для заповнення" : "Formular zum Ausfüllen",
-      href: "/documents/membership/mitgliedsantrag-uk.pdf",
-    },
-    {
-      title: isUk ? "Заява на вступ — німецькою" : "Aufnahmeantrag — Deutsch",
-      note: isUk ? "Німецька офіційна версія" : "Deutsche Fassung",
-      href: "/documents/membership/mitgliedsantrag-de.pdf",
-    },
-    {
-      title: isUk ? "Статут SONNENBLUME" : "Satzung von SONNENBLUME",
-      note: isUk
-        ? "Чинний документ німецькою"
-        : "Gültiges Dokument auf Deutsch",
-      href: "/documents/membership/satzung-sonnenblume.pdf",
-    },
-    {
-      title: isUk
-        ? "Захист даних для членів"
-        : "Datenschutzinformation für Mitglieder",
-      note: isUk ? "Інформація відповідно до DSGVO" : "Information gemäß DSGVO",
-      href: "/documents/membership/datenschutz-mitglieder-de.pdf",
-    },
-    {
-      title: isUk ? "SEPA-мандат" : "SEPA-Lastschriftmandat",
-      note: isUk
-        ? "Для оплати внеску через SEPA"
-        : "Für die Beitragszahlung per SEPA",
-      href: "/documents/membership/sepa-lastschriftmandat.pdf",
     },
   ];
 
@@ -232,117 +187,6 @@ export default async function JoinPage({ params }: PageProps) {
       </Section>
 
       <Section>
-        <article className="overflow-hidden rounded-[26px] border border-border bg-blue-strong text-white shadow-soft">
-          <div className="grid lg:grid-cols-[0.88fr_1.12fr]">
-            <div className="relative overflow-hidden p-7 sm:p-9">
-              <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-yellow/18" />
-              <div className="relative">
-                <Badge tone="yellow">
-                  {isUk ? "Пілотний воркшоп" : "Pilotworkshop"}
-                </Badge>
-                <BriefcaseBusiness
-                  aria-hidden="true"
-                  className="mt-12 h-10 w-10 text-yellow"
-                />
-                <h2 className="mt-5 text-3xl font-bold">
-                  {isUk
-                    ? "AI-інструменти для пошуку роботи та Bewerbung"
-                    : "KI-Tools für Jobsuche und Bewerbung"}
-                </h2>
-                <p className="mt-4 leading-7 text-white/78">
-                  {isUk
-                    ? "Практичний вступ для людей з міграційним досвідом: безпечна робота з AI, пошук вакансій, CV, супровідні листи, e-mail та підготовка до співбесіди."
-                    : "Praxisnaher Einstieg für Menschen mit Zuwanderungserfahrung: sichere KI-Nutzung, Stellensuche, Lebenslauf, Anschreiben, E-Mails und Gesprächsvorbereitung."}
-                </p>
-              </div>
-            </div>
-            <div className="bg-surface p-7 text-blue-strong sm:p-9">
-              <div className="grid gap-3 sm:grid-cols-3">
-                {[
-                  ["6 h", isUk ? "загальний обсяг" : "Gesamtumfang"],
-                  ["10–15", isUk ? "учасників" : "Teilnehmende"],
-                  ["MG", "Mönchengladbach"],
-                ].map(([value, label]) => (
-                  <div
-                    key={label}
-                    className="rounded-[16px] bg-surface-muted p-4"
-                  >
-                    <p className="text-2xl font-bold">{value}</p>
-                    <p className="mt-1 text-xs text-ink-muted">{label}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-6 text-sm leading-6 text-ink-muted">
-                {isUk
-                  ? "Дату ще не оголошено. Через форму нижче можна залишити інтерес без реєстрації на конкретний день."
-                  : "Ein Termin ist noch nicht veröffentlicht. Über das Formular unten kann unverbindliches Interesse gemeldet werden."}
-              </p>
-              <LinkButton href="#mitmachen-formular" className="mt-6">
-                {isUk ? "Повідомити про інтерес" : "Interesse melden"}
-              </LinkButton>
-            </div>
-          </div>
-        </article>
-      </Section>
-
-      <Section id="membership-documents" className="section-warm">
-        <div className="grid gap-9 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-              {isUk ? "Членство" : "Mitgliedschaft"}
-            </p>
-            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
-              {isUk
-                ? "Документи в одному місці"
-                : "Alle Unterlagen an einem Ort"}
-            </h2>
-            <p className="mt-4 leading-7 text-ink-muted">
-              {isUk
-                ? "Річний внесок: 48 € звичайне членство, 120 € підтримуюче, 24 € пільгове за наявності підтвердження."
-                : "Jahresbeitrag: 48 € regulär, 120 € Fördermitgliedschaft, 24 € ermäßigt mit entsprechendem Nachweis."}
-            </p>
-            <div className="mt-6 flex items-start gap-3 rounded-[16px] border border-border bg-surface p-4">
-              <ShieldCheck
-                aria-hidden="true"
-                className="mt-0.5 h-5 w-5 shrink-0 text-green"
-              />
-              <p className="text-sm leading-6 text-ink-muted">
-                {isUk
-                  ? "Заповнені форми містять персональні дані. Не надсилайте їх через відкриті соцмережі."
-                  : "Ausgefüllte Formulare enthalten personenbezogene Daten. Bitte nicht über offene soziale Netzwerke versenden."}
-              </p>
-            </div>
-          </div>
-          <div className="grid gap-3">
-            {documents.map((document) => (
-              <a
-                key={document.href}
-                href={document.href}
-                download
-                className="card-surface focus-ring flex min-h-20 items-center gap-4 rounded-[16px] border border-border bg-surface p-4"
-              >
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[13px] bg-blue-strong text-yellow">
-                  <FileText aria-hidden="true" className="h-5 w-5" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-bold text-blue-strong">
-                    {document.title}
-                  </span>
-                  <span className="mt-1 block text-sm text-ink-muted">
-                    {document.note}
-                  </span>
-                </span>
-                <ArrowDownToLine
-                  aria-hidden="true"
-                  className="h-5 w-5 shrink-0 text-blue"
-                />
-              </a>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      <Section>
         <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <div className="rounded-[22px] border border-border bg-surface p-6 shadow-sm">
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
@@ -375,8 +219,8 @@ export default async function JoinPage({ params }: PageProps) {
               requestContext="volunteering"
               requestLabel={
                 isUk
-                  ? "Волонтерство, членство або інтерес до AI-воркшопу"
-                  : "Ehrenamt, Mitgliedschaft oder Interesse am KI-Workshop"
+                  ? "Волонтерство, членство або партнерство"
+                  : "Ehrenamt, Mitgliedschaft oder Partnerschaft"
               }
             />
           </div>

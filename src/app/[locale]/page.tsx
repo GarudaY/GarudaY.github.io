@@ -10,7 +10,7 @@ import {
   getCourses,
   getFeaturedContent,
   getFeaturedCourses,
-  getPastEvents,
+  getUpcomingEvents,
   getPartners,
   getPeopleByIds,
   getSiteSettings,
@@ -27,7 +27,6 @@ import { PhotoCarousel } from "@/components/content/PhotoCarousel";
 import { FeaturedContentList } from "@/components/content/FeaturedContentList";
 import { CourseCard } from "@/components/content/CourseCard";
 import { EventCard } from "@/components/content/EventCard";
-import { WordPressNewsFeed } from "@/components/content/WordPressNewsFeed";
 import { PartnerLogo } from "@/components/content/PartnerLogo";
 import { StatsSection } from "@/components/content/StatsSection";
 import { CTASection } from "@/components/content/CTASection";
@@ -66,7 +65,7 @@ export default async function HomePage({ params }: PageProps) {
       getFeaturedContent(),
       getFeaturedCourses(),
       getCourses(),
-      getPastEvents(),
+      getUpcomingEvents(),
       getPartners(),
     ]);
   const allTeachers = await getPeopleByIds(
@@ -273,9 +272,7 @@ export default async function HomePage({ params }: PageProps) {
               {locale === "uk" ? "Події" : "Veranstaltungen"}
             </p>
             <h2 className="mt-3 text-3xl font-bold text-blue-strong">
-              {locale === "uk"
-                ? "Історії наших зустрічей"
-                : "Geschichten unserer Begegnungen"}
+              {locale === "uk" ? "Найближчі події" : "Kommende Veranstaltungen"}
             </h2>
           </div>
           <LinkButton href={getPath(locale, "events")} variant="quiet">
@@ -290,43 +287,29 @@ export default async function HomePage({ params }: PageProps) {
       </Section>
 
       <Section className="section-soft pb-10 lg:pb-14">
-        <div>
-          <div className="mb-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-              {locale === "uk" ? "Новини" : "Neuigkeiten"}
-            </p>
-            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
-              {locale === "uk"
-                ? "Актуальні оголошення"
-                : "Aktuelle Ankündigungen"}
-            </h2>
-          </div>
-          <WordPressNewsFeed locale={locale} />
-
-          <CTASection className="mt-8">
-            <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-                  {locale === "uk" ? "Підтримка" : "Unterstützung"}
-                </p>
-                <h2 className="mt-2 text-2xl font-bold text-blue-strong">
-                  {locale === "uk"
-                    ? "Зробімо програми доступнішими разом"
-                    : "Gemeinsam Angebote zugänglicher machen"}
-                </h2>
-                <p className="mt-2 max-w-3xl text-sm leading-6 text-ink-muted">
-                  {locale === "uk"
-                    ? "Підтримати можна не лише коштами: волонтерство, партнерство й експертна допомога також мають значення."
-                    : "Unterstützung ist mehr als Geld: Ehrenamt, Partnerschaften und Fachwissen machen ebenfalls einen Unterschied."}
-                </p>
-              </div>
-              <LinkButton href={getPath(locale, "donate")}>
-                {dict.common.donate}
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
-              </LinkButton>
+        <CTASection>
+          <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+                {locale === "uk" ? "Підтримка" : "Unterstützung"}
+              </p>
+              <h2 className="mt-2 text-2xl font-bold text-blue-strong">
+                {locale === "uk"
+                  ? "Зробімо програми доступнішими разом"
+                  : "Gemeinsam Angebote zugänglicher machen"}
+              </h2>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-ink-muted">
+                {locale === "uk"
+                  ? "Підтримати можна не лише коштами: волонтерство, партнерство й експертна допомога також мають значення."
+                  : "Unterstützung ist mehr als Geld: Ehrenamt, Partnerschaften und Fachwissen machen ebenfalls einen Unterschied."}
+              </p>
             </div>
-          </CTASection>
-        </div>
+            <LinkButton href={getPath(locale, "donate")}>
+              {dict.common.donate}
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </LinkButton>
+          </div>
+        </CTASection>
       </Section>
 
       <Section className="pt-10 lg:pt-14">

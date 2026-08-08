@@ -11,6 +11,7 @@ import { LinkButton } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
+import { ContentImage } from "@/components/ui/ContentImage";
 import { EventStatusBadge } from "@/components/content/StatusBadge";
 import { PhotoCarousel } from "@/components/content/PhotoCarousel";
 import { JsonLd } from "@/components/ui/JsonLd";
@@ -53,6 +54,7 @@ export default async function EventDetailPage({ params }: PageProps) {
   const { locale, slug } = await resolveParams(params);
   const event = await getEventBySlug(slug);
   if (!event) notFound();
+  const isUpcoming = event.eventStatus === "upcoming";
   const breadcrumbItems = [
     {
       label: locale === "uk" ? "Події" : "Veranstaltungen",
@@ -76,7 +78,9 @@ export default async function EventDetailPage({ params }: PageProps) {
     image: new URL(event.image.src, siteConfig.baseUrl).toString(),
     startDate: event.startsAt,
     endDate: event.endsAt,
-    eventStatus: "https://schema.org/EventCompleted",
+    eventStatus: isUpcoming
+      ? "https://schema.org/EventScheduled"
+      : "https://schema.org/EventCompleted",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: { "@type": "Place", name: t(event.location, locale) },
     organizer: {
@@ -91,7 +95,15 @@ export default async function EventDetailPage({ params }: PageProps) {
       <JsonLd data={eventJsonLd} />
       <JsonLd data={routeBreadcrumbJsonLd(locale, breadcrumbItems)} />
       <PageHeader
-        eyebrow={locale === "uk" ? "Фоторозповідь" : "Fotogeschichte"}
+        eyebrow={
+          isUpcoming
+            ? locale === "uk"
+              ? "Анонс"
+              : "Ankündigung"
+            : locale === "uk"
+              ? "Фоторозповідь"
+              : "Fotogeschichte"
+        }
         title={t(event.title, locale)}
         description={t(event.summary, locale)}
       >
@@ -100,15 +112,30 @@ export default async function EventDetailPage({ params }: PageProps) {
       <Section>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-start">
           <article className="min-w-0">
-            <PhotoCarousel
-              images={[event.image, ...event.gallery]}
-              locale={locale}
-              className="aspect-[4/3] sm:aspect-[16/10]"
-              preloadFirst
-            />
+            {isUpcoming ? (
+              <ContentImage
+                image={event.image}
+                locale={locale}
+                className="aspect-[4/3] sm:aspect-[16/10]"
+                preload
+              />
+            ) : (
+              <PhotoCarousel
+                images={[event.image, ...event.gallery]}
+                locale={locale}
+                className="aspect-[4/3] sm:aspect-[16/10]"
+                preloadFirst
+              />
+            )}
             <div className="mx-auto mt-9 max-w-3xl">
               <h2 className="text-3xl font-bold text-blue-strong">
-                {locale === "uk" ? "Як це було" : "So war es"}
+                {isUpcoming
+                  ? locale === "uk"
+                    ? "Про подію"
+                    : "Über die Veranstaltung"
+                  : locale === "uk"
+                    ? "Як це було"
+                    : "So war es"}
               </h2>
               <p className="mt-4 text-lg leading-8 text-ink-muted">
                 {t(event.description, locale)}
@@ -128,7 +155,11 @@ export default async function EventDetailPage({ params }: PageProps) {
                     <dt className="font-semibold text-blue-strong">
                       {locale === "uk" ? "Дата" : "Datum"}
                     </dt>
-                    <dd>{formatDate(event.startsAt, locale)}</dd>
+                    <dd>
+                      {event.dateLabel
+                        ? t(event.dateLabel, locale)
+                        : formatDate(event.startsAt, locale)}
+                    </dd>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -141,10 +172,13 @@ export default async function EventDetailPage({ params }: PageProps) {
                       {locale === "uk" ? "Час" : "Zeit"}
                     </dt>
                     <dd>
-                      {formatTime(event.startsAt, locale)}
-                      {event.endsAt
-                        ? ` – ${formatTime(event.endsAt, locale)}`
-                        : ""}
+                      {event.timeLabel
+                        ? t(event.timeLabel, locale)
+                        : `${formatTime(event.startsAt, locale)}${
+                            event.endsAt
+                              ? ` – ${formatTime(event.endsAt, locale)}`
+                              : ""
+                          }`}
                     </dd>
                   </div>
                 </div>
@@ -161,10 +195,18 @@ export default async function EventDetailPage({ params }: PageProps) {
                   </div>
                 </div>
               </dl>
+              {isUpcoming ? (
+                <LinkButton
+                  href={`${getPath(locale, "contact")}?topic=event-${event.slug}`}
+                  className="mt-6 w-full"
+                >
+                  {t(event.registrationLabel, locale)}
+                </LinkButton>
+              ) : null}
               <LinkButton
                 href={getPath(locale, "events")}
                 variant="ghost"
-                className="mt-6 w-full"
+                className={`${isUpcoming ? "mt-3" : "mt-6"} w-full`}
               >
                 {locale === "uk" ? "До всіх подій" : "Zu allen Veranstaltungen"}
               </LinkButton>

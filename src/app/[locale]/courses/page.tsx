@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Mail } from "lucide-react";
-import { getCourses, getSiteSettings, getTeachers } from "@/data/content";
+import { getCourses, getTeachers } from "@/data/content";
 import { isLocale, type Locale } from "@/i18n/config";
+import { getPath } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -36,11 +37,7 @@ export async function generateMetadata({
 
 export default async function CoursesPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
-  const [courses, teachers, settings] = await Promise.all([
-    getCourses(),
-    getTeachers(),
-    getSiteSettings(),
-  ]);
+  const [courses, teachers] = await Promise.all([getCourses(), getTeachers()]);
 
   return (
     <>
@@ -75,10 +72,12 @@ export default async function CoursesPage({ params }: PageProps) {
           </div>
           <a
             className="focus-ring inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full font-semibold text-blue hover:text-blue-strong"
-            href={`mailto:${settings.contact.coursesEmail}`}
+            href={`${getPath(locale, "contact")}?topic=course-general`}
           >
             <Mail aria-hidden="true" className="h-4 w-4" />
-            {settings.contact.coursesEmail}
+            {locale === "uk"
+              ? "Написати через форму"
+              : "Über das Formular schreiben"}
           </a>
         </div>
         <CourseFilters courses={courses} teachers={teachers} locale={locale} />

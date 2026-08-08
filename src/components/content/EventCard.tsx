@@ -41,7 +41,11 @@ export function EventCard({
         />
         <div className="grid gap-4 p-5">
           <div className="flex items-start gap-4">
-            <EventDateBadge date={event.startsAt} locale={locale} />
+            <EventDateBadge
+              date={event.startsAt}
+              locale={locale}
+              label={event.dateLabel ? t(event.dateLabel, locale) : undefined}
+            />
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <EventStatusBadge status={event.eventStatus} locale={locale} />
@@ -64,7 +68,11 @@ export function EventCard({
                 className="mt-0.5 h-4 w-4 shrink-0 text-blue"
               />
               <dt className="sr-only">{locale === "uk" ? "Час" : "Zeit"}</dt>
-              <dd>{formatTime(event.startsAt, locale)}</dd>
+              <dd>
+                {event.timeLabel
+                  ? t(event.timeLabel, locale)
+                  : formatTime(event.startsAt, locale)}
+              </dd>
             </div>
             <div className="flex gap-2">
               <MapPin

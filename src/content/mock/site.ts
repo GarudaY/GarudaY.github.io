@@ -57,11 +57,6 @@ export const siteSettings: SiteSettings = {
       priority: "primary",
     },
     {
-      label: { uk: "Новини", de: "Neuigkeiten" },
-      route: "news",
-      priority: "primary",
-    },
-    {
       label: { uk: "Підтримати", de: "Spenden" },
       route: "donate",
       priority: "primary",

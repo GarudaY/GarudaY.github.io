@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPastEvents } from "@/data/content";
+import { getPastEvents, getUpcomingEvents } from "@/data/content";
 import { isLocale, type Locale } from "@/i18n/config";
 import { buildMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
+import { EventCard } from "@/components/content/EventCard";
 import { EventStoryCard } from "@/components/content/EventStoryCard";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -26,20 +27,20 @@ export async function generateMetadata({
   return buildMetadata({
     locale,
     route: "events",
-    title:
-      locale === "uk"
-        ? "Події — фоторозповіді"
-        : "Veranstaltungen — Fotogeschichten",
+    title: locale === "uk" ? "Події та анонси" : "Veranstaltungen und Termine",
     description:
       locale === "uk"
-        ? "Фотографії та короткі розповіді про минулі події SONNENBLUME."
-        : "Fotos und kurze Geschichten vergangener Veranstaltungen von SONNENBLUME.",
+        ? "Найближчі події, фотографії та короткі розповіді про зустрічі SONNENBLUME."
+        : "Kommende Termine, Fotos und kurze Geschichten von SONNENBLUME.",
   });
 }
 
 export default async function EventsPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
-  const past = await getPastEvents();
+  const [upcoming, past] = await Promise.all([
+    getUpcomingEvents(),
+    getPastEvents(),
+  ]);
 
   return (
     <>
@@ -47,13 +48,13 @@ export default async function EventsPage({ params }: PageProps) {
         eyebrow={locale === "uk" ? "Життя спільноти" : "Gemeinschaft erleben"}
         title={
           locale === "uk"
-            ? "Події у фотографіях та історіях"
-            : "Veranstaltungen in Bildern und Geschichten"
+            ? "Події, на які чекаємо і які пам’ятаємо"
+            : "Termine, auf die wir uns freuen und an die wir uns erinnern"
         }
         description={
           locale === "uk"
-            ? "Кожна зустріч залишає свою історію. Тут ми збираємо фотографії й короткі розповіді про вже проведені події."
-            : "Jede Begegnung hinterlässt eine Geschichte. Hier sammeln wir Fotos und kurze Rückblicke auf bereits stattgefundene Veranstaltungen."
+            ? "Тут зібрані найближчі анонси SONNENBLUME та фоторозповіді про вже проведені зустрічі."
+            : "Hier finden Sie kommende SONNENBLUME-Termine und Fotogeschichten vergangener Begegnungen."
         }
       >
         <Breadcrumbs
@@ -66,7 +67,37 @@ export default async function EventsPage({ params }: PageProps) {
           ]}
         />
       </PageHeader>
-      <Section>
+      {upcoming.length ? (
+        <Section>
+          <div className="mb-8 max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+              {locale === "uk" ? "Анонси" : "Ankündigungen"}
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
+              {locale === "uk" ? "Найближчі події" : "Kommende Veranstaltungen"}
+            </h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {upcoming.map((event, index) => (
+              <EventCard
+                key={event.id}
+                event={event}
+                locale={locale}
+                eager={index < 2}
+              />
+            ))}
+          </div>
+        </Section>
+      ) : null}
+      <Section className="section-soft">
+        <div className="mb-8 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+            {locale === "uk" ? "Архів" : "Rückblicke"}
+          </p>
+          <h2 className="mt-3 text-3xl font-bold text-blue-strong">
+            {locale === "uk" ? "Як це було" : "So war es"}
+          </h2>
+        </div>
         {past.length ? (
           <div className="grid gap-8 lg:gap-12">
             {past.map((event) => (
