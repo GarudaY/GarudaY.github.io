@@ -8,7 +8,9 @@ import {
 
 const PUBLIC_FILE = /\.[^/]+$/;
 
-export function proxy(request: NextRequest) {
+// OpenNext currently requires the Edge middleware output. Keep the deprecated
+// file convention until its Next.js 16 Node proxy runtime is supported.
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (
