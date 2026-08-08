@@ -91,7 +91,10 @@ export const partners: Partner[] = [
     },
     logo: {
       src: "/images/partners/gemeinsam-vielfalt.png",
-      alt: { uk: "Логотип Gemeinsam. Vielfalt.", de: "Logo Gemeinsam. Vielfalt." },
+      alt: {
+        uk: "Логотип Gemeinsam. Vielfalt.",
+        de: "Logo Gemeinsam. Vielfalt.",
+      },
     },
     order: 6,
   },

@@ -1,15 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { Locale } from "@/i18n/config";
-import { getPath } from "@/i18n/routing";
 import { t } from "@/lib/localize";
 import type { Person } from "@/types/content";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { ContentImage } from "@/components/ui/ContentImage";
+import { PersonPortrait } from "@/components/content/PersonPortrait";
 
 type PeopleCarouselProps = {
   locale: Locale;
@@ -126,12 +124,9 @@ export function PeopleCarousel({
             key={person.id}
             className="group shrink-0 basis-[86%] snap-start overflow-hidden last:snap-end sm:basis-[56%] lg:basis-[42%] xl:basis-[38%]"
           >
-            <Link
-              href={getPath(locale, "people", person.slug)}
-              className="focus-ring block h-full rounded-[18px]"
-            >
-              <ContentImage
-                image={person.image}
+            <div className="h-full">
+              <PersonPortrait
+                person={person}
                 locale={locale}
                 preload={preloadFirst && person.id === people[0]?.id}
                 className="aspect-[4/3] rounded-none"
@@ -139,15 +134,23 @@ export function PeopleCarousel({
               />
               <div className="p-5 sm:p-6">
                 <div className="flex flex-wrap gap-2">
-                  {person.isDemo ? <Badge tone="yellow">Demo</Badge> : null}
                   <Badge tone="blue">{t(person.roleLabel, locale)}</Badge>
                 </div>
-                <h3 className="mt-4 text-2xl font-bold text-blue-strong transition-colors group-hover:text-blue">
+                <h3 className="mt-4 text-2xl font-bold text-blue-strong">
                   {t(person.name, locale)}
                 </h3>
-                <p className="mt-2 line-clamp-3 text-sm leading-6 text-ink-muted">
-                  {t(person.bio, locale)}
-                </p>
+                <details className="person-details mt-3 border-t border-border/80 pt-3">
+                  <summary className="focus-ring inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-full text-sm font-semibold text-blue">
+                    {locale === "uk" ? "Читати повністю" : "Mehr lesen"}
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="h-4 w-4 transition-transform"
+                    />
+                  </summary>
+                  <p className="pb-1 pt-2 text-sm leading-7 text-ink-muted">
+                    {t(person.bio, locale)}
+                  </p>
+                </details>
                 {person.languages.length ? (
                   <p className="mt-5 text-sm font-semibold text-blue">
                     {person.languages
@@ -156,7 +159,7 @@ export function PeopleCarousel({
                   </p>
                 ) : null}
               </div>
-            </Link>
+            </div>
           </Card>
         ))}
       </div>

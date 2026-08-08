@@ -47,7 +47,11 @@ export default async function ContactPage({ params }: PageProps) {
     <>
       <PageHeader
         eyebrow={locale === "uk" ? "Контакти" : "Kontakt"}
-        title={locale === "uk" ? "Зв'язатися з SONNENBLUME" : "Kontakt zu SONNENBLUME"}
+        title={
+          locale === "uk"
+            ? "Зв'язатися з SONNENBLUME"
+            : "Kontakt zu SONNENBLUME"
+        }
         description={
           locale === "uk"
             ? "Один зрозумілий шлях для курсів, подій, партнерств і волонтерства."
@@ -69,11 +73,11 @@ export default async function ContactPage({ params }: PageProps) {
           <div className="grid gap-5">
             <ContactCard contact={settings.contact} locale={locale} />
             <Alert>{t(settings.contact.mapNote, locale)}</Alert>
-            <div className="relative min-h-72 overflow-hidden rounded-[8px] bg-blue-strong p-7 text-white shadow-soft">
-              <div className="absolute -right-14 -top-16 h-56 w-56 rounded-full bg-yellow/25" />
-              <div className="absolute -bottom-20 -left-14 h-52 w-52 rounded-full bg-blue/50" />
+            <div className="relative min-h-64 overflow-hidden rounded-[20px] border border-border bg-surface p-7 text-blue-strong shadow-soft">
+              <div className="absolute -right-14 -top-16 h-56 w-56 rounded-full bg-yellow/18" />
+              <div className="absolute -bottom-20 -left-14 h-52 w-52 rounded-full bg-blue/8" />
               <div className="relative flex h-full min-h-58 flex-col justify-between">
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-white/12">
+                <span className="grid h-14 w-14 place-items-center rounded-[18px] bg-blue-strong">
                   <MapPinned
                     aria-hidden="true"
                     className="h-7 w-7 text-yellow"
@@ -83,7 +87,7 @@ export default async function ContactPage({ params }: PageProps) {
                   <p className="text-2xl font-bold">
                     {locale === "uk" ? "Спланувати візит" : "Besuch planen"}
                   </p>
-                  <p className="mt-3 leading-7 text-white/78">
+                  <p className="mt-3 leading-7 text-ink-muted">
                     {locale === "uk"
                       ? "Перед першим візитом напишіть або зателефонуйте: команда підтвердить адресу, час і доступність приміщення."
                       : "Bitte schreiben Sie vor dem ersten Besuch oder rufen Sie an. Das Team bestätigt Adresse, Zeit und Barrierefreiheit."}

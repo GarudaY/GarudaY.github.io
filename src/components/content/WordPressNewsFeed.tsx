@@ -62,8 +62,8 @@ export function WordPressNewsFeed({ locale }: { locale: Locale }) {
     return (
       <div className="rounded-[18px] border border-border bg-surface p-6 text-ink-muted shadow-soft">
         {isUk
-          ? "Стрічка редакції тимчасово недоступна. Матеріали сайту залишаються нижче."
-          : "Der Redaktions-Feed ist vorübergehend nicht verfügbar. Die Website-Beiträge finden Sie weiter unten."}
+          ? "Стрічка новин тимчасово недоступна. Спробуйте оновити сторінку трохи пізніше."
+          : "Der Nachrichten-Feed ist vorübergehend nicht verfügbar. Bitte versuchen Sie es später erneut."}
       </div>
     );
   }

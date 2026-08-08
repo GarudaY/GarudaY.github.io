@@ -12,7 +12,7 @@ export default function Home() {
     <main className="grid min-h-screen place-items-center bg-background px-6 text-center">
       <div>
         <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-          Український Verein
+          SONNENBLUME
         </p>
         <h1 className="mt-3 text-3xl font-bold text-blue-strong">
           Відкриваємо українську версію

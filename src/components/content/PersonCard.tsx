@@ -5,7 +5,7 @@ import { t } from "@/lib/localize";
 import type { Person } from "@/types/content";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { ContentImage } from "@/components/ui/ContentImage";
+import { PersonPortrait } from "@/components/content/PersonPortrait";
 
 export function PersonCard({
   person,
@@ -20,8 +20,8 @@ export function PersonCard({
         href={getPath(locale, "people", person.slug)}
         className="focus-ring grid rounded-[18px] sm:grid-cols-[10rem_1fr]"
       >
-        <ContentImage
-          image={person.image}
+        <PersonPortrait
+          person={person}
           locale={locale}
           className="aspect-square rounded-none sm:h-full"
           sizes="10rem"

@@ -37,10 +37,12 @@ export default async function PrivacyPage({ params }: PageProps) {
 
   const sections = [
     {
-      title: isUk ? "1. Відповідальна організація" : "1. Verantwortliche Stelle",
+      title: isUk
+        ? "1. Відповідальна організація"
+        : "1. Verantwortliche Stelle",
       body: (
         <>
-          <p>SONNENBLUME — Ukraine Community MG e.V.</p>
+          <p>SONNENBLUME — Interkultureller Verein e.V.</p>
           <p>Welfenstraße 10, 41238 Mönchengladbach</p>
           <p>
             E-Mail:{" "}
@@ -92,12 +94,14 @@ export default async function PrivacyPage({ params }: PageProps) {
       ),
     },
     {
-      title: isUk ? "5. Зовнішні посилання та файли" : "5. Externe Links und Dateien",
+      title: isUk
+        ? "5. Зовнішні посилання та файли"
+        : "5. Externe Links und Dateien",
       body: (
         <p>
           {isUk
-            ? "Посилання на Instagram, партнерські сайти та DSEE відкриваються лише після вашого кліку. PDF-файли заяв, статуту й SEPA розміщено як завантаження; введені у PDF дані автоматично не надсилаються на сайт."
-            : "Links zu Instagram, Partnerseiten und der DSEE werden erst nach Ihrem Klick geöffnet. PDF-Dateien zu Antrag, Satzung und SEPA stehen als Downloads bereit; in PDFs eingetragene Daten werden nicht automatisch an die Website übermittelt."}
+              ? "Посилання на Instagram, Facebook, партнерські сайти та DSEE відкриваються лише після вашого кліку. PDF-файли заяв, статуту й SEPA розміщено як завантаження; введені у PDF дані автоматично не надсилаються на сайт."
+              : "Links zu Instagram, Facebook, Partnerseiten und der DSEE werden erst nach Ihrem Klick geöffnet. PDF-Dateien zu Antrag, Satzung und SEPA stehen als Downloads bereit; in PDFs eingetragene Daten werden nicht automatisch an die Website übermittelt."}
         </p>
       ),
     },
@@ -158,7 +162,7 @@ export default async function PrivacyPage({ params }: PageProps) {
             </section>
           ))}
           <p className="text-xs text-ink-muted">
-            {isUk ? "Стан: 26 липня 2026 року." : "Stand: 26. Juli 2026."}
+            {isUk ? "Стан: 8 серпня 2026 року." : "Stand: 8. August 2026."}
           </p>
         </div>
       </Section>

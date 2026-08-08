@@ -8,10 +8,10 @@ import { t } from "@/lib/localize";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { LinkButton } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { ContentImage } from "@/components/ui/ContentImage";
 import { Section } from "@/components/ui/Section";
 import { Badge } from "@/components/ui/Badge";
 import { CourseCard } from "@/components/content/CourseCard";
+import { PersonPortrait } from "@/components/content/PersonPortrait";
 
 type PageProps = { params: Promise<{ locale: string; slug: string }> };
 
@@ -42,7 +42,7 @@ export async function generateMetadata({
     slug: person.slug,
     title: t(person.seo.title, locale),
     description: t(person.seo.description, locale),
-    image: person.image.src,
+    image: person.image?.src,
     noIndex: person.isDemo || person.seo.noIndex,
   });
 }
@@ -75,14 +75,13 @@ export default async function PersonPage({ params }: PageProps) {
       <Section>
         <div className="grid gap-10 lg:grid-cols-[20rem_1fr]">
           <div>
-            <ContentImage
-              image={person.image}
+            <PersonPortrait
+              person={person}
               locale={locale}
               className="aspect-square"
               preload
             />
             <div className="mt-4 flex flex-wrap gap-2">
-              {person.isDemo ? <Badge tone="yellow">Demo</Badge> : null}
               {person.roles.map((role) => (
                 <Badge tone="blue" key={role}>
                   {role}

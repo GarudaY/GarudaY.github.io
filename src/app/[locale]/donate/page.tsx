@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { getDonationSettings } from "@/data/content";
 import { isLocale, type Locale } from "@/i18n/config";
+import { getPath } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/metadata";
 import { t, tList } from "@/lib/localize";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -10,6 +11,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { Alert } from "@/components/ui/Alert";
 import { DonationMethodCard } from "@/components/content/DonationMethodCard";
+import { LinkButton } from "@/components/ui/Button";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -83,6 +85,25 @@ export default async function DonatePage({ params }: PageProps) {
                   </li>
                 ))}
               </ul>
+            </div>
+            <div className="rounded-[18px] border border-yellow/50 bg-yellow/12 p-5">
+              <h2 className="text-xl font-bold text-blue-strong">
+                {locale === "uk"
+                  ? "Можете допомогти не коштами?"
+                  : "Sie möchten anders helfen?"}
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-ink-muted">
+                {locale === "uk"
+                  ? "Запропонуйте час, матеріали, приміщення або професійну підтримку — форма одразу направить звернення відповідальній команді."
+                  : "Bieten Sie Zeit, Materialien, Räume oder fachliche Hilfe an – das Formular leitet Ihre Nachricht direkt an das zuständige Team weiter."}
+              </p>
+              <LinkButton
+                href={`${getPath(locale, "contact")}?topic=partnership`}
+                variant="ghost"
+                className="mt-5"
+              >
+                {locale === "uk" ? "Запропонувати допомогу" : "Hilfe anbieten"}
+              </LinkButton>
             </div>
           </div>
           <div className="grid gap-5 md:grid-cols-2">

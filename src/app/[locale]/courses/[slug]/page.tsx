@@ -99,10 +99,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
     image: new URL(course.image.src, siteConfig.baseUrl).toString(),
     provider: {
       "@type": "Organization",
-      name:
-        locale === "uk"
-          ? "Український Verein у Німеччині"
-          : "Ukrainischer Verein in Deutschland",
+      name: "SONNENBLUME — Interkultureller Verein e.V.",
       url: new URL(getPath(locale, "home"), siteConfig.baseUrl).toString(),
     },
   };
@@ -193,10 +190,12 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   status={course.enrollmentStatus}
                   locale={locale}
                 />
-                <span className="text-sm font-semibold text-blue-strong">
-                  {course.seatsAvailable}/{course.seatsTotal}{" "}
-                  {locale === "uk" ? "місць" : "Plätze"}
-                </span>
+                {course.seatsTotal > 0 ? (
+                  <span className="text-sm font-semibold text-blue-strong">
+                    {course.seatsAvailable}/{course.seatsTotal}{" "}
+                    {locale === "uk" ? "місць" : "Plätze"}
+                  </span>
+                ) : null}
               </div>
               <dl className="mt-6 grid gap-4 text-sm text-ink-muted">
                 <div className="flex gap-3">
@@ -247,18 +246,20 @@ export default async function CourseDetailPage({ params }: PageProps) {
                     <dd>{t(course.format, locale)}</dd>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <CalendarDays
-                    aria-hidden="true"
-                    className="mt-0.5 h-5 w-5 shrink-0 text-blue"
-                  />
-                  <div>
-                    <dt className="font-semibold text-blue-strong">
-                      {locale === "uk" ? "Старт" : "Start"}
-                    </dt>
-                    <dd>{formatDate(course.startsAt, locale)}</dd>
+                {course.startsAt ? (
+                  <div className="flex gap-3">
+                    <CalendarDays
+                      aria-hidden="true"
+                      className="mt-0.5 h-5 w-5 shrink-0 text-blue"
+                    />
+                    <div>
+                      <dt className="font-semibold text-blue-strong">
+                        {locale === "uk" ? "Старт" : "Start"}
+                      </dt>
+                      <dd>{formatDate(course.startsAt, locale)}</dd>
+                    </div>
                   </div>
-                </div>
+                ) : null}
                 <div className="flex gap-3">
                   <Clock
                     aria-hidden="true"

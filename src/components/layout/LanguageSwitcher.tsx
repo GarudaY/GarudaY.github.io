@@ -42,6 +42,7 @@ function getLocalizedPath(
 
 export function LanguageSwitcher({ locale }: { locale: Locale }) {
   const pathname = usePathname();
+  const shortLabel: Record<Locale, string> = { uk: "UA", de: "DE" };
 
   return (
     <nav
@@ -61,7 +62,7 @@ export function LanguageSwitcher({ locale }: { locale: Locale }) {
               : "text-ink-muted hover:bg-surface-muted hover:text-blue-strong",
           )}
         >
-          {targetLocale.toUpperCase()}
+          {shortLabel[targetLocale]}
         </Link>
       ))}
     </nav>

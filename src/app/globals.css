@@ -62,35 +62,10 @@ html {
 body {
   min-height: 100vh;
   isolation: isolate;
-  background:
-    radial-gradient(
-      ellipse at -8% -4%,
-      rgba(36, 95, 143, 0.12),
-      transparent 42rem
-    ),
-    radial-gradient(
-      ellipse at 108% 2%,
-      rgba(244, 200, 74, 0.13),
-      transparent 38rem
-    ),
-    linear-gradient(180deg, #f4f8f7 0%, var(--background) 42%, #f5f8f6 100%),
-    var(--background);
+  background: linear-gradient(180deg, #f5f8f7 0%, #eef4f3 48%, #f5f8f7 100%);
   color: var(--foreground);
   font-family: "Segoe UI", "Noto Sans", Arial, sans-serif;
   text-rendering: optimizeLegibility;
-}
-
-body::before {
-  position: fixed;
-  z-index: -1;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-  background-image:
-    linear-gradient(rgba(23, 57, 87, 0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(23, 57, 87, 0.022) 1px, transparent 1px);
-  background-size: 42px 42px;
-  mask-image: linear-gradient(to bottom, black, transparent 72%);
 }
 
 @layer base {
@@ -582,6 +557,51 @@ select {
     background-color 200ms ease,
     box-shadow 260ms ease,
     opacity 200ms ease;
+}
+
+.person-monogram {
+  background:
+    radial-gradient(
+      circle at 72% 24%,
+      rgba(244, 200, 74, 0.96) 0 10%,
+      transparent 10.4%
+    ),
+    radial-gradient(
+      circle at 36% 48%,
+      rgba(49, 123, 181, 0.92) 0 18%,
+      transparent 18.4%
+    ),
+    linear-gradient(145deg, #173957, #245f8f);
+}
+
+.person-monogram::after {
+  position: absolute;
+  right: -18%;
+  bottom: -34%;
+  width: 78%;
+  aspect-ratio: 1;
+  border: 1.2rem solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  content: "";
+}
+
+.person-monogram-sun {
+  position: absolute;
+  top: 12%;
+  right: 12%;
+  width: 18%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: rgba(244, 200, 74, 0.95);
+  box-shadow: 0 0 0 0.8rem rgba(244, 200, 74, 0.12);
+}
+
+.person-details[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.photo-carousel img {
+  will-change: opacity, transform;
 }
 
 .form-panel {

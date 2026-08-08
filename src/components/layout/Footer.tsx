@@ -73,10 +73,7 @@ export function Footer({
   return (
     <footer className="site-footer border-t border-border/80 text-blue-strong">
       <Container className="py-10 sm:py-12 lg:py-14">
-        <section
-          aria-labelledby="footer-identity"
-          className="footer-intro"
-        >
+        <section aria-labelledby="footer-identity" className="footer-intro">
           <div className="footer-intro-copy">
             <h2 id="footer-identity" className="sr-only">
               {t(settings.name, locale)}
@@ -151,6 +148,28 @@ export function Footer({
                   href={`mailto:${settings.contact.email}`}
                 >
                   {settings.contact.email}
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-surface text-blue shadow-sm">
+                  <Mail aria-hidden="true" className="h-4 w-4" />
+                </span>
+                <a
+                  className="footer-link focus-ring inline-flex min-h-11 items-center rounded-full"
+                  href={`mailto:${settings.contact.coursesEmail}`}
+                >
+                  {settings.contact.coursesEmail}
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-surface text-blue shadow-sm">
+                  <Mail aria-hidden="true" className="h-4 w-4" />
+                </span>
+                <a
+                  className="footer-link focus-ring inline-flex min-h-11 items-center rounded-full"
+                  href={`mailto:${settings.contact.boardEmail}`}
+                >
+                  {settings.contact.boardEmail}
                 </a>
               </li>
               {settings.contact.phone ? (

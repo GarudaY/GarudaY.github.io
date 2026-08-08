@@ -31,6 +31,7 @@ export const contactRequestSchema = z.object({
   name: z.string().trim().min(2).max(100),
   email: z.string().trim().toLowerCase().email().max(200),
   topic: z.enum([
+    "general",
     "courses",
     "events",
     "volunteering",
@@ -86,6 +87,7 @@ export const contactSubmissionSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   topic: z.enum([
+    "general",
     "courses",
     "events",
     "volunteering",

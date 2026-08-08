@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCourses, getTeachers } from "@/data/content";
+import { Mail } from "lucide-react";
+import { getCourses, getSiteSettings, getTeachers } from "@/data/content";
 import { isLocale, type Locale } from "@/i18n/config";
 import { buildMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -35,7 +36,11 @@ export async function generateMetadata({
 
 export default async function CoursesPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
-  const [courses, teachers] = await Promise.all([getCourses(), getTeachers()]);
+  const [courses, teachers, settings] = await Promise.all([
+    getCourses(),
+    getTeachers(),
+    getSiteSettings(),
+  ]);
 
   return (
     <>
@@ -46,11 +51,6 @@ export default async function CoursesPage({ params }: PageProps) {
             ? "Курси та регулярні заняття"
             : "Kurse und regelmäßige Angebote"
         }
-        description={
-          locale === "uk"
-            ? "Фільтри залишені короткими: категорія і відкритий набір. Це краще для невеликого Verein і мобільного UX."
-            : "Die Filter bleiben bewusst kurz: Kategorie und offene Anmeldung. Das passt besser zu kleinem Verein und mobilem UX."
-        }
       >
         <Breadcrumbs
           locale={locale}
@@ -60,6 +60,27 @@ export default async function CoursesPage({ params }: PageProps) {
         />
       </PageHeader>
       <Section>
+        <div className="mb-7 flex flex-col gap-3 rounded-[18px] border border-yellow/50 bg-yellow/12 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-bold text-blue-strong">
+              {locale === "uk"
+                ? "Запис і запитання про курси"
+                : "Anmeldung und Fragen zu Kursen"}
+            </p>
+            <p className="mt-1 text-sm leading-6 text-ink-muted">
+              {locale === "uk"
+                ? "Напишіть нам — команда підкаже наявність місць і умови участі."
+                : "Schreiben Sie uns – das Team informiert über freie Plätze und Teilnahmebedingungen."}
+            </p>
+          </div>
+          <a
+            className="focus-ring inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full font-semibold text-blue hover:text-blue-strong"
+            href={`mailto:${settings.contact.coursesEmail}`}
+          >
+            <Mail aria-hidden="true" className="h-4 w-4" />
+            {settings.contact.coursesEmail}
+          </a>
+        </div>
         <CourseFilters courses={courses} teachers={teachers} locale={locale} />
       </Section>
     </>

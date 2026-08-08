@@ -3,7 +3,7 @@ import "../globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "SONNENBLUME — Ukraine Community MG e.V.",
+    default: "SONNENBLUME — Interkultureller Verein e.V.",
     template: "%s | SONNENBLUME",
   },
   description:

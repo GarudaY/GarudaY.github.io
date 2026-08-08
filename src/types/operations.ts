@@ -5,6 +5,7 @@ export type RegistrationGroup = "adults" | "family" | "children";
 export type ContactStatus = "new" | "in_progress" | "resolved";
 export type NotificationStatus = "pending" | "sent" | "failed";
 export type ContactTopic =
+  | "general"
   | "courses"
   | "events"
   | "volunteering"

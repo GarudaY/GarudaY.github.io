@@ -6,8 +6,8 @@ export const siteConfig = {
   timeZone: "Europe/Berlin",
   organizationId: "sonnenblume-ukraine-community-mg",
   organizationName: {
-    uk: "SONNENBLUME — Ukraine Community MG e.V.",
-    de: "SONNENBLUME — Ukraine Community MG e.V.",
+    uk: "SONNENBLUME — Interkultureller Verein e.V.",
+    de: "SONNENBLUME — Interkultureller Verein e.V.",
   },
   shortName: {
     uk: "SONNENBLUME",

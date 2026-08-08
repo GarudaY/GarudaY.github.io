@@ -4,13 +4,9 @@ import { notFound } from "next/navigation";
 import {
   ArrowDownToLine,
   BriefcaseBusiness,
-  CalendarHeart,
   Check,
   FileText,
   HandHeart,
-  Languages,
-  Laptop,
-  Megaphone,
   ShieldCheck,
   Sparkles,
   UsersRound,
@@ -77,7 +73,11 @@ export default async function JoinPage({ params }: PageProps) {
         : "Für Menschen, die die Ziele von SONNENBLUME langfristig unterstützen und dem Verein formell beitreten möchten.",
       items: isUk
         ? ["Заява на вступ", "Ознайомлення зі статутом", "Окрема згода на дані"]
-        : ["Aufnahmeantrag", "Kenntnis der Satzung", "Separate Datenschutzinformation"],
+        : [
+            "Aufnahmeantrag",
+            "Kenntnis der Satzung",
+            "Separate Datenschutzinformation",
+          ],
       href: "#membership-documents",
       cta: isUk ? "Завантажити документи" : "Unterlagen herunterladen",
     },
@@ -90,38 +90,21 @@ export default async function JoinPage({ params }: PageProps) {
         : "Gemeinsame Veranstaltungen, Fachwissen, Räume, Materialien oder kommunikative Unterstützung.",
       items: isUk
         ? ["Спільна мета", "Прозорі ролі", "Публічна подяка за згодою"]
-        : ["Gemeinsames Ziel", "Transparente Rollen", "Öffentlicher Dank nach Abstimmung"],
+        : [
+            "Gemeinsames Ziel",
+            "Transparente Rollen",
+            "Öffentlicher Dank nach Abstimmung",
+          ],
       href: `${getPath(locale, "contact")}?topic=partnership`,
       cta: isUk ? "Обговорити співпрацю" : "Zusammenarbeit besprechen",
     },
   ];
 
-  const opportunities = [
-    {
-      icon: Languages,
-      title: isUk ? "Переклад" : "Übersetzung",
-      text: isUk ? "DE / UK, усно або письмово" : "DE / UK, mündlich oder schriftlich",
-    },
-    {
-      icon: CalendarHeart,
-      title: isUk ? "Події" : "Veranstaltungen",
-      text: isUk ? "Підготовка, гості, логістика" : "Vorbereitung, Gäste, Logistik",
-    },
-    {
-      icon: Megaphone,
-      title: isUk ? "Комунікація" : "Kommunikation",
-      text: isUk ? "Тексти, фото, соцмережі" : "Texte, Fotos, soziale Medien",
-    },
-    {
-      icon: Laptop,
-      title: isUk ? "Цифрова підтримка" : "Digitale Unterstützung",
-      text: isUk ? "Сайт, форми, онлайн-зустрічі" : "Website, Formulare, Online-Treffen",
-    },
-  ];
-
   const documents = [
     {
-      title: isUk ? "Заява на вступ — українською" : "Aufnahmeantrag — Ukrainisch",
+      title: isUk
+        ? "Заява на вступ — українською"
+        : "Aufnahmeantrag — Ukrainisch",
       note: isUk ? "Форма для заповнення" : "Formular zum Ausfüllen",
       href: "/documents/membership/mitgliedsantrag-uk.pdf",
     },
@@ -132,17 +115,23 @@ export default async function JoinPage({ params }: PageProps) {
     },
     {
       title: isUk ? "Статут SONNENBLUME" : "Satzung von SONNENBLUME",
-      note: isUk ? "Чинний документ німецькою" : "Gültiges Dokument auf Deutsch",
+      note: isUk
+        ? "Чинний документ німецькою"
+        : "Gültiges Dokument auf Deutsch",
       href: "/documents/membership/satzung-sonnenblume.pdf",
     },
     {
-      title: isUk ? "Захист даних для членів" : "Datenschutzinformation für Mitglieder",
+      title: isUk
+        ? "Захист даних для членів"
+        : "Datenschutzinformation für Mitglieder",
       note: isUk ? "Інформація відповідно до DSGVO" : "Information gemäß DSGVO",
       href: "/documents/membership/datenschutz-mitglieder-de.pdf",
     },
     {
       title: isUk ? "SEPA-мандат" : "SEPA-Lastschriftmandat",
-      note: isUk ? "Для оплати внеску через SEPA" : "Für die Beitragszahlung per SEPA",
+      note: isUk
+        ? "Для оплати внеску через SEPA"
+        : "Für die Beitragszahlung per SEPA",
       href: "/documents/membership/sepa-lastschriftmandat.pdf",
     },
   ];
@@ -217,41 +206,28 @@ export default async function JoinPage({ params }: PageProps) {
       </Section>
 
       <Section className="section-soft">
-        <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-              {isUk ? "Де потрібна допомога" : "Wo Hilfe gebraucht wird"}
-            </p>
-            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
-              {isUk
-                ? "Невеликі конкретні задачі замість розмитих обіцянок"
-                : "Konkrete Aufgaben statt unklarer Verpflichtungen"}
-            </h2>
-            <p className="mt-4 leading-7 text-ink-muted">
-              {isUk
-                ? "До початку ми погоджуємо задачу, орієнтовний час, контактну особу та спосіб завершення. Членство для цього не потрібне."
-                : "Vor dem Start klären wir Aufgabe, ungefähren Zeitaufwand, Ansprechperson und Abschluss. Eine Mitgliedschaft ist dafür nicht nötig."}
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {opportunities.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.title}
-                  className="rounded-[18px] border border-border bg-surface p-5 shadow-sm"
-                >
-                  <Icon aria-hidden="true" className="h-5 w-5 text-blue" />
-                  <h3 className="mt-4 font-bold text-blue-strong">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1 text-sm leading-6 text-ink-muted">
-                    {item.text}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+        <div className="mx-auto max-w-3xl text-center">
+          <HandHeart aria-hidden="true" className="mx-auto h-9 w-9 text-blue" />
+          <p className="mt-5 text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+            {isUk ? "Допомога без членства" : "Hilfe ohne Mitgliedschaft"}
+          </p>
+          <h2 className="mt-3 text-3xl font-bold text-blue-strong">
+            {isUk
+              ? "Розкажіть, чим ви хотіли б допомогти"
+              : "Erzählen Sie uns, wie Sie helfen möchten"}
+          </h2>
+          <p className="mt-4 text-lg leading-8 text-ink-muted">
+            {isUk
+              ? "Ми не пропонуємо наперед вигаданий перелік ролей. Напишіть про свій досвід, доступний час або конкретну ідею — команда відповість, чи є зараз відповідне завдання."
+              : "Wir geben keine erfundene Rollenliste vor. Schreiben Sie uns über Ihre Erfahrung, verfügbare Zeit oder eine konkrete Idee – das Team meldet sich, wenn es eine passende Aufgabe gibt."}
+          </p>
+          <LinkButton
+            href="#mitmachen-formular"
+            variant="ghost"
+            className="mt-7"
+          >
+            {isUk ? "Написати команді" : "Dem Team schreiben"}
+          </LinkButton>
         </div>
       </Section>
 
@@ -261,7 +237,9 @@ export default async function JoinPage({ params }: PageProps) {
             <div className="relative overflow-hidden p-7 sm:p-9">
               <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-yellow/18" />
               <div className="relative">
-                <Badge tone="yellow">{isUk ? "Пілотний воркшоп" : "Pilotworkshop"}</Badge>
+                <Badge tone="yellow">
+                  {isUk ? "Пілотний воркшоп" : "Pilotworkshop"}
+                </Badge>
                 <BriefcaseBusiness
                   aria-hidden="true"
                   className="mt-12 h-10 w-10 text-yellow"
@@ -314,7 +292,9 @@ export default async function JoinPage({ params }: PageProps) {
               {isUk ? "Членство" : "Mitgliedschaft"}
             </p>
             <h2 className="mt-3 text-3xl font-bold text-blue-strong">
-              {isUk ? "Документи в одному місці" : "Alle Unterlagen an einem Ort"}
+              {isUk
+                ? "Документи в одному місці"
+                : "Alle Unterlagen an einem Ort"}
             </h2>
             <p className="mt-4 leading-7 text-ink-muted">
               {isUk

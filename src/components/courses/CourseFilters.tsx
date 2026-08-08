@@ -29,7 +29,9 @@ export function CourseFilters({
   const [openOnly, setOpenOnly] = useState(false);
   const availableCategories = useMemo(
     () =>
-      (Object.keys(categoryLabels) as Array<keyof typeof categoryLabels>).filter(
+      (
+        Object.keys(categoryLabels) as Array<keyof typeof categoryLabels>
+      ).filter(
         (key) =>
           key === "all" || courses.some((course) => course.category === key),
       ),

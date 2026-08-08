@@ -7,19 +7,21 @@ import type {
 export const siteSettings: SiteSettings = {
   id: "site-settings",
   name: {
-    uk: "SONNENBLUME — Ukraine Community MG e.V.",
-    de: "SONNENBLUME — Ukraine Community MG e.V.",
+    uk: "SONNENBLUME — Interkultureller Verein e.V.",
+    de: "SONNENBLUME — Interkultureller Verein e.V.",
   },
   tagline: {
-    uk: "Культура, освіта, інтеграція та взаємопідтримка у Мьонхенгладбаху",
-    de: "Kultur, Bildung, Integration und Zusammenhalt in Mönchengladbach",
+    uk: "Українська культура, освіта та спільнота у Мьонхенгладбаху",
+    de: "Ukrainische Kultur, Bildung und Gemeinschaft in Mönchengladbach",
   },
   description: {
-    uk: "SONNENBLUME об'єднує українську громаду Мьонхенгладбаха через культурні й освітні програми, практичну інтеграційну підтримку та волонтерство.",
-    de: "SONNENBLUME verbindet die ukrainische Community in Mönchengladbach durch Kultur- und Bildungsangebote, praktische Integrationshilfe und ehrenamtliches Engagement.",
+    uk: "SONNENBLUME об’єднує українську громаду Мьонхенгладбаха через культурні й освітні програми, творчі заняття, зустрічі та волонтерство.",
+    de: "SONNENBLUME verbindet die ukrainische Community in Mönchengladbach durch Kultur- und Bildungsangebote, kreative Kurse, Begegnungen und Ehrenamt.",
   },
   contact: {
     email: "kontakt@sonnenblume-mg.com",
+    coursesEmail: "kurse@sonnenblume-mg.com",
+    boardEmail: "vorstand@sonnenblume-mg.com",
     address: {
       uk: "Welfenstraße 10, 41238 Mönchengladbach",
       de: "Welfenstraße 10, 41238 Mönchengladbach",
@@ -88,111 +90,111 @@ export const siteSettings: SiteSettings = {
       type: "instagram",
     },
     {
-      label: "Website",
-      href: "https://sonnenblume-mg.com/",
-      type: "website",
+      label: "Facebook",
+      href: "https://www.facebook.com/profile.php?id=61590746722340",
+      type: "facebook",
     },
   ],
   stats: [
     {
       id: "languages",
-      value: "DE · UK",
-      label: {
-        uk: "двомовна інформація",
-        de: "zweisprachige Informationen",
-      },
+      value: "DE · UA",
+      label: { uk: "двомовна інформація", de: "zweisprachige Informationen" },
     },
     {
       id: "legal",
       value: "e.V.",
-      label: { uk: "зареєстроване об'єднання", de: "eingetragener Verein" },
+      label: { uk: "зареєстроване об’єднання", de: "eingetragener Verein" },
     },
     {
       id: "location",
       value: "MG",
-      label: { uk: "поруч у Мьонхенгладбаху", de: "vor Ort in Mönchengladbach" },
+      label: {
+        uk: "поруч у Мьонхенгладбаху",
+        de: "vor Ort in Mönchengladbach",
+      },
     },
   ],
   seo: {
     title: {
       uk: "SONNENBLUME — українська громада у Мьонхенгладбаху",
-      de: "SONNENBLUME — Ukraine Community in Mönchengladbach",
+      de: "SONNENBLUME — Ukrainische Community in Mönchengladbach",
     },
     description: {
-      uk: "Культурні та освітні програми, інтеграційна підтримка, події й волонтерство для української громади Мьонхенгладбаха.",
-      de: "Kultur- und Bildungsangebote, Integrationshilfe, Veranstaltungen und Ehrenamt für die ukrainische Community in Mönchengladbach.",
+      uk: "Культурні й освітні програми, події та волонтерство для української громади Мьонхенгладбаха.",
+      de: "Kultur- und Bildungsangebote, Veranstaltungen und Ehrenamt für die ukrainische Community in Mönchengladbach.",
     },
   },
 };
 
 export const featuredContent: FeaturedContent[] = [
   {
-    id: "featured-course",
+    id: "featured-painting",
     type: "course",
     title: {
-      uk: "Відкрито набір на німецьку для повсякденного життя",
-      de: "Anmeldung für Deutsch im Alltag geöffnet",
+      uk: "Курс малювання для підлітків",
+      de: "Malkurs für Jugendliche",
     },
     summary: {
-      uk: "Практичний курс для спілкування з лікарем, школою, Jobcenter та сусідами.",
-      de: "Praktischer Kurs für Termine, Schule, Jobcenter und Alltag.",
+      uk: "Щосереди для учасників від 10 до 15 років із Даніїлом Бабичем.",
+      de: "Mittwochs für Jugendliche von 10 bis 15 Jahren mit Daniil Babych.",
     },
     hrefRoute: "courses",
-    slug: "nimetska-dlya-zhyttya-a1-a2",
+    slug: "maliuvannia-daniil-babych",
     badge: { uk: "Набір відкрито", de: "Anmeldung offen" },
   },
   {
-    id: "featured-event",
-    type: "event",
+    id: "featured-choreography",
+    type: "course",
     title: {
-      uk: "Сімейна зустріч: українська неділя",
-      de: "Familientreffen: Ukrainischer Sonntag",
+      uk: "Хореографічна студія MRIYA",
+      de: "Choreografie-Studio MRIYA",
     },
     summary: {
-      uk: "Майстерня для дітей, знайомство для батьків і коротка інформаційна сесія.",
-      de: "Workshop für Kinder, Austausch für Eltern und kurze Info-Session.",
+      uk: "Танцювальні заняття з Оленою Шуліменко для дітей 3–5 та 5–12 років.",
+      de: "Tanzunterricht mit Olena Shulimenko für Kinder von 3–5 und 5–12 Jahren.",
     },
-    hrefRoute: "events",
-    slug: "ukrainska-nedilya",
-    badge: { uk: "Найближча подія", de: "Nächste Veranstaltung" },
+    hrefRoute: "courses",
+    slug: "khoreohrafiia-studiia-mriya",
+    badge: { uk: "Для дітей", de: "Für Kinder" },
   },
   {
     id: "featured-donation",
     type: "donation",
     title: {
-      uk: "Підтримайте дитячі та мовні програми",
-      de: "Kinder- und Sprachprogramme unterstützen",
+      uk: "Допоможіть зберігати українське коріння",
+      de: "Helfen Sie, ukrainische Wurzeln zu bewahren",
     },
     summary: {
-      uk: "Кошти йдуть на матеріали, оренду залів і стипендійні місця.",
-      de: "Spenden helfen bei Material, Räumen und geförderten Plätzen.",
+      uk: "Пожертви підтримують культурні й освітні програми для дітей та дорослих.",
+      de: "Spenden stärken Kultur- und Bildungsangebote für Kinder und Erwachsene.",
     },
     hrefRoute: "donate",
-    badge: { uk: "Поточна ініціатива", de: "Aktuelle Initiative" },
+    badge: { uk: "Підтримати", de: "Unterstützen" },
   },
 ];
 
 export const donationSettings: DonationSettings = {
   title: {
-    uk: "Підтримати SONNENBLUME",
-    de: "SONNENBLUME unterstützen",
+    uk: "Допоможіть зберегти українське коріння",
+    de: "Helfen Sie, ukrainische Wurzeln zu bewahren",
   },
   description: {
-    uk: "Пожертви допомагають фінансувати матеріали, приміщення та доступні програми для громади. Переказ надходить безпосередньо на рахунок Verein.",
-    de: "Spenden helfen bei Materialien, Räumen und zugänglichen Community-Angeboten. Die Überweisung geht direkt auf das Vereinskonto.",
+    uk: "Для українських родин у Німеччині мова, культура й спільні традиції — це живий зв’язок із домом. Ваша пожертва допомагає SONNENBLUME створювати місця, де діти й дорослі навчаються, творять, зустрічаються та залишаються частиною української культури.",
+    de: "Für ukrainische Familien in Deutschland sind Sprache, Kultur und gemeinsame Traditionen eine lebendige Verbindung zur Heimat. Ihre Spende hilft SONNENBLUME, Orte zu schaffen, an denen Kinder und Erwachsene lernen, kreativ sind, einander begegnen und mit der ukrainischen Kultur verbunden bleiben.",
   },
   impact: {
     uk: [
-      "навчальні матеріали для дитячих занять",
-      "часткова оплата приміщень для подій",
-      "пільгові місця на мовних курсах",
-      "підтримка волонтерських ініціатив",
+      "матеріали для творчих і дитячих занять",
+      "приміщення для курсів, репетицій та подій",
+      "культурні програми, що передають мову й традиції дітям",
+      "зустрічі, які підтримують українські родини та об’єднують громаду",
     ],
     de: [
-      "Lernmaterialien für Kinderangebote",
-      "Raumkosten für Veranstaltungen",
-      "geförderte Plätze in Sprachkursen",
-      "Unterstützung ehrenamtlicher Initiativen",
+      "Materialien für Kreativ- und Kinderangebote",
+      "Räume für Kurse, Proben und Veranstaltungen",
+      "Kulturprogramme, die Sprache und Traditionen an Kinder weitergeben",
+      "Begegnungen, die ukrainische Familien unterstützen und Gemeinschaft schaffen",
     ],
   },
   methods: [
@@ -201,16 +203,18 @@ export const donationSettings: DonationSettings = {
       type: "bank",
       title: { uk: "Банківський переказ", de: "Banküberweisung" },
       description: {
-        uk: "Прямий переказ на рахунок SONNENBLUME у Stadtsparkasse Mönchengladbach.",
-        de: "Direkte Überweisung auf das Konto von SONNENBLUME bei der Stadtsparkasse Mönchengladbach.",
+        uk: "Прямий переказ на офіційний рахунок SONNENBLUME e.V.",
+        de: "Direkte Überweisung auf das offizielle Konto von SONNENBLUME e.V.",
       },
       details: {
         uk: [
+          "Отримувач: Sonnenblume e.V.",
           "IBAN: DE83 3105 0000 1004 2098 37",
           "BIC: MGLSDE33XXX",
           "Призначення: Spende",
         ],
         de: [
+          "Empfänger: Sonnenblume e.V.",
           "IBAN: DE83 3105 0000 1004 2098 37",
           "BIC: MGLSDE33XXX",
           "Verwendungszweck: Spende",
@@ -219,16 +223,37 @@ export const donationSettings: DonationSettings = {
       isDemo: false,
     },
     {
-      id: "in-kind-and-time",
-      type: "in-kind",
-      title: { uk: "Час і практична допомога", de: "Zeit und praktische Hilfe" },
+      id: "bank-qr",
+      type: "qr",
+      title: { uk: "Переказ за QR-кодом", de: "Überweisung per QR-Code" },
       description: {
-        uk: "Матеріали, експертні години, приміщення або допомога на подіях — після короткого узгодження з командою.",
-        de: "Materialien, Fachstunden, Räume oder Hilfe bei Veranstaltungen – nach kurzer Abstimmung mit dem Team.",
+        uk: "Відскануйте код у банківському застосунку — реквізити заповняться автоматично.",
+        de: "Scannen Sie den Code in Ihrer Banking-App; die Kontodaten werden automatisch ausgefüllt.",
       },
       details: {
-        uk: ["Опис пропозиції можна надіслати через структуровану контактну форму."],
-        de: ["Angebote können über das strukturierte Kontaktformular beschrieben werden."],
+        uk: [
+          "Перед підтвердженням перевірте отримувача та суму у своєму банку.",
+        ],
+        de: [
+          "Bitte prüfen Sie Empfänger und Betrag vor der Bestätigung in Ihrer Banking-App.",
+        ],
+      },
+      isDemo: false,
+    },
+    {
+      id: "in-kind-and-time",
+      type: "in-kind",
+      title: {
+        uk: "Час і практична допомога",
+        de: "Zeit und praktische Hilfe",
+      },
+      description: {
+        uk: "Допомогти можна також часом, матеріалами, приміщенням або професійним досвідом.",
+        de: "Sie können auch mit Zeit, Materialien, Räumen oder fachlicher Erfahrung helfen.",
+      },
+      details: {
+        uk: ["Розкажіть про свою пропозицію через контактну форму."],
+        de: ["Beschreiben Sie Ihr Angebot über das Kontaktformular."],
       },
       isDemo: false,
     },
@@ -236,8 +261,8 @@ export const donationSettings: DonationSettings = {
   seo: {
     title: { uk: "Підтримати SONNENBLUME", de: "SONNENBLUME unterstützen" },
     description: {
-      uk: "Банківський переказ, волонтерський час і практична допомога для SONNENBLUME.",
-      de: "Banküberweisung, ehrenamtliche Zeit und praktische Hilfe für SONNENBLUME.",
+      uk: "Підтримайте культурні й освітні програми SONNENBLUME банківським переказом або власним часом.",
+      de: "Unterstützen Sie Kultur- und Bildungsangebote von SONNENBLUME per Überweisung oder mit Ihrer Zeit.",
     },
   },
 };

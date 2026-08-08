@@ -1,4 +1,5 @@
-import { BadgeEuro, Landmark, Package, QrCode, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import { BadgeEuro, Landmark, Package, QrCode } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { t, tList } from "@/lib/localize";
 import type { DonationMethod } from "@/types/content";
@@ -38,15 +39,18 @@ export function DonationMethodCard({
         </p>
       </div>
       {method.type === "qr" ? (
-        <div className="flex min-h-44 flex-col items-center justify-center rounded-[8px] border border-dashed border-blue/35 bg-blue/[0.04] p-6 text-center">
-          <span className="grid h-14 w-14 place-items-center rounded-full bg-blue/10 text-blue">
-            <ShieldCheck aria-hidden="true" className="h-7 w-7" />
-          </span>
-          <p className="mt-4 max-w-64 text-sm font-semibold leading-6 text-blue-strong">
-            {locale === "uk"
-              ? "Платіжний QR буде створено з перевірених реквізитів"
-              : "Der Zahlungs-QR wird aus verifizierten Daten erzeugt"}
-          </p>
+        <div className="flex min-h-44 items-center justify-center rounded-[12px] border border-blue/15 bg-white p-5">
+          <Image
+            src="/images/donation/bank-transfer-qr.png"
+            alt={
+              locale === "uk"
+                ? "QR-код для банківського переказу на рахунок SONNENBLUME"
+                : "QR-Code für eine Banküberweisung an SONNENBLUME"
+            }
+            width={270}
+            height={270}
+            className="h-auto w-full max-w-56"
+          />
         </div>
       ) : null}
       <ul className="grid gap-2 rounded-[8px] bg-surface-muted p-4 text-sm text-blue-strong">

@@ -43,6 +43,7 @@ function topicFromContext(value: string | undefined): ContactTopic | undefined {
   if (
     [
       "courses",
+      "general",
       "events",
       "volunteering",
       "membership",
@@ -57,7 +58,7 @@ function topicFromContext(value: string | undefined): ContactTopic | undefined {
 
 export function ContactForm({
   locale,
-  initialTopic = "courses",
+  initialTopic = "general",
   requestContext,
   requestLabel,
 }: {
@@ -213,6 +214,9 @@ export function ContactForm({
             setSelectedTopic(event.target.value as ContactTopic)
           }
         >
+          <option value="general">
+            {isUk ? "Загальні питання" : "Allgemeine Anfrage"}
+          </option>
           <option value="courses">{isUk ? "Курси" : "Kurse"}</option>
           <option value="events">{isUk ? "Події" : "Veranstaltungen"}</option>
           <option value="volunteering">

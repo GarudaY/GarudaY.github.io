@@ -10,11 +10,10 @@ import {
   getCourses,
   getFeaturedContent,
   getFeaturedCourses,
-  getNewsArticles,
+  getPastEvents,
   getPartners,
   getPeopleByIds,
   getSiteSettings,
-  getUpcomingEvents,
 } from "@/data/content";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -24,11 +23,11 @@ import { t } from "@/lib/localize";
 import { LinkButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
-import { ContentImage } from "@/components/ui/ContentImage";
+import { PhotoCarousel } from "@/components/content/PhotoCarousel";
 import { FeaturedContentList } from "@/components/content/FeaturedContentList";
 import { CourseCard } from "@/components/content/CourseCard";
 import { EventCard } from "@/components/content/EventCard";
-import { NewsCard } from "@/components/content/NewsCard";
+import { WordPressNewsFeed } from "@/components/content/WordPressNewsFeed";
 import { PartnerLogo } from "@/components/content/PartnerLogo";
 import { StatsSection } from "@/components/content/StatsSection";
 import { CTASection } from "@/components/content/CTASection";
@@ -61,14 +60,13 @@ export async function generateMetadata({
 export default async function HomePage({ params }: PageProps) {
   const locale = await resolveLocale(params);
   const dict = getDictionary(locale);
-  const [settings, featured, featuredCourses, courses, events, news, partners] =
+  const [settings, featured, featuredCourses, courses, events, partners] =
     await Promise.all([
       getSiteSettings(),
       getFeaturedContent(),
       getFeaturedCourses(),
       getCourses(),
-      getUpcomingEvents(),
-      getNewsArticles(),
+      getPastEvents(),
       getPartners(),
     ]);
   const allTeachers = await getPeopleByIds(
@@ -122,17 +120,33 @@ export default async function HomePage({ params }: PageProps) {
             </div>
           </div>
           <div className="hero-visual z-10 grid gap-4">
-            <ContentImage
-              image={{
-                src: "/images/generated/community-hero-v1.webp",
-                alt: {
-                  uk: "Зустріч української громади у світлому культурному центрі",
-                  de: "Treffen der ukrainischen Community in einem hellen Kulturzentrum",
+            <PhotoCarousel
+              images={[
+                {
+                  src: "/images/community/community-festival.jpg",
+                  alt: {
+                    uk: "Команда і гості SONNENBLUME на святі громади",
+                    de: "Team und Gäste von SONNENBLUME beim Gemeinschaftsfest",
+                  },
                 },
-              }}
+                {
+                  src: "/images/community/children-day-outdoors.jpg",
+                  alt: {
+                    uk: "Родини на дитячому святі SONNENBLUME",
+                    de: "Familien beim Kinderfest von SONNENBLUME",
+                  },
+                },
+                {
+                  src: "/images/community/community-concert-choir-wide.jpg",
+                  alt: {
+                    uk: "Хор на музичній зустрічі SONNENBLUME",
+                    de: "Chor bei einer Musikveranstaltung von SONNENBLUME",
+                  },
+                },
+              ]}
               locale={locale}
               className="hero-media aspect-[4/3]"
-              preload
+              preloadFirst
             />
             <StatsSection stats={settings.stats} locale={locale} />
           </div>
@@ -166,8 +180,8 @@ export default async function HomePage({ params }: PageProps) {
             </h2>
             <p className="mt-5 text-lg leading-8 text-ink-muted">
               {locale === "uk"
-                ? "Сайт спроєктований для невеликої організації: швидко знайти курс, зрозуміти подію, зв'язатися, підтримати або запропонувати співпрацю."
-                : "Die Website ist für einen kleinen Verein konzipiert: Kurse finden, Veranstaltungen verstehen, Kontakt aufnehmen, spenden oder Zusammenarbeit anbieten."}
+                ? "SONNENBLUME об’єднує українців у Мьонхенгладбаху через освіту, творчість, культурні події та взаємну підтримку. Тут діти й дорослі можуть розвиватися, знайомитися та зберігати зв’язок з українським корінням."
+                : "SONNENBLUME verbindet Ukrainerinnen und Ukrainer in Mönchengladbach durch Bildung, Kreativität, Kulturveranstaltungen und gegenseitige Unterstützung. Kinder und Erwachsene können sich entwickeln, begegnen und ihre Verbindung zu ukrainischen Wurzeln bewahren."}
             </p>
             <LinkButton
               href={getPath(locale, "about")}
@@ -259,7 +273,9 @@ export default async function HomePage({ params }: PageProps) {
               {locale === "uk" ? "Події" : "Veranstaltungen"}
             </p>
             <h2 className="mt-3 text-3xl font-bold text-blue-strong">
-              {locale === "uk" ? "Найближчі зустрічі" : "Nächste Treffen"}
+              {locale === "uk"
+                ? "Історії наших зустрічей"
+                : "Geschichten unserer Begegnungen"}
             </h2>
           </div>
           <LinkButton href={getPath(locale, "events")} variant="quiet">
@@ -281,15 +297,11 @@ export default async function HomePage({ params }: PageProps) {
             </p>
             <h2 className="mt-3 text-3xl font-bold text-blue-strong">
               {locale === "uk"
-                ? "Останнє з життя спільноти"
-                : "Neues aus der Gemeinschaft"}
+                ? "Актуальні оголошення"
+                : "Aktuelle Ankündigungen"}
             </h2>
           </div>
-          <div className="grid gap-6 md:grid-cols-2">
-            {news.slice(0, 2).map((article) => (
-              <NewsCard key={article.id} article={article} locale={locale} />
-            ))}
-          </div>
+          <WordPressNewsFeed locale={locale} />
 
           <CTASection className="mt-8">
             <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">

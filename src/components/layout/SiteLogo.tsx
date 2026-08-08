@@ -25,7 +25,7 @@ export function SiteLogo({ locale }: { locale: Locale }) {
           {siteConfig.shortName[locale]}
         </span>
         <span className="hidden text-xs text-ink-muted sm:block">
-          Ukraine Community MG e.V.
+          Interkultureller Verein e.V.
         </span>
       </span>
     </Link>

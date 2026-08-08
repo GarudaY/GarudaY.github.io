@@ -35,7 +35,7 @@ export const dictionaries = {
     footer: {
       legal: "Юридична інформація",
       social: "Соціальні мережі",
-      demo: "Усі дані на сайті демонстраційні.",
+      demo: "SONNENBLUME — Interkultureller Verein e.V.",
     },
   },
   de: {
@@ -72,7 +72,7 @@ export const dictionaries = {
     footer: {
       legal: "Rechtliches",
       social: "Soziale Netzwerke",
-      demo: "Alle Daten auf der Website sind Demo-Inhalte.",
+      demo: "SONNENBLUME — Interkultureller Verein e.V.",
     },
   },
 } as const;

@@ -23,13 +23,55 @@ export function ContactCard({
             className="mt-0.5 h-5 w-5 shrink-0 text-blue"
           />
           <div>
-            <dt className="font-semibold text-blue-strong">Email</dt>
+            <dt className="font-semibold text-blue-strong">
+              {locale === "uk" ? "Загальні питання" : "Allgemeine Anfragen"}
+            </dt>
             <dd>
               <a
                 href={`mailto:${contact.email}`}
                 className="focus-ring -my-2 inline-flex min-h-11 items-center rounded-full hover:text-blue"
               >
                 {contact.email}
+              </a>
+            </dd>
+          </div>
+        </div>
+        <div className="flex gap-3">
+          <Mail
+            aria-hidden="true"
+            className="mt-0.5 h-5 w-5 shrink-0 text-blue"
+          />
+          <div>
+            <dt className="font-semibold text-blue-strong">
+              {locale === "uk" ? "Курси та запис" : "Kurse und Anmeldung"}
+            </dt>
+            <dd>
+              <a
+                href={`mailto:${contact.coursesEmail}`}
+                className="focus-ring -my-2 inline-flex min-h-11 items-center rounded-full hover:text-blue"
+              >
+                {contact.coursesEmail}
+              </a>
+            </dd>
+          </div>
+        </div>
+        <div className="flex gap-3">
+          <Mail
+            aria-hidden="true"
+            className="mt-0.5 h-5 w-5 shrink-0 text-blue"
+          />
+          <div>
+            <dt className="font-semibold text-blue-strong">
+              {locale === "uk"
+                ? "Правління та партнерство"
+                : "Vorstand und Partnerschaft"}
+            </dt>
+            <dd>
+              <a
+                href={`mailto:${contact.boardEmail}`}
+                className="focus-ring -my-2 inline-flex min-h-11 items-center rounded-full hover:text-blue"
+              >
+                {contact.boardEmail}
               </a>
             </dd>
           </div>

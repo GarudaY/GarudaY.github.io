@@ -37,18 +37,14 @@ export type LegalLink = {
 export type NavigationItem = {
   label: LocalizedString;
   route:
-    | "about"
-    | "join"
-    | "courses"
-    | "events"
-    | "news"
-    | "donate"
-    | "contact";
+    "about" | "join" | "courses" | "events" | "news" | "donate" | "contact";
   priority: "primary" | "secondary";
 };
 
 export type ContactSettings = {
   email: string;
+  coursesEmail: string;
+  boardEmail: string;
   phone?: string;
   address: LocalizedString;
   officeHours: LocalizedString;
@@ -79,7 +75,7 @@ export type Person = {
   roles: PersonRole[];
   bio: LocalizedString;
   languages: string[];
-  image: ImageAsset;
+  image?: ImageAsset;
   email?: string;
   socialLinks?: SocialLink[];
   relatedCourseIds: string[];

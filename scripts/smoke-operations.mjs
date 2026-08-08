@@ -33,9 +33,9 @@ await writeFile(
 
 try {
   const suffix = Date.now();
-  const registrationPayload = {
+  const closedRegistrationPayload = {
     locale: "uk",
-    eventSlug: "blagodiyna-maysternya",
+    eventSlug: "mizhnarodnyi-den-zakhystu-ditei-2025",
     name: "Smoke Test",
     email: `confirmed-${suffix}@example.invalid`,
     participants: 1,
@@ -45,77 +45,64 @@ try {
     company: "",
   };
 
-  const first = await jsonRequest("/api/registrations", {
+  const closedRegistration = await jsonRequest("/api/registrations", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(registrationPayload),
+    body: JSON.stringify(closedRegistrationPayload),
   });
-  assert(first.response.status === 201, "First registration was not created.");
-  assert(first.body.status === "confirmed", "First registration was not confirmed.");
+  assert(
+    closedRegistration.response.status === 404 &&
+      closedRegistration.body.code === "event_unavailable",
+    "A past event unexpectedly accepted a registration.",
+  );
 
-  const duplicate = await jsonRequest("/api/registrations", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(registrationPayload),
-  });
-  assert(duplicate.response.status === 409, "Duplicate registration was not blocked.");
-
-  const waitlist = await jsonRequest("/api/registrations", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      ...registrationPayload,
-      email: `waitlist-${suffix}@example.invalid`,
-      participants: 2,
-    }),
-  });
-  assert(waitlist.response.status === 201, "Waitlist registration was not created.");
-  assert(waitlist.body.status === "waitlist", "Overflow was not placed on waitlist.");
-
-  const firstToken = first.body.cancellationPath.split("/").at(-1);
-  const cancelled = await jsonRequest(`/api/registrations/${firstToken}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: "{}",
-  });
-  assert(cancelled.response.ok, "Confirmed registration could not be cancelled.");
-
-  const waitlistToken = waitlist.body.cancellationPath.split("/").at(-1);
-  const promoted = await jsonRequest(`/api/registrations/${waitlistToken}`);
-  assert(promoted.response.ok, "Promoted registration could not be read.");
-  assert(promoted.body.status === "confirmed", "Waitlist was not promoted after cancellation.");
-
-  const contact = await jsonRequest("/api/contact", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      locale: "uk",
-      name: "Smoke Test",
-      email: `contact-${suffix}@example.invalid`,
-      topic: "events",
-      message: "Automated contact queue smoke test.",
-      consent: true,
-      company: "",
-    }),
-  });
-  assert(contact.response.status === 201, "Contact request was not stored.");
+  const contactCases = [
+    ["general", "kontakt@sonnenblume-mg.com"],
+    ["courses", "kurse@sonnenblume-mg.com"],
+    ["partnership", "vorstand@sonnenblume-mg.com"],
+  ];
+  const contacts = [];
+  for (const [topic, expectedTarget] of contactCases) {
+    const contact = await jsonRequest("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        locale: "uk",
+        name: "Smoke Test",
+        email: `contact-${topic}-${suffix}@example.invalid`,
+        topic,
+        message: `Automated ${topic} contact queue smoke test.`,
+        consent: true,
+        company: "",
+      }),
+    });
+    assert(contact.response.status === 201, `${topic} contact was not stored.`);
+    contacts.push({ ...contact.body, expectedTarget });
+  }
 
   const admin = await jsonRequest("/api/admin/operations");
   assert(admin.response.ok, "Local admin API is unavailable.");
-  assert(
-    admin.body.registrations.some((item) => item.reference === waitlist.body.reference),
-    "Registration is missing from admin API.",
-  );
-  assert(
-    admin.body.contacts.some((item) => item.reference === contact.body.reference),
-    "Contact request is missing from admin API.",
-  );
+  for (const contact of contacts) {
+    const stored = admin.body.contacts.find(
+      (item) => item.reference === contact.reference,
+    );
+    assert(stored, "Contact request is missing from admin API.");
+    assert(
+      stored.notificationTarget === contact.expectedTarget,
+      `Contact was routed to ${stored.notificationTarget} instead of ${contact.expectedTarget}.`,
+    );
+  }
 
-  const csv = await fetch(`${baseUrl}/api/admin/export?kind=registrations`);
+  const csv = await fetch(`${baseUrl}/api/admin/export?kind=contacts`);
   const csvText = await csv.text();
-  assert(csv.ok && csvText.includes(waitlist.body.reference), "CSV export is invalid.");
+  assert(
+    csv.ok && contacts.every((contact) => csvText.includes(contact.reference)),
+    "CSV export is invalid.",
+  );
 
-  console.log("Operations smoke test passed: registration, duplicate, waitlist, promotion, contact, admin and CSV.");
+  console.log(
+    "Operations smoke test passed: closed registration, routed contact queues, admin and CSV.",
+  );
 } finally {
   if (backup === null) {
     await rm(dataFile, { force: true });

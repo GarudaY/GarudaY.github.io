@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import {
-  CalendarHeart,
-  HandHeart,
-  Languages,
-  Laptop,
-  Megaphone,
-  UsersRound,
-} from "lucide-react";
+import { HandHeart, History, Sparkles, UsersRound } from "lucide-react";
 import { getPartners, getPeople, getSiteSettings } from "@/data/content";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getPath } from "@/i18n/routing";
@@ -18,8 +11,11 @@ import { LinkButton } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { PeopleCarousel } from "@/components/content/PeopleCarousel";
+import { PersonPortrait } from "@/components/content/PersonPortrait";
+import { PhotoCarousel } from "@/components/content/PhotoCarousel";
 import { PartnerLogo } from "@/components/content/PartnerLogo";
 import { CTASection } from "@/components/content/CTASection";
+import { Badge } from "@/components/ui/Badge";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -41,10 +37,41 @@ export async function generateMetadata({
     title: locale === "uk" ? "Про SONNENBLUME" : "Über SONNENBLUME",
     description:
       locale === "uk"
-        ? "Місія, правління, команда, зовнішні волонтери та партнери SONNENBLUME у Мьонхенгладбаху."
-        : "Mission, Vorstand, Team, externe Ehrenamtliche und Partner von SONNENBLUME in Mönchengladbach.",
+        ? "Історія, правління, викладачі, волонтери та партнери SONNENBLUME у Мьонхенгладбаху."
+        : "Geschichte, Vorstand, Kursleitungen, Ehrenamtliche und Partner von SONNENBLUME in Mönchengladbach.",
   });
 }
+
+const communityPhotos = [
+  {
+    src: "/images/community/community-festival.jpg",
+    alt: {
+      uk: "Команда і гості SONNENBLUME на святі громади",
+      de: "Team und Gäste von SONNENBLUME beim Gemeinschaftsfest",
+    },
+  },
+  {
+    src: "/images/community/community-gathering.jpg",
+    alt: {
+      uk: "Зустріч української громади у Мьонхенгладбаху",
+      de: "Treffen der ukrainischen Gemeinschaft in Mönchengladbach",
+    },
+  },
+  {
+    src: "/images/community/children-day-outdoors.jpg",
+    alt: {
+      uk: "Родини на дитячому святі SONNENBLUME",
+      de: "Familien beim Kinderfest von SONNENBLUME",
+    },
+  },
+  {
+    src: "/images/community/community-concert-choir-wide.jpg",
+    alt: {
+      uk: "Хор під час музичної зустрічі SONNENBLUME",
+      de: "Chor bei einer Musikveranstaltung von SONNENBLUME",
+    },
+  },
+];
 
 export default async function AboutPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
@@ -54,39 +81,10 @@ export default async function AboutPage({ params }: PageProps) {
     getPartners(),
   ]);
   const board = people.filter((person) => person.roles.includes("board"));
+  const chair = board.find((person) => person.id === "person-natalia-petrova");
+  const boardMembers = board.filter((person) => person.id !== chair?.id);
   const teachers = people.filter((person) => person.roles.includes("teacher"));
   const isUk = locale === "uk";
-
-  const volunteerAreas = [
-    {
-      icon: Languages,
-      title: isUk ? "Переклад і супровід" : "Übersetzung & Begleitung",
-      text: isUk
-        ? "Допомога з мовою, орієнтацією та зрозумілою комунікацією."
-        : "Hilfe bei Sprache, Orientierung und verständlicher Kommunikation.",
-    },
-    {
-      icon: CalendarHeart,
-      title: isUk ? "Події та гостинність" : "Veranstaltungen & Gastfreundschaft",
-      text: isUk
-        ? "Підготовка зустрічей, робота з гостями та практична допомога на місці."
-        : "Vorbereitung von Treffen, Gästebetreuung und praktische Hilfe vor Ort.",
-    },
-    {
-      icon: Megaphone,
-      title: isUk ? "Комунікація" : "Kommunikation",
-      text: isUk
-        ? "Тексти, фото, соціальні мережі та поширення корисної інформації."
-        : "Texte, Fotos, soziale Medien und Verbreitung hilfreicher Informationen.",
-    },
-    {
-      icon: Laptop,
-      title: isUk ? "Технічна допомога" : "Technische Hilfe",
-      text: isUk
-        ? "Сайт, цифрові інструменти та підтримка онлайн-форматів."
-        : "Website, digitale Werkzeuge und Unterstützung von Online-Formaten.",
-    },
-  ];
 
   return (
     <>
@@ -94,94 +92,140 @@ export default async function AboutPage({ params }: PageProps) {
         eyebrow={isUk ? "Про SONNENBLUME" : "Über SONNENBLUME"}
         title={
           isUk
-            ? "Спільнота, що тримається на людях"
-            : "Eine Gemeinschaft, die von Menschen getragen wird"
+            ? "Українська спільнота, що стала місцем зустрічі"
+            : "Eine ukrainische Gemeinschaft, die Begegnung möglich macht"
         }
         description={t(settings.description, locale)}
+        visual={
+          <PhotoCarousel
+            images={communityPhotos}
+            locale={locale}
+            className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3]"
+            preloadFirst
+          />
+        }
       >
         <Breadcrumbs
           locale={locale}
-          items={[
-            {
-              label: isUk ? "Про нас" : "Über uns",
-              route: "about",
-            },
-          ]}
+          items={[{ label: isUk ? "Про нас" : "Über uns", route: "about" }]}
         />
       </PageHeader>
 
       <Section>
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-5 lg:grid-cols-3">
           {[
             {
-              title: isUk ? "Місія" : "Mission",
+              title: isUk ? "Наша місія" : "Unsere Mission",
               text: isUk
-                ? "Зберігати українську культуру, полегшувати інтеграцію та створювати місце для зустрічей і розвитку."
-                : "Ukrainische Kultur bewahren, Integration erleichtern und Raum für Begegnung und Entwicklung schaffen.",
+                ? "Зберігати українську культуру, підтримувати освіту та допомагати людям відчувати себе частиною спільноти у Мьонхенгладбаху."
+                : "Ukrainische Kultur bewahren, Bildung unterstützen und Menschen in Mönchengladbach ein Gefühl von Gemeinschaft geben.",
             },
             {
-              title: isUk ? "Принцип" : "Prinzip",
+              title: isUk
+                ? "Для дітей і дорослих"
+                : "Für Kinder und Erwachsene",
               text: isUk
-                ? "Поважна, зрозуміла й практична підтримка — незалежно від досвіду, віку чи статусу членства."
-                : "Respektvolle, verständliche und praktische Unterstützung – unabhängig von Erfahrung, Alter oder Mitgliedsstatus.",
+                ? "Ми створюємо заняття й зустрічі, де можна навчатися, розвивати таланти, знайомитися та підтримувати одне одного."
+                : "Wir schaffen Kurse und Treffen zum Lernen, zur Talentförderung, zum Kennenlernen und zur gegenseitigen Unterstützung.",
             },
             {
-              title: isUk ? "Формат" : "Format",
+              title: isUk ? "Відкрита співпраця" : "Offene Zusammenarbeit",
               text: isUk
-                ? "Verein, викладачі, партнери та зовнішні волонтери працюють разом, але мають чітко різні ролі."
-                : "Verein, Kursleitungen, Partner und externe Ehrenamtliche arbeiten zusammen – mit klar unterscheidbaren Rollen.",
+                ? "Правління, викладачі, волонтери та партнери працюють разом — кожен у своїй ролі, але з однією спільною метою."
+                : "Vorstand, Kursleitungen, Ehrenamtliche und Partner arbeiten in unterschiedlichen Rollen an einem gemeinsamen Ziel.",
             },
           ].map((item) => (
-            <div
-              className="card-surface rounded-[18px] border border-border bg-surface p-6"
+            <article
+              className="card-surface rounded-[20px] border border-border bg-surface p-6"
               key={item.title}
             >
-              <h2 className="text-2xl font-bold text-blue-strong">
+              <Sparkles aria-hidden="true" className="h-6 w-6 text-yellow" />
+              <h2 className="mt-5 text-2xl font-bold text-blue-strong">
                 {item.title}
               </h2>
               <p className="mt-3 leading-7 text-ink-muted">{item.text}</p>
-            </div>
+            </article>
           ))}
         </div>
       </Section>
 
-      <Section className="section-soft">
-        <div className="mb-9 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-            {isUk ? "Люди в організації" : "Menschen im Verein"}
-          </p>
-          <h2 className="mt-3 text-4xl font-bold text-blue-strong">
-            {isUk
-              ? "Відповідальність і робота з програмами"
-              : "Verantwortung und Programmarbeit"}
-          </h2>
-          <p className="mt-4 leading-7 text-ink-muted">
-            {isUk
-              ? "Окремо показуємо правління та людей, які безпосередньо ведуть програми. Символічні фото замінюються персональними лише за згодою."
-              : "Vorstand und Menschen in der direkten Programmarbeit werden getrennt gezeigt. Symbolische Bilder werden nur mit Einwilligung durch persönliche Fotos ersetzt."}
-          </p>
+      <Section className="section-warm pt-0">
+        <div className="history-panel grid gap-7 overflow-hidden rounded-[24px] border border-border bg-surface p-7 shadow-soft lg:grid-cols-[auto_1fr] lg:items-start lg:p-10">
+          <span className="grid h-14 w-14 place-items-center rounded-[18px] bg-yellow/24 text-blue-strong">
+            <History aria-hidden="true" className="h-7 w-7" />
+          </span>
+          <div className="max-w-4xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+              {isUk ? "Як усе почалося" : "Wie alles begann"}
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
+              {isUk
+                ? "Від взаємної підтримки — до спільних проєктів"
+                : "Von gegenseitiger Hilfe zu gemeinsamen Projekten"}
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-ink-muted">
+              {isUk
+                ? "SONNENBLUME виросла з бажання українців у Мьонхенгладбаху зберігати культурний зв’язок, допомагати родинам орієнтуватися у новому середовищі та створювати для дітей і дорослих власний простір для навчання, творчості й зустрічей. Сьогодні цю ідею продовжують курси, культурні події та волонтерська робота."
+                : "SONNENBLUME entstand aus dem Wunsch von Ukrainerinnen und Ukrainern in Mönchengladbach, kulturelle Verbundenheit zu bewahren, Familien beim Ankommen zu unterstützen und einen eigenen Raum für Lernen, Kreativität und Begegnung zu schaffen. Heute lebt diese Idee in Kursen, Kulturveranstaltungen und ehrenamtlicher Arbeit weiter."}
+            </p>
+          </div>
         </div>
+      </Section>
+
+      <Section className="section-soft">
         <div className="grid min-w-0 gap-14 lg:gap-18">
+          <section aria-labelledby="chair-title">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+              {isUk ? "Правління" : "Vorstand"}
+            </p>
+            <h2
+              id="chair-title"
+              className="mt-3 text-4xl font-bold text-blue-strong"
+            >
+              {isUk ? "Голова правління" : "Vorstandsvorsitzende"}
+            </h2>
+            {chair ? (
+              <article className="mt-6 grid overflow-hidden rounded-[24px] border border-blue/20 bg-surface shadow-soft sm:grid-cols-[minmax(12rem,0.68fr)_1.32fr]">
+                <PersonPortrait
+                  person={chair}
+                  locale={locale}
+                  preload
+                  className="aspect-[4/3] rounded-none sm:h-full"
+                  sizes="(min-width: 640px) 32vw, 100vw"
+                />
+                <div className="flex flex-col justify-center p-6 sm:p-8">
+                  <Badge tone="yellow">{t(chair.roleLabel, locale)}</Badge>
+                  <h3 className="mt-4 text-3xl font-bold text-blue-strong">
+                    {t(chair.name, locale)}
+                  </h3>
+                  <p className="mt-4 text-base leading-7 text-ink-muted">
+                    {t(chair.bio, locale)}
+                  </p>
+                </div>
+              </article>
+            ) : null}
+          </section>
+
           <PeopleCarousel
             locale={locale}
-            people={board}
-            preloadFirst
-            title={isUk ? "Правління" : "Vorstand"}
+            people={boardMembers}
+            title={isUk ? "Члени правління" : "Weitere Vorstandsmitglieder"}
             description={
               isUk
-                ? "Офіційна організаційна, фінансова та представницька відповідальність Verein."
-                : "Offizielle organisatorische, finanzielle und vertretungsbezogene Verantwortung des Vereins."
+                ? "Команда, що відповідає за організаційну, фінансову, комунікаційну та програмну роботу об’єднання."
+                : "Das Team für organisatorische, finanzielle, kommunikative und programmbezogene Aufgaben des Vereins."
             }
           />
+
           <div className="min-w-0 border-t border-border/80 pt-12 lg:pt-16">
             <PeopleCarousel
               locale={locale}
               people={teachers}
-              title={isUk ? "Викладачі та керівники програм" : "Kurs- und Programmleitungen"}
+              title={isUk ? "Викладачі" : "Kursleitungen"}
               description={
                 isUk
-                  ? "Люди, які працюють з учасниками мовних, дитячих, творчих та інтеграційних програм."
-                  : "Menschen, die Teilnehmende in Sprach-, Kinder-, Kreativ- und Integrationsangeboten begleiten."
+                  ? "Фахівці, які безпосередньо працюють з дітьми й підлітками на регулярних заняттях SONNENBLUME."
+                  : "Fachkräfte, die Kinder und Jugendliche in den regelmäßigen Angeboten von SONNENBLUME begleiten."
               }
             />
           </div>
@@ -189,80 +233,52 @@ export default async function AboutPage({ params }: PageProps) {
       </Section>
 
       <Section className="section-warm">
-        <div className="grid gap-9 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-          <div className="lg:sticky lg:top-28">
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-              {isUk ? "Поза членством" : "Ohne Mitgliedschaft"}
-            </p>
-            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
-              {isUk
-                ? "Активні зовнішні волонтери"
-                : "Aktive externe Ehrenamtliche"}
-            </h2>
-            <p className="mt-4 leading-7 text-ink-muted">
-              {isUk
-                ? "Допомагати SONNENBLUME можна без вступу до Verein. Ця група не є правлінням або штатною командою, але її внесок критично важливий."
-                : "Man kann SONNENBLUME unterstützen, ohne Vereinsmitglied zu werden. Diese Gruppe gehört nicht zum Vorstand oder festen Team, ihr Beitrag ist dennoch unverzichtbar."}
-            </p>
-            <div className="mt-6 inline-flex items-center gap-3 rounded-full bg-yellow/24 px-4 py-2 text-sm font-semibold text-blue-strong">
-              <HandHeart aria-hidden="true" className="h-4 w-4" />
-              {isUk ? "Імена — лише за згодою" : "Namen nur mit Einwilligung"}
-            </div>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {volunteerAreas.map((area) => {
-              const Icon = area.icon;
-              return (
-                <article
-                  key={area.title}
-                  className="card-surface rounded-[18px] border border-border bg-surface p-6"
-                >
-                  <span className="grid h-12 w-12 place-items-center rounded-[14px] bg-blue-strong text-yellow">
-                    <Icon aria-hidden="true" className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-5 text-xl font-bold text-blue-strong">
-                    {area.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-ink-muted">
-                    {area.text}
-                  </p>
-                </article>
-              );
-            })}
-          </div>
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-yellow/24 text-blue-strong">
+            <HandHeart aria-hidden="true" className="h-7 w-7" />
+          </span>
+          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+            {isUk ? "Поза членством" : "Ohne Mitgliedschaft"}
+          </p>
+          <h2 className="mt-3 text-4xl font-bold text-blue-strong">
+            {isUk
+              ? "Активні волонтери поруч із нами"
+              : "Aktive Ehrenamtliche an unserer Seite"}
+          </h2>
+          <p className="mt-5 text-lg leading-8 text-ink-muted">
+            {isUk
+              ? "Частину роботи підтримують люди, які не є членами об’єднання, але регулярно допомагають SONNENBLUME своїм часом і досвідом. Ми щиро цінуємо цей внесок. Імена та фотографії публікуємо лише за особистою згодою."
+              : "Ein Teil unserer Arbeit wird von Menschen getragen, die keine Vereinsmitglieder sind und SONNENBLUME dennoch regelmäßig mit Zeit und Erfahrung unterstützen. Dafür sind wir sehr dankbar. Namen und Fotos veröffentlichen wir nur mit persönlicher Einwilligung."}
+          </p>
+          <LinkButton
+            href={`${getPath(locale, "contact")}?topic=volunteering`}
+            variant="ghost"
+            className="mt-7"
+          >
+            {isUk ? "Запропонувати допомогу" : "Unterstützung anbieten"}
+          </LinkButton>
         </div>
       </Section>
 
       <Section>
-        <div className="mb-9 grid gap-6 lg:grid-cols-[1fr_0.75fr] lg:items-end">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-              {isUk ? "Дякуємо" : "Danke"}
-            </p>
-            <h2 className="mt-3 text-4xl font-bold text-blue-strong">
-              {isUk
-                ? "Організаціям і людям, які підсилюють нашу роботу"
-                : "Organisationen und Menschen, die unsere Arbeit stärken"}
-            </h2>
-            <p className="mt-4 max-w-3xl leading-7 text-ink-muted">
-              {isUk
-                ? "Тут ми окремо відзначаємо інституційних партнерів і всіх людей, які допомагають часом, знаннями, контактами, приміщенням або добрим словом."
-                : "Hier würdigen wir institutionelle Partner und alle Menschen, die Zeit, Wissen, Kontakte, Räume oder ganz praktische Hilfe einbringen."}
-            </p>
-          </div>
-          <div className="rounded-[18px] border border-yellow/55 bg-yellow/14 p-5">
-            <div className="flex items-start gap-3">
-              <UsersRound
-                aria-hidden="true"
-                className="mt-0.5 h-5 w-5 shrink-0 text-blue"
-              />
-              <p className="text-sm leading-6 text-blue-strong">
-                {isUk
-                  ? "Особиста подяка не залежить від членства. Персональні імена та фото публікуємо тільки з дозволу самої людини."
-                  : "Persönlicher Dank ist nicht an eine Mitgliedschaft gebunden. Namen und Fotos veröffentlichen wir nur mit Zustimmung der jeweiligen Person."}
-              </p>
-            </div>
-          </div>
+        <div className="mx-auto mb-9 max-w-4xl text-center">
+          <UsersRound
+            aria-hidden="true"
+            className="mx-auto h-7 w-7 text-blue"
+          />
+          <p className="mt-5 text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+            {isUk ? "Дякуємо" : "Danke"}
+          </p>
+          <h2 className="mt-3 text-4xl font-bold text-blue-strong">
+            {isUk
+              ? "Організаціям і людям, які посилюють нашу роботу"
+              : "Organisationen und Menschen, die unsere Arbeit stärken"}
+          </h2>
+          <p className="mt-4 leading-7 text-ink-muted">
+            {isUk
+              ? "Ми вдячні за фінансову, організаційну й професійну підтримку, приміщення, контакти та час. Особисті імена додаємо до цієї подяки тільки з дозволу самих людей."
+              : "Wir danken für finanzielle, organisatorische und fachliche Unterstützung, Räume, Kontakte und Zeit. Persönliche Namen ergänzen wir nur mit Zustimmung der jeweiligen Personen."}
+          </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {partners.map((partner) => (
@@ -282,8 +298,8 @@ export default async function AboutPage({ params }: PageProps) {
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-muted">
                 {isUk
-                  ? "На сторінці «Долучитися» чітко розділені волонтерство без членства, вступ до Verein та партнерство."
-                  : "Auf der Mitmachen-Seite sind Ehrenamt ohne Mitgliedschaft, Vereinsbeitritt und Partnerschaft klar getrennt."}
+                  ? "Волонтерство, членство в об’єднанні та партнерство мають різні формати — оберіть той, що підходить саме вам."
+                  : "Ehrenamt, Vereinsmitgliedschaft und Partnerschaft haben unterschiedliche Formen – wählen Sie, was zu Ihnen passt."}
               </p>
             </div>
             <LinkButton href={getPath(locale, "join")}>

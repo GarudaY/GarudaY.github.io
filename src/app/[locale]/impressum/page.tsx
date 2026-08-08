@@ -24,7 +24,7 @@ export async function generateMetadata({
     locale,
     route: "impressum",
     title: "Impressum",
-    description: "Impressum von SONNENBLUME — Ukraine Community MG e.V.",
+    description: "Impressum von SONNENBLUME — Interkultureller Verein e.V.",
   });
 }
 
@@ -37,8 +37,8 @@ export default async function ImpressumPage({ params }: PageProps) {
         title="Impressum"
         description={
           locale === "uk"
-            ? "Юридична інформація про SONNENBLUME — Ukraine Community MG e.V."
-            : "Rechtliche Angaben zu SONNENBLUME — Ukraine Community MG e.V."
+            ? "Юридична інформація про SONNENBLUME — Interkultureller Verein e.V."
+            : "Rechtliche Angaben zu SONNENBLUME — Interkultureller Verein e.V."
         }
       >
         <Breadcrumbs
@@ -53,7 +53,7 @@ export default async function ImpressumPage({ params }: PageProps) {
               Angaben gemäß § 5 DDG
             </h2>
             <p className="mt-4 font-semibold text-blue-strong">
-              SONNENBLUME — Ukraine Community MG e.V.
+              SONNENBLUME — Interkultureller Verein e.V.
             </p>
             <p>Welfenstraße 10</p>
             <p>41238 Mönchengladbach</p>
@@ -61,11 +61,13 @@ export default async function ImpressumPage({ params }: PageProps) {
           </div>
           <div className="rounded-[18px] border border-border bg-surface p-6 leading-7 text-ink-muted">
             <h2 className="text-2xl font-bold text-blue-strong">
-              Vertretungsberechtigter Vorstand
+              Vorstand
             </h2>
-            <p className="mt-4">Olga Pivovarova, 1. Vorsitzende</p>
-            <p>Oleksandra Zhytnyakova, stellvertretende Vorsitzende</p>
-            <p>Natalia Petrova, Schatzmeisterin</p>
+            <p className="mt-4">Natalia Petrova, Vorstandsvorsitzende</p>
+            <p>Mariya Kaplunovska, stellvertretende Vorsitzende</p>
+            <p>Viktoriia Zhelezniak, Schatzmeisterin</p>
+            <p>Valentyna Babaian, Öffentlichkeitsarbeit</p>
+            <p>Olga Zubchyk, Kinder- und Jugendprojekte</p>
           </div>
           <div className="rounded-[18px] border border-border bg-surface p-6 leading-7 text-ink-muted">
             <h2 className="text-2xl font-bold text-blue-strong">

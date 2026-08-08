@@ -26,6 +26,10 @@ const routeEnvironmentKeys: Record<
   ContactTopic | "registration",
   { formId: string; target: string }
 > = {
+  general: {
+    formId: "WORDPRESS_CF7_FORM_ID_DEFAULT",
+    target: "FORM_RECIPIENT_DEFAULT",
+  },
   courses: {
     formId: "WORDPRESS_CF7_FORM_ID_COURSES",
     target: "FORM_RECIPIENT_COURSES",
@@ -56,6 +60,17 @@ const routeEnvironmentKeys: Record<
   },
 };
 
+const fallbackTargets: Record<ContactTopic | "registration", string> = {
+  general: "kontakt@sonnenblume-mg.com",
+  courses: "kurse@sonnenblume-mg.com",
+  events: "kurse@sonnenblume-mg.com",
+  registration: "kurse@sonnenblume-mg.com",
+  volunteering: "vorstand@sonnenblume-mg.com",
+  membership: "vorstand@sonnenblume-mg.com",
+  donation: "vorstand@sonnenblume-mg.com",
+  partnership: "vorstand@sonnenblume-mg.com",
+};
+
 function routeFor(kind: ContactTopic | "registration"): NotificationRoute {
   const keys = routeEnvironmentKeys[kind];
   return {
@@ -66,7 +81,7 @@ function routeFor(kind: ContactTopic | "registration"): NotificationRoute {
     target:
       process.env[keys.target]?.trim() ||
       process.env.FORM_RECIPIENT_DEFAULT?.trim() ||
-      "kontakt@sonnenblume-mg.com",
+      fallbackTargets[kind],
   };
 }
 
@@ -76,6 +91,7 @@ function localeName(locale: Locale) {
 
 function topicName(topic: ContactTopic, locale: Locale) {
   const names: Record<ContactTopic, Record<Locale, string>> = {
+    general: { uk: "Загальні питання", de: "Allgemeine Anfrage" },
     courses: { uk: "Курси", de: "Kurse" },
     events: { uk: "Події", de: "Veranstaltungen" },
     volunteering: { uk: "Волонтерство", de: "Ehrenamt" },

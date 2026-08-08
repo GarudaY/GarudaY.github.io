@@ -64,6 +64,7 @@ function contactStatusLabel(status: ContactStatus, locale: Locale) {
 
 function contactTopicLabel(topic: AdminContact["topic"], locale: Locale) {
   const labels = {
+    general: { uk: "загальні питання", de: "Allgemeine Anfrage" },
     courses: { uk: "курси", de: "Kurse" },
     events: { uk: "події", de: "Veranstaltungen" },
     volunteering: { uk: "волонтерство", de: "Ehrenamt" },
