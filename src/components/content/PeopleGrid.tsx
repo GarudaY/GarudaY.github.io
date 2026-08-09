@@ -1,38 +1,49 @@
 import type { Locale } from "@/i18n/config";
 import { t } from "@/lib/localize";
 import type { Person } from "@/types/content";
-import { Badge } from "@/components/ui/Badge";
-import { Card } from "@/components/ui/Card";
 import { PersonPortrait } from "@/components/content/PersonPortrait";
 import { PersonBiography } from "@/components/content/PersonBiography";
 
-function PersonProfileCard({
+function TeacherDirectoryItem({
   person,
   locale,
 }: {
   person: Person;
   locale: Locale;
 }) {
+  const headingId = `teacher-${person.slug}-title`;
+
   return (
-    <Card className="teacher-profile-card group p-4 sm:p-5">
-      <div className="grid grid-cols-[5.75rem_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-5">
-        <PersonPortrait
-          person={person}
-          locale={locale}
-          className="aspect-square rounded-[15px]"
-          sizes="(min-width: 640px) 7rem, 5.75rem"
-        />
-        <div className="min-w-0">
-          <Badge tone="blue" className="max-w-full whitespace-normal leading-5">
-            {t(person.roleLabel, locale)}
-          </Badge>
-          <h3 className="mt-3 break-words text-xl font-bold leading-tight text-blue-strong">
-            {t(person.name, locale)}
-          </h3>
-        </div>
+    <article
+      aria-labelledby={headingId}
+      className="teacher-directory-item group grid grid-cols-[4.75rem_minmax(0,1fr)] items-center gap-x-4 px-4 py-5 sm:grid-cols-[6rem_minmax(0,1fr)_auto] sm:gap-x-6 sm:px-6 sm:py-6"
+    >
+      <PersonPortrait
+        person={person}
+        locale={locale}
+        className="aspect-square rounded-full"
+        sizes="(min-width: 640px) 6rem, 4.75rem"
+      />
+      <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase leading-5 tracking-[0.12em] text-blue">
+          {t(person.roleLabel, locale)}
+        </p>
+        <h3
+          id={headingId}
+          className="mt-1.5 break-words text-xl font-bold leading-tight text-blue-strong sm:text-2xl"
+        >
+          {t(person.name, locale)}
+        </h3>
       </div>
-      <PersonBiography person={person} locale={locale} className="mt-4 pt-2" />
-    </Card>
+      <PersonBiography
+        person={person}
+        locale={locale}
+        headingId={headingId}
+        className="contents"
+        buttonClassName="col-start-2 mt-3 w-fit justify-self-start sm:col-start-3 sm:row-start-1 sm:mt-0 sm:justify-self-end"
+        panelClassName="col-span-full sm:col-start-2 sm:col-end-4"
+      />
+    </article>
   );
 }
 
@@ -55,11 +66,16 @@ export function PeopleGrid({
         </h2>
         <p className="mt-3 leading-7 text-ink-muted">{description}</p>
       </div>
-      <div className="mx-auto mt-7 grid max-w-5xl items-start gap-4 md:grid-cols-2">
+      <ul className="teacher-directory mx-auto mt-7 max-w-4xl list-none overflow-hidden rounded-[24px] border border-border bg-surface p-0 shadow-soft">
         {people.map((person) => (
-          <PersonProfileCard key={person.id} person={person} locale={locale} />
+          <li
+            key={person.id}
+            className="border-b border-border/80 last:border-0"
+          >
+            <TeacherDirectoryItem person={person} locale={locale} />
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

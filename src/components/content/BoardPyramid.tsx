@@ -7,8 +7,13 @@ import { PersonPortrait } from "@/components/content/PersonPortrait";
 import { PersonBiography } from "@/components/content/PersonBiography";
 
 function ChairCard({ person, locale }: { person: Person; locale: Locale }) {
+  const headingId = `board-${person.slug}-title`;
+
   return (
-    <article className="board-chair-card card-surface mx-auto grid w-full max-w-2xl overflow-hidden rounded-[24px] border border-blue/20 bg-surface shadow-soft sm:grid-cols-[10.5rem_minmax(0,1fr)]">
+    <article
+      aria-labelledby={headingId}
+      className="board-chair-card card-surface mx-auto grid w-full max-w-2xl overflow-hidden rounded-[24px] border border-blue/20 bg-surface shadow-soft sm:grid-cols-[10.5rem_minmax(0,1fr)]"
+    >
       <PersonPortrait
         person={person}
         locale={locale}
@@ -18,7 +23,10 @@ function ChairCard({ person, locale }: { person: Person; locale: Locale }) {
       />
       <div className="p-5 text-left sm:p-6">
         <Badge tone="yellow">{t(person.roleLabel, locale)}</Badge>
-        <h3 className="mt-3 text-2xl font-bold text-blue-strong sm:text-[1.7rem]">
+        <h3
+          id={headingId}
+          className="mt-3 text-2xl font-bold text-blue-strong sm:text-[1.7rem]"
+        >
           {t(person.name, locale)}
         </h3>
         <p className="mt-2 text-sm leading-6 text-ink-muted">
@@ -29,7 +37,8 @@ function ChairCard({ person, locale }: { person: Person; locale: Locale }) {
         <PersonBiography
           person={person}
           locale={locale}
-          className="mt-3 pt-2"
+          headingId={headingId}
+          className="mt-3 border-t border-border/75 pt-2"
         />
       </div>
     </article>
@@ -37,8 +46,13 @@ function ChairCard({ person, locale }: { person: Person; locale: Locale }) {
 }
 
 function MemberCard({ person, locale }: { person: Person; locale: Locale }) {
+  const headingId = `board-${person.slug}-title`;
+
   return (
-    <article className="board-member-card group rounded-[18px] border border-border/90 bg-surface/90 p-4 sm:p-5">
+    <article
+      aria-labelledby={headingId}
+      className="board-member-card group rounded-[18px] border border-border/90 bg-surface/90 p-4 sm:p-5"
+    >
       <div className="grid grid-cols-[5.75rem_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
         <PersonPortrait
           person={person}
@@ -50,12 +64,20 @@ function MemberCard({ person, locale }: { person: Person; locale: Locale }) {
           <Badge tone="blue" className="max-w-full whitespace-normal leading-5">
             {t(person.roleLabel, locale)}
           </Badge>
-          <h3 className="mt-3 break-words text-xl font-bold leading-tight text-blue-strong">
+          <h3
+            id={headingId}
+            className="mt-3 break-words text-xl font-bold leading-tight text-blue-strong"
+          >
             {t(person.name, locale)}
           </h3>
         </div>
       </div>
-      <PersonBiography person={person} locale={locale} className="mt-4 pt-2" />
+      <PersonBiography
+        person={person}
+        locale={locale}
+        headingId={headingId}
+        className="mt-4 border-t border-border/75 pt-2"
+      />
     </article>
   );
 }

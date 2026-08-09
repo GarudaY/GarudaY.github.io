@@ -596,55 +596,120 @@ select {
   box-shadow: 0 0 0 0.8rem rgba(244, 200, 74, 0.12);
 }
 
-.person-details > summary {
+.person-disclosure-button {
+  border: 0;
+  background: transparent;
   transition: color 220ms ease;
 }
 
-.person-details > summary::-webkit-details-marker {
-  display: none;
+.person-disclosure-button:hover,
+.person-disclosure-button:focus-visible {
+  color: var(--blue-strong);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
-.person-details > summary svg {
-  transition: transform 420ms var(--ease-spring);
+.person-disclosure-icon {
+  transition:
+    transform 360ms var(--ease-spring),
+    border-color 220ms ease,
+    background-color 220ms ease;
 }
 
-.person-details-content {
+.person-disclosure-icon svg {
+  transition: transform 440ms var(--ease-spring);
+}
+
+.person-disclosure-panel {
   display: grid;
   grid-template-rows: 0fr;
+  visibility: hidden;
   opacity: 0;
   transform: translateY(-0.35rem);
   transition:
     grid-template-rows 480ms var(--ease-out-soft),
     opacity 280ms ease,
-    transform 420ms var(--ease-out-soft);
+    transform 420ms var(--ease-out-soft),
+    visibility 0s linear 480ms;
 }
 
-.person-details-content > div {
+.person-disclosure-panel > div {
   min-height: 0;
   overflow: hidden;
 }
 
-.person-details[open] > summary {
+.person-disclosure-copy {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  padding-bottom: 0.15rem;
+  border-top: 1px solid rgba(36, 95, 143, 0.14);
+}
+
+.person-disclosure[data-open="true"] .person-disclosure-button {
   color: var(--blue-strong);
 }
 
-.person-details[open] > summary svg {
+.person-disclosure[data-open="true"] .person-disclosure-icon {
+  border-color: rgba(36, 95, 143, 0.34);
+  background: rgba(232, 240, 239, 0.8);
+}
+
+.person-disclosure[data-open="true"] .person-disclosure-icon svg {
   transform: rotate(180deg);
 }
 
-.person-details[open] .person-details-content {
+.person-disclosure[data-open="true"] .person-disclosure-panel {
   grid-template-rows: 1fr;
+  visibility: visible;
   opacity: 1;
   transform: translateY(0);
+  transition-delay: 0s;
 }
 
-.teacher-profile-card {
-  overflow: hidden;
+.teacher-directory {
+  background:
+    radial-gradient(
+      circle at 95% 0%,
+      rgba(244, 200, 74, 0.1),
+      transparent 13rem
+    ),
+    var(--surface);
 }
 
-.teacher-profile-card:has(.person-details[open]) {
-  border-color: rgba(36, 95, 143, 0.3);
-  box-shadow: 0 20px 54px rgba(23, 57, 87, 0.11);
+.teacher-directory-item {
+  position: relative;
+  transition:
+    background-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.teacher-directory-item::before {
+  position: absolute;
+  top: 1.15rem;
+  bottom: 1.15rem;
+  left: 0;
+  width: 3px;
+  border-radius: 0 999px 999px 0;
+  background: var(--yellow);
+  content: "";
+  opacity: 0;
+  transform: scaleY(0.35);
+  transition:
+    opacity 260ms ease,
+    transform 420ms var(--ease-out-soft);
+}
+
+.teacher-directory-item:has([aria-expanded="true"]) {
+  background: rgba(232, 240, 239, 0.42);
+}
+
+.teacher-directory-item:has([aria-expanded="true"])::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.teacher-directory-item:has(.person-disclosure-button:focus-visible) {
+  box-shadow: inset 0 0 0 2px rgba(36, 95, 143, 0.32);
 }
 
 .board-pyramid {
@@ -866,9 +931,17 @@ select {
     box-shadow: 0 16px 38px rgba(23, 57, 87, 0.11);
   }
 
-  .teacher-profile-card:focus-within,
   .board-chair-card:focus-within {
     transform: none;
+  }
+
+  .teacher-directory-item:hover {
+    background: rgba(232, 240, 239, 0.32);
+  }
+
+  .teacher-directory-item:hover .person-disclosure-icon {
+    border-color: rgba(36, 95, 143, 0.36);
+    transform: scale(1.06);
   }
 
   .footer-link:hover {
