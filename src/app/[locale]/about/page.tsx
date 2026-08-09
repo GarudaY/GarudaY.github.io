@@ -10,7 +10,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { LinkButton } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { PeopleGrid, PersonProfileCard } from "@/components/content/PeopleGrid";
+import { PeopleGrid } from "@/components/content/PeopleGrid";
+import { BoardPyramid } from "@/components/content/BoardPyramid";
 import { PhotoCarousel } from "@/components/content/PhotoCarousel";
 import { PartnerLogo } from "@/components/content/PartnerLogo";
 import { CTASection } from "@/components/content/CTASection";
@@ -172,43 +173,7 @@ export default async function AboutPage({ params }: PageProps) {
 
       <Section className="section-soft">
         <div className="grid min-w-0 gap-10 lg:gap-12">
-          <section
-            aria-labelledby="chair-title"
-            className="min-w-0 text-center"
-          >
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-              {isUk ? "Правління" : "Vorstand"}
-            </p>
-            <h2
-              id="chair-title"
-              className="mt-2 break-words text-3xl font-bold text-blue-strong"
-            >
-              {isUk ? "Голова правління" : "Vorstandsvorsitzende"}
-            </h2>
-            {chair ? (
-              <div className="mt-5">
-                <PersonProfileCard
-                  person={chair}
-                  locale={locale}
-                  featured
-                  compact
-                  preload
-                />
-              </div>
-            ) : null}
-          </section>
-
-          <PeopleGrid
-            locale={locale}
-            people={boardMembers}
-            compact
-            title={isUk ? "Члени правління" : "Weitere Vorstandsmitglieder"}
-            description={
-              isUk
-                ? "Команда, що відповідає за організаційну, фінансову, комунікаційну та програмну роботу об’єднання."
-                : "Das Team für organisatorische, finanzielle, kommunikative und programmbezogene Aufgaben des Vereins."
-            }
-          />
+          <BoardPyramid chair={chair} members={boardMembers} locale={locale} />
 
           <div className="min-w-0 border-t border-border/80 pt-12 lg:pt-16">
             <PeopleGrid
