@@ -596,8 +596,55 @@ select {
   box-shadow: 0 0 0 0.8rem rgba(244, 200, 74, 0.12);
 }
 
-.person-details[open] summary svg {
+.person-details > summary {
+  transition: color 220ms ease;
+}
+
+.person-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.person-details > summary svg {
+  transition: transform 420ms var(--ease-spring);
+}
+
+.person-details-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(-0.35rem);
+  transition:
+    grid-template-rows 480ms var(--ease-out-soft),
+    opacity 280ms ease,
+    transform 420ms var(--ease-out-soft);
+}
+
+.person-details-content > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.person-details[open] > summary {
+  color: var(--blue-strong);
+}
+
+.person-details[open] > summary svg {
   transform: rotate(180deg);
+}
+
+.person-details[open] .person-details-content {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.teacher-profile-card {
+  overflow: hidden;
+}
+
+.teacher-profile-card:has(.person-details[open]) {
+  border-color: rgba(36, 95, 143, 0.3);
+  box-shadow: 0 20px 54px rgba(23, 57, 87, 0.11);
 }
 
 .board-pyramid {
@@ -808,11 +855,20 @@ select {
     transform: translateY(-2px) scale(1.03);
   }
 
-  .board-member-card:hover,
-  .board-member-card:focus-within {
+  .board-member-card:hover {
     border-color: rgba(36, 95, 143, 0.34);
     box-shadow: 0 16px 38px rgba(23, 57, 87, 0.11);
     transform: translateY(-0.22rem);
+  }
+
+  .board-member-card:focus-within {
+    border-color: rgba(36, 95, 143, 0.34);
+    box-shadow: 0 16px 38px rgba(23, 57, 87, 0.11);
+  }
+
+  .teacher-profile-card:focus-within,
+  .board-chair-card:focus-within {
+    transform: none;
   }
 
   .footer-link:hover {

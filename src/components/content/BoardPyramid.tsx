@@ -1,26 +1,10 @@
-import { ChevronDown, UsersRound } from "lucide-react";
+import { UsersRound } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { t } from "@/lib/localize";
 import type { Person } from "@/types/content";
 import { Badge } from "@/components/ui/Badge";
 import { PersonPortrait } from "@/components/content/PersonPortrait";
-
-function Biography({ person, locale }: { person: Person; locale: Locale }) {
-  return (
-    <details className="person-details mt-3 border-t border-border/75 pt-2 text-left">
-      <summary className="focus-ring inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-full text-sm font-semibold text-blue">
-        {locale === "uk" ? "Читати повністю" : "Mehr lesen"}
-        <ChevronDown
-          aria-hidden="true"
-          className="h-4 w-4 transition-transform"
-        />
-      </summary>
-      <p className="pb-1 pt-2 text-sm leading-6 text-ink-muted">
-        {t(person.bio, locale)}
-      </p>
-    </details>
-  );
-}
+import { PersonBiography } from "@/components/content/PersonBiography";
 
 function ChairCard({ person, locale }: { person: Person; locale: Locale }) {
   return (
@@ -42,7 +26,11 @@ function ChairCard({ person, locale }: { person: Person; locale: Locale }) {
             ? "Координує роботу правління та представляє об’єднання."
             : "Koordiniert die Vorstandsarbeit und vertritt den Verein."}
         </p>
-        <Biography person={person} locale={locale} />
+        <PersonBiography
+          person={person}
+          locale={locale}
+          className="mt-3 pt-2"
+        />
       </div>
     </article>
   );
@@ -50,22 +38,24 @@ function ChairCard({ person, locale }: { person: Person; locale: Locale }) {
 
 function MemberCard({ person, locale }: { person: Person; locale: Locale }) {
   return (
-    <article className="board-member-card group grid h-full grid-cols-[6.75rem_minmax(0,1fr)] overflow-hidden rounded-[18px] border border-border/90 bg-surface/90 sm:grid-cols-[7.5rem_minmax(0,1fr)]">
-      <PersonPortrait
-        person={person}
-        locale={locale}
-        className="h-full min-h-44 rounded-none"
-        sizes="(min-width: 640px) 7.5rem, 6.75rem"
-      />
-      <div className="min-w-0 p-4 sm:p-5">
-        <Badge tone="blue" className="max-w-full whitespace-normal leading-5">
-          {t(person.roleLabel, locale)}
-        </Badge>
-        <h3 className="mt-3 break-words text-xl font-bold leading-tight text-blue-strong">
-          {t(person.name, locale)}
-        </h3>
-        <Biography person={person} locale={locale} />
+    <article className="board-member-card group rounded-[18px] border border-border/90 bg-surface/90 p-4 sm:p-5">
+      <div className="grid grid-cols-[5.75rem_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
+        <PersonPortrait
+          person={person}
+          locale={locale}
+          className="aspect-square rounded-[14px]"
+          sizes="(min-width: 640px) 6.5rem, 5.75rem"
+        />
+        <div className="min-w-0">
+          <Badge tone="blue" className="max-w-full whitespace-normal leading-5">
+            {t(person.roleLabel, locale)}
+          </Badge>
+          <h3 className="mt-3 break-words text-xl font-bold leading-tight text-blue-strong">
+            {t(person.name, locale)}
+          </h3>
+        </div>
       </div>
+      <PersonBiography person={person} locale={locale} className="mt-4 pt-2" />
     </article>
   );
 }
@@ -118,7 +108,7 @@ export function BoardPyramid({
               </span>
             </div>
 
-            <ol className="relative z-10 mt-5 grid list-none gap-3 p-0 md:grid-cols-2 lg:gap-4">
+            <ol className="relative z-10 mt-5 grid list-none items-start gap-3 p-0 md:grid-cols-2 lg:gap-4">
               {members.map((person) => (
                 <li key={person.id} className="min-w-0">
                   <MemberCard person={person} locale={locale} />
