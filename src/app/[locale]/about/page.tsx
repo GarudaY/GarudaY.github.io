@@ -171,7 +171,7 @@ export default async function AboutPage({ params }: PageProps) {
       </Section>
 
       <Section className="section-soft">
-        <div className="grid min-w-0 gap-14 lg:gap-18">
+        <div className="grid min-w-0 gap-10 lg:gap-12">
           <section
             aria-labelledby="chair-title"
             className="min-w-0 text-center"
@@ -181,16 +181,17 @@ export default async function AboutPage({ params }: PageProps) {
             </p>
             <h2
               id="chair-title"
-              className="mt-3 break-words text-4xl font-bold text-blue-strong"
+              className="mt-2 break-words text-3xl font-bold text-blue-strong"
             >
               {isUk ? "Голова правління" : "Vorstandsvorsitzende"}
             </h2>
             {chair ? (
-              <div className="mt-7">
+              <div className="mt-5">
                 <PersonProfileCard
                   person={chair}
                   locale={locale}
                   featured
+                  compact
                   preload
                 />
               </div>
@@ -200,6 +201,7 @@ export default async function AboutPage({ params }: PageProps) {
           <PeopleGrid
             locale={locale}
             people={boardMembers}
+            compact
             title={isUk ? "Члени правління" : "Weitere Vorstandsmitglieder"}
             description={
               isUk
