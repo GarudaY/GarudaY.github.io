@@ -26,7 +26,9 @@ export function PersonProfileCard({
           ? "mx-auto w-full max-w-2xl border-blue/20 shadow-soft sm:grid sm:grid-cols-[13rem_minmax(0,1fr)]"
           : featured
             ? "mx-auto w-full max-w-xl border-blue/20 shadow-soft"
-            : ""
+            : compact
+              ? "sm:grid sm:grid-cols-[9rem_minmax(0,1fr)]"
+              : ""
       }`}
     >
       <PersonPortrait
@@ -36,14 +38,18 @@ export function PersonProfileCard({
         className={
           featured && compact
             ? "aspect-[16/10] rounded-none sm:aspect-auto sm:h-full sm:min-h-56"
-            : "aspect-[4/3] rounded-none"
+            : compact
+              ? "aspect-[16/9] rounded-none sm:aspect-auto sm:h-full sm:min-h-48"
+              : "aspect-[4/3] rounded-none"
         }
         sizes={
           featured && compact
             ? "(min-width: 640px) 13rem, 100vw"
-            : featured
-              ? "(min-width: 640px) 36rem, 100vw"
-              : "(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
+            : compact
+              ? "(min-width: 640px) 9rem, 100vw"
+              : featured
+                ? "(min-width: 640px) 36rem, 100vw"
+                : "(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
         }
       />
       <div
@@ -138,7 +144,7 @@ export function PeopleGrid({
       <div
         className={`mx-auto grid ${
           compact
-            ? "mt-5 max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            ? "mt-5 max-w-5xl gap-4 sm:grid-cols-2"
             : "mt-7 max-w-5xl gap-5 md:grid-cols-2"
         }`}
       >
