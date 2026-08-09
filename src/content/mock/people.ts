@@ -10,13 +10,21 @@ export const people: Person[] = [
       uk: "Голова правління",
       de: "Vorstandsvorsitzende",
     },
-    roles: ["board", "team"],
+    teacherRoleLabel: {
+      uk: "Викладачка німецької мови",
+      de: "Kursleitung Deutsch",
+    },
+    roles: ["board", "team", "teacher"],
     bio: {
       uk: "Очолює правління SONNENBLUME, координує його роботу та представляє організацію у взаємодії з партнерами й громадою.",
       de: "Sie leitet den Vorstand von SONNENBLUME, koordiniert seine Arbeit und vertritt den Verein gegenüber Partnern und der Gemeinschaft.",
     },
+    teacherBio: {
+      uk: "Веде курс німецької мови у SONNENBLUME та допомагає учасникам упевненіше користуватися мовою в повсякденних ситуаціях.",
+      de: "Sie leitet bei SONNENBLUME den Deutschkurs und unterstützt die Teilnehmenden dabei, Deutsch im Alltag sicherer anzuwenden.",
+    },
     languages: [],
-    relatedCourseIds: [],
+    relatedCourseIds: ["course-german"],
     order: 1,
     isDemo: false,
     seo: {
@@ -27,7 +35,7 @@ export const people: Person[] = [
       },
     },
     createdAt: "2026-07-26",
-    updatedAt: "2026-08-08",
+    updatedAt: "2026-08-09",
   },
   {
     id: "person-mariya-kaplunovska",
@@ -140,10 +148,18 @@ export const people: Person[] = [
       uk: "Керівниця проєктів для дітей та молоді",
       de: "Leitung Kinder- und Jugendprojekte",
     },
-    roles: ["board", "team"],
+    teacherRoleLabel: {
+      uk: "Викладачка арифметики",
+      de: "Kursleitung Arithmetik",
+    },
+    roles: ["board", "team", "teacher"],
     bio: {
       uk: "Координує у SONNENBLUME проєкти для дітей і молоді та допомагає розвивати їхню програму.",
       de: "Sie koordiniert bei SONNENBLUME Projekte für Kinder und Jugendliche und entwickelt deren Programm weiter.",
+    },
+    teacherBio: {
+      uk: "Веде заняття з арифметики для дітей у SONNENBLUME.",
+      de: "Sie leitet bei SONNENBLUME den Arithmetikunterricht für Kinder.",
     },
     languages: [],
     relatedCourseIds: [],
@@ -157,7 +173,7 @@ export const people: Person[] = [
       },
     },
     createdAt: "2026-08-08",
-    updatedAt: "2026-08-08",
+    updatedAt: "2026-08-09",
   },
   {
     id: "person-olena-shulimenko",

@@ -72,8 +72,10 @@ export type Person = {
   status: PublicationStatus;
   name: LocalizedString;
   roleLabel: LocalizedString;
+  teacherRoleLabel?: LocalizedString;
   roles: PersonRole[];
   bio: LocalizedString;
+  teacherBio?: LocalizedString;
   languages: string[];
   image?: ImageAsset;
   email?: string;

@@ -11,6 +11,7 @@ export function PersonBiography({
   person,
   locale,
   headingId,
+  biography,
   className,
   buttonClassName,
   panelClassName,
@@ -18,6 +19,7 @@ export function PersonBiography({
   person: Person;
   locale: Locale;
   headingId: string;
+  biography?: Person["bio"];
   className?: string;
   buttonClassName?: string;
   panelClassName?: string;
@@ -63,7 +65,7 @@ export function PersonBiography({
       >
         <div>
           <p className="person-disclosure-copy text-sm leading-6 text-ink-muted">
-            {t(person.bio, locale)}
+            {t(biography ?? person.bio, locale)}
           </p>
         </div>
       </div>

@@ -54,7 +54,7 @@ export const courses: Course[] = [
     },
     seatsTotal: 0,
     seatsAvailable: 0,
-    teacherIds: [],
+    teacherIds: ["person-natalia-petrova"],
     relatedCourseIds: ["course-choir"],
     image: {
       src: "/images/generated/course-german-a1-v1.webp",

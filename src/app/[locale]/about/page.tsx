@@ -182,8 +182,8 @@ export default async function AboutPage({ params }: PageProps) {
               title={isUk ? "Викладачі" : "Kursleitungen"}
               description={
                 isUk
-                  ? "Фахівці, які безпосередньо працюють з дітьми й підлітками на регулярних заняттях SONNENBLUME."
-                  : "Fachkräfte, die Kinder und Jugendliche in den regelmäßigen Angeboten von SONNENBLUME begleiten."
+                  ? "Викладачі, які ведуть мовні, творчі та освітні заняття для дітей, підлітків і дорослих."
+                  : "Kursleitungen für Sprach-, Kreativ- und Bildungsangebote für Kinder, Jugendliche und Erwachsene."
               }
             />
           </div>
