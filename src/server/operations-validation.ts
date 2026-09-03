@@ -26,29 +26,40 @@ export const registrationRequestSchema = z.object({
   company: z.string().max(0).optional(),
 });
 
-export const contactRequestSchema = z.object({
-  locale: localeSchema,
-  name: z.string().trim().min(2).max(100),
-  email: z.string().trim().toLowerCase().email().max(200),
-  topic: z.enum([
-    "general",
-    "courses",
-    "events",
-    "volunteering",
-    "membership",
-    "donation",
-    "partnership",
-  ]),
-  message: z.string().trim().min(5).max(3000),
-  context: z
-    .string()
-    .trim()
-    .max(240)
-    .optional()
-    .transform((value) => value || undefined),
-  consent: z.literal(true),
-  company: z.string().max(0).optional(),
-});
+export const contactRequestSchema = z
+  .object({
+    locale: localeSchema,
+    name: z.string().trim().min(2).max(100),
+    email: z.string().trim().toLowerCase().email().max(200),
+    topic: z.enum([
+      "general",
+      "courses",
+      "events",
+      "volunteering",
+      "membership",
+      "donation",
+      "partnership",
+    ]),
+    message: z.string().trim().min(5).max(3000),
+    context: z
+      .string()
+      .trim()
+      .max(240)
+      .optional()
+      .transform((value) => value || undefined),
+    consent: z.literal(true),
+    statuteAccepted: z.boolean().optional(),
+    company: z.string().max(0).optional(),
+  })
+  .superRefine((value, context) => {
+    if (value.topic === "membership" && value.statuteAccepted !== true) {
+      context.addIssue({
+        code: "custom",
+        path: ["statuteAccepted"],
+        message: "Satzung must be accepted for membership requests",
+      });
+    }
+  });
 
 export const registrationSchema = z.object({
   id: z.string().uuid(),

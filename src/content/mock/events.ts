@@ -5,33 +5,36 @@ export const events: Event[] = [
     id: "event-independence-day-2026",
     slug: "den-nezalezhnosti-ukrainy-2026",
     status: "published",
-    eventStatus: "upcoming",
+    eventStatus: "past",
     category: "culture",
     title: {
       uk: "Святкування Дня Незалежності України",
       de: "Feier zum ukrainischen Unabhängigkeitstag",
     },
     summary: {
-      uk: "23 серпня SONNENBLUME запрошує громаду разом відзначити День Незалежності України.",
-      de: "Am 23. August lädt SONNENBLUME die Community ein, gemeinsam den ukrainischen Unabhängigkeitstag zu feiern.",
+      uk: "23 серпня SONNENBLUME разом із громадою відзначила 35-ту річницю Незалежності України.",
+      de: "Am 23. August feierte SONNENBLUME gemeinsam mit der Community den 35. Jahrestag der ukrainischen Unabhängigkeit.",
     },
     description: {
-      uk: "Зустрінемося, щоб провести цей день разом, підтримати одне одного та відзначити українську культуру й незалежність. Детальну програму, час і організаційні умови команда опублікує додатково.",
-      de: "Wir kommen zusammen, um diesen Tag miteinander zu verbringen, uns gegenseitig zu stärken und ukrainische Kultur und Unabhängigkeit zu feiern. Programm, Uhrzeit und organisatorische Hinweise veröffentlicht das Team noch separat.",
+      uk: "Свято «Ми святкуємо свободу!» відбулося у музичній мушлі Volksgarten. У програмі були український ярмарок ручної роботи, народний і оперний спів, танці, жива музика, виступи дітей, ігри та воркшопи.",
+      de: "Das Fest unter dem Motto „Wir feiern Freiheit!“ fand an der Musikmuschel im Volksgarten statt. Zum Programm gehörten ein ukrainischer Kunsthandwerksmarkt, Volks- und Operngesang, Tanz, Livemusik, Auftritte von Kindern, Spiele und Workshops.",
     },
-    startsAt: "2026-08-23",
+    startsAt: "2026-08-23T12:00:00+02:00",
     timeLabel: {
-      uk: "Час буде оголошено",
-      de: "Uhrzeit folgt",
+      uk: "Початок о 12:00, концерт о 13:00",
+      de: "Beginn 12:00 Uhr, Konzert ab 13:00 Uhr",
     },
-    location: { uk: "Mönchengladbach", de: "Mönchengladbach" },
+    location: {
+      uk: "Musikmuschel im Volksgarten, Carl-Diem-Straße 2, 41065 Mönchengladbach",
+      de: "Musikmuschel im Volksgarten, Carl-Diem-Straße 2, 41065 Mönchengladbach",
+    },
     price: {
-      uk: "Деталі участі незабаром",
-      de: "Teilnahmeinfos folgen",
+      uk: "Вхід вільний",
+      de: "Eintritt frei",
     },
     registrationLabel: {
-      uk: "Запитати про подію",
-      de: "Zur Veranstaltung fragen",
+      uk: "Архів події",
+      de: "Veranstaltungsarchiv",
     },
     capacity: 0,
     seatsAvailable: 0,
@@ -58,7 +61,7 @@ export const events: Event[] = [
       },
     },
     createdAt: "2026-08-08",
-    updatedAt: "2026-08-08",
+    updatedAt: "2026-09-03",
   },
   {
     id: "event-ai-volunteering-workshop-2026",
@@ -100,7 +103,7 @@ export const events: Event[] = [
     seatsAvailable: 0,
     contactEmail: "kontakt@sonnenblume-mg.com",
     image: {
-      src: "/images/generated/event-ai-volunteering-workshop-v1.webp",
+      src: "/images/community/community-gathering.jpg",
       alt: {
         uk: "Учасники практичного воркшопу працюють разом",
         de: "Teilnehmende arbeiten gemeinsam in einem Workshop",

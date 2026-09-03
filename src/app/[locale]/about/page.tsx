@@ -10,7 +10,6 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { LinkButton } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { PeopleGrid } from "@/components/content/PeopleGrid";
 import { BoardPyramid } from "@/components/content/BoardPyramid";
 import { PhotoCarousel } from "@/components/content/PhotoCarousel";
 import { PartnerLogo } from "@/components/content/PartnerLogo";
@@ -36,8 +35,8 @@ export async function generateMetadata({
     title: locale === "uk" ? "Про SONNENBLUME" : "Über SONNENBLUME",
     description:
       locale === "uk"
-        ? "Історія, правління, викладачі, волонтери та партнери SONNENBLUME у Мьонхенгладбаху."
-        : "Geschichte, Vorstand, Kursleitungen, Ehrenamtliche und Partner von SONNENBLUME in Mönchengladbach.",
+        ? "Історія, правління, волонтери та партнери SONNENBLUME у Мьонхенгладбаху."
+        : "Geschichte, Vorstand, Ehrenamtliche und Partner von SONNENBLUME in Mönchengladbach.",
   });
 }
 
@@ -82,7 +81,6 @@ export default async function AboutPage({ params }: PageProps) {
   const board = people.filter((person) => person.roles.includes("board"));
   const chair = board.find((person) => person.id === "person-natalia-petrova");
   const boardMembers = board.filter((person) => person.id !== chair?.id);
-  const teachers = people.filter((person) => person.roles.includes("teacher"));
   const isUk = locale === "uk";
 
   return (
@@ -172,22 +170,7 @@ export default async function AboutPage({ params }: PageProps) {
       </Section>
 
       <Section className="section-soft">
-        <div className="grid min-w-0 gap-10 lg:gap-12">
-          <BoardPyramid chair={chair} members={boardMembers} locale={locale} />
-
-          <div className="min-w-0 border-t border-border/80 pt-12 lg:pt-16">
-            <PeopleGrid
-              locale={locale}
-              people={teachers}
-              title={isUk ? "Викладачі" : "Kursleitungen"}
-              description={
-                isUk
-                  ? "Викладачі, які ведуть мовні, творчі та освітні заняття для дітей, підлітків і дорослих."
-                  : "Kursleitungen für Sprach-, Kreativ- und Bildungsangebote für Kinder, Jugendliche und Erwachsene."
-              }
-            />
-          </div>
-        </div>
+        <BoardPyramid chair={chair} members={boardMembers} locale={locale} />
       </Section>
 
       <Section className="section-warm">
@@ -251,17 +234,17 @@ export default async function AboutPage({ params }: PageProps) {
             <div>
               <h2 className="text-2xl font-bold text-blue-strong">
                 {isUk
-                  ? "Хочете долучитися у зручному форматі?"
-                  : "Möchten Sie sich passend zu Ihrer Zeit einbringen?"}
+                  ? "Хочете підтримати команду як волонтер?"
+                  : "Möchten Sie das Team ehrenamtlich unterstützen?"}
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-muted">
                 {isUk
-                  ? "Волонтерство, членство в об’єднанні та партнерство мають різні формати — оберіть той, що підходить саме вам."
-                  : "Ehrenamt, Vereinsmitgliedschaft und Partnerschaft haben unterschiedliche Formen – wählen Sie, was zu Ihnen passt."}
+                  ? "Розкажіть про свій досвід, доступний час або власну ідею — для допомоги не обов’язково бути членом об’єднання."
+                  : "Erzählen Sie uns von Ihrer Erfahrung, Ihrer verfügbaren Zeit oder Ihrer Idee – eine Vereinsmitgliedschaft ist dafür nicht erforderlich."}
               </p>
             </div>
             <LinkButton href={getPath(locale, "join")}>
-              {isUk ? "Обрати формат" : "Mitmach-Form wählen"}
+              {isUk ? "Запропонувати допомогу" : "Unterstützung anbieten"}
             </LinkButton>
           </div>
         </CTASection>

@@ -1,4 +1,4 @@
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { t } from "@/lib/localize";
 import type { ContactSettings } from "@/types/content";
@@ -107,18 +107,6 @@ export function ContactCard({
               {locale === "uk" ? "Адреса" : "Adresse"}
             </dt>
             <dd>{t(contact.address, locale)}</dd>
-          </div>
-        </div>
-        <div className="flex gap-3">
-          <Clock
-            aria-hidden="true"
-            className="mt-0.5 h-5 w-5 shrink-0 text-blue"
-          />
-          <div>
-            <dt className="font-semibold text-blue-strong">
-              {locale === "uk" ? "Години" : "Sprechzeiten"}
-            </dt>
-            <dd>{t(contact.officeHours, locale)}</dd>
           </div>
         </div>
       </dl>

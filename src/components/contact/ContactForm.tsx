@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { CheckCircle2, LoaderCircle } from "lucide-react";
 import { useState, useSyncExternalStore } from "react";
 import type { Locale } from "@/i18n/config";
 import { apiUrl } from "@/lib/api-url";
+import { getPath } from "@/i18n/routing";
 import type { ContactReceipt, ContactTopic } from "@/types/operations";
 import { Button } from "@/components/ui/Button";
 import { fieldClassName, FormField } from "@/components/ui/FormField";
@@ -106,6 +108,7 @@ export function ContactForm({
               message: data.get("message"),
               context: requestContext ?? clientContext,
               consent: data.get("consent") === "on",
+              statuteAccepted: data.get("statuteAccepted") === "on",
               company: data.get("company"),
             }),
           });
@@ -244,6 +247,28 @@ export function ContactForm({
           className={fieldClassName}
         />
       </FormField>
+      {topic === "membership" ? (
+        <label className="flex min-h-11 items-start gap-3 text-sm leading-6 text-ink-muted">
+          <input
+            type="checkbox"
+            name="statuteAccepted"
+            required
+            className="mt-1.5 h-5 w-5 shrink-0 accent-blue"
+          />
+          <span>
+            {isUk ? "Я ознайомився / ознайомилася зі " : "Ich habe die "}
+            <a
+              href="/documents/membership/satzung-sonnenblume.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="focus-ring rounded-full font-semibold text-blue underline decoration-blue/30 underline-offset-4"
+            >
+              Satzung
+            </a>
+            {isUk ? "." : " gelesen."}
+          </span>
+        </label>
+      ) : null}
       <label className="flex min-h-11 items-start gap-3 text-sm leading-6 text-ink-muted">
         <input
           type="checkbox"
@@ -253,8 +278,15 @@ export function ContactForm({
         />
         <span>
           {isUk
-            ? "Погоджуюся на захищене збереження та передачу даних відповідальній команді для опрацювання звернення."
-            : "Ich stimme der geschützten Speicherung und Weitergabe an das zuständige Team zur Bearbeitung meiner Anfrage zu."}
+            ? "Погоджуюся на захищене збереження та передачу даних відповідальній команді згідно з "
+            : "Ich stimme der geschützten Speicherung und Weitergabe an das zuständige Team gemäß der "}
+          <Link
+            href={getPath(locale, "privacy")}
+            className="focus-ring rounded-full font-semibold text-blue underline decoration-blue/30 underline-offset-4"
+          >
+            {isUk ? "політикою захисту даних" : "Datenschutzerklärung"}
+          </Link>
+          {isUk ? "." : " zu."}
         </span>
       </label>
       <Button

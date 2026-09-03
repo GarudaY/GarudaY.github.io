@@ -55,14 +55,12 @@ export default async function ImpressumPage({ params }: PageProps) {
             <p className="mt-4 font-semibold text-blue-strong">
               SONNENBLUME — Interkultureller Verein e.V.
             </p>
-            <p>Welfenstraße 10</p>
-            <p>41238 Mönchengladbach</p>
+            <p>Hauptstraße 91</p>
+            <p>41236 Mönchengladbach</p>
             <p>Deutschland</p>
           </div>
           <div className="rounded-[18px] border border-border bg-surface p-6 leading-7 text-ink-muted">
-            <h2 className="text-2xl font-bold text-blue-strong">
-              Vorstand
-            </h2>
+            <h2 className="text-2xl font-bold text-blue-strong">Vorstand</h2>
             <p className="mt-4">Natalia Petrova, Vorstandsvorsitzende</p>
             <p>Mariya Kaplunovska, stellvertretende Vorsitzende</p>
             <p>Viktoriia Zhelezniak, Schatzmeisterin</p>

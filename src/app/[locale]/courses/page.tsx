@@ -9,6 +9,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { CourseFilters } from "@/components/courses/CourseFilters";
+import { PeopleGrid } from "@/components/content/PeopleGrid";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -81,6 +82,18 @@ export default async function CoursesPage({ params }: PageProps) {
           </a>
         </div>
         <CourseFilters courses={courses} teachers={teachers} locale={locale} />
+      </Section>
+      <Section className="section-soft pt-10 lg:pt-14">
+        <PeopleGrid
+          locale={locale}
+          people={teachers}
+          title={locale === "uk" ? "Викладачі" : "Kursleitungen"}
+          description={
+            locale === "uk"
+              ? "Люди, які ведуть мовні, творчі та освітні заняття SONNENBLUME. Відкрийте картку, щоб прочитати повну розповідь."
+              : "Menschen, die die Sprach-, Kreativ- und Bildungsangebote von SONNENBLUME leiten. Öffnen Sie eine Karte, um die vollständige Vorstellung zu lesen."
+          }
+        />
       </Section>
     </>
   );

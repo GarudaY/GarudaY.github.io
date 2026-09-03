@@ -23,8 +23,8 @@ export const siteSettings: SiteSettings = {
     coursesEmail: "kurse@sonnenblume-mg.com",
     boardEmail: "vorstand@sonnenblume-mg.com",
     address: {
-      uk: "Welfenstraße 10, 41238 Mönchengladbach",
-      de: "Welfenstraße 10, 41238 Mönchengladbach",
+      uk: "Hauptstraße 91, 41236 Mönchengladbach",
+      de: "Hauptstraße 91, 41236 Mönchengladbach",
     },
     officeHours: {
       uk: "Зустрічі за попередньою домовленістю",
@@ -52,8 +52,13 @@ export const siteSettings: SiteSettings = {
       priority: "primary",
     },
     {
-      label: { uk: "Події", de: "Veranstaltungen" },
+      label: { uk: "Події", de: "Events" },
       route: "events",
+      priority: "primary",
+    },
+    {
+      label: { uk: "Наше щодення", de: "Was uns bewegt" },
+      route: "news",
       priority: "primary",
     },
     {
@@ -218,6 +223,21 @@ export const donationSettings: DonationSettings = {
       isDemo: false,
     },
     {
+      id: "paypal",
+      type: "paypal",
+      title: { uk: "PayPal", de: "PayPal" },
+      description: {
+        uk: "Безпечна онлайн-пожертва через офіційну сторінку SONNENBLUME у PayPal.",
+        de: "Sicher online über die offizielle PayPal-Spendenseite von SONNENBLUME spenden.",
+      },
+      details: {
+        uk: ["Отримувач: kontakt.sonnenblume@gmail.com"],
+        de: ["Empfänger: kontakt.sonnenblume@gmail.com"],
+      },
+      href: "https://www.paypal.com/donate/?business=kontakt.sonnenblume%40gmail.com",
+      isDemo: false,
+    },
+    {
       id: "bank-qr",
       type: "qr",
       title: { uk: "Переказ за QR-кодом", de: "Überweisung per QR-Code" },
@@ -235,29 +255,12 @@ export const donationSettings: DonationSettings = {
       },
       isDemo: false,
     },
-    {
-      id: "in-kind-and-time",
-      type: "in-kind",
-      title: {
-        uk: "Час і практична допомога",
-        de: "Zeit und praktische Hilfe",
-      },
-      description: {
-        uk: "Допомогти можна також часом, матеріалами, приміщенням або професійним досвідом.",
-        de: "Sie können auch mit Zeit, Materialien, Räumen oder fachlicher Erfahrung helfen.",
-      },
-      details: {
-        uk: ["Розкажіть про свою пропозицію через контактну форму."],
-        de: ["Beschreiben Sie Ihr Angebot über das Kontaktformular."],
-      },
-      isDemo: false,
-    },
   ],
   seo: {
     title: { uk: "Підтримати SONNENBLUME", de: "SONNENBLUME unterstützen" },
     description: {
-      uk: "Підтримайте культурні й освітні програми SONNENBLUME банківським переказом або власним часом.",
-      de: "Unterstützen Sie Kultur- und Bildungsangebote von SONNENBLUME per Überweisung oder mit Ihrer Zeit.",
+      uk: "Підтримайте культурні й освітні програми SONNENBLUME банківським переказом, QR-кодом або через PayPal.",
+      de: "Unterstützen Sie Kultur- und Bildungsangebote von SONNENBLUME per Überweisung, QR-Code oder PayPal.",
     },
   },
 };

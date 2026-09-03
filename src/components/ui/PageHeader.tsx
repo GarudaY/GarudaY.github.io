@@ -9,6 +9,7 @@ type PageHeaderProps = {
   children?: ReactNode;
   visual?: ReactNode;
   className?: string;
+  descriptionClassName?: string;
 };
 
 export function PageHeader({
@@ -18,6 +19,7 @@ export function PageHeader({
   children,
   visual,
   className,
+  descriptionClassName,
 }: PageHeaderProps) {
   return (
     <div className={cn("page-header-wash py-12 sm:py-16", className)}>
@@ -42,7 +44,12 @@ export function PageHeader({
                 {title}
               </h1>
               {description ? (
-                <p className="mt-5 text-lg leading-8 text-ink-muted">
+                <p
+                  className={cn(
+                    "mt-5 text-lg leading-8 text-ink-muted",
+                    descriptionClassName,
+                  )}
+                >
                   {description}
                 </p>
               ) : null}

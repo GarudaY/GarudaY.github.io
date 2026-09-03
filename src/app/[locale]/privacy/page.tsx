@@ -43,7 +43,7 @@ export default async function PrivacyPage({ params }: PageProps) {
       body: (
         <>
           <p>SONNENBLUME — Interkultureller Verein e.V.</p>
-          <p>Welfenstraße 10, 41238 Mönchengladbach</p>
+          <p>Hauptstraße 91, 41236 Mönchengladbach</p>
           <p>
             E-Mail:{" "}
             <a
@@ -100,8 +100,8 @@ export default async function PrivacyPage({ params }: PageProps) {
       body: (
         <p>
           {isUk
-              ? "Посилання на Instagram, Facebook, партнерські сайти та DSEE відкриваються лише після вашого кліку. PDF-файли заяв, статуту й SEPA розміщено як завантаження; введені у PDF дані автоматично не надсилаються на сайт."
-              : "Links zu Instagram, Facebook, Partnerseiten und der DSEE werden erst nach Ihrem Klick geöffnet. PDF-Dateien zu Antrag, Satzung und SEPA stehen als Downloads bereit; in PDFs eingetragene Daten werden nicht automatisch an die Website übermittelt."}
+            ? "Посилання на Instagram, Facebook, партнерські сайти та DSEE відкриваються лише після вашого кліку. PDF-файли заяв, статуту й SEPA розміщено як завантаження; введені у PDF дані автоматично не надсилаються на сайт."
+            : "Links zu Instagram, Facebook, Partnerseiten und der DSEE werden erst nach Ihrem Klick geöffnet. PDF-Dateien zu Antrag, Satzung und SEPA stehen als Downloads bereit; in PDFs eingetragene Daten werden nicht automatisch an die Website übermittelt."}
         </p>
       ),
     },

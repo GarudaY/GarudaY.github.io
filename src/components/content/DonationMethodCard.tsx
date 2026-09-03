@@ -1,10 +1,17 @@
 import Image from "next/image";
-import { BadgeEuro, Landmark, Package, QrCode } from "lucide-react";
+import {
+  ArrowUpRight,
+  BadgeEuro,
+  Landmark,
+  Package,
+  QrCode,
+} from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { t, tList } from "@/lib/localize";
 import type { DonationMethod } from "@/types/content";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { LinkButton } from "@/components/ui/Button";
 
 const icons = {
   bank: Landmark,
@@ -58,6 +65,17 @@ export function DonationMethodCard({
           <li key={detail}>{detail}</li>
         ))}
       </ul>
+      {method.href ? (
+        <LinkButton
+          href={method.href}
+          target="_blank"
+          rel="noreferrer"
+          className="w-full"
+        >
+          {locale === "uk" ? "Пожертвувати через PayPal" : "Mit PayPal spenden"}
+          <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+        </LinkButton>
+      ) : null}
     </Card>
   );
 }

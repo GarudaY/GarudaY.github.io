@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uk" className="h-full" data-scroll-behavior="smooth">
+    <html lang="de" className="h-full" data-scroll-behavior="smooth">
       <body className="min-h-full">{children}</body>
     </html>
   );

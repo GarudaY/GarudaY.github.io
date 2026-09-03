@@ -16,12 +16,21 @@ export const people: Person[] = [
     },
     roles: ["board", "team", "teacher"],
     bio: {
-      uk: "Очолює правління SONNENBLUME, координує його роботу та представляє організацію у взаємодії з партнерами й громадою.",
-      de: "Sie leitet den Vorstand von SONNENBLUME, koordiniert seine Arbeit und vertritt den Verein gegenüber Partnern und der Gemeinschaft.",
+      uk: "Наталія має багаторічний досвід у сфері освіти та перекладу, а останні роки працює в міжнародному бізнесі, займаючись організацією та управлінням бізнес-процесами. Як голова правління SONNENBLUME вона відповідає за стратегічний розвиток організації, ініціює нові проєкти, розвиває партнерства, координує роботу команди та представляє об’єднання назовні. Для Наталії важливо, щоб SONNENBLUME об’єднувала українців, зберігала українську культуру та водночас відкривала Україну німецькому суспільству. Одну з головних місій організації вона бачить у побудові живого мосту між українською та німецькою спільнотами — мосту, що сприяє взаєморозумінню, довірі та довготривалій підтримці України. У вільний час Наталія любить подорожі, довгі прогулянки, книги, хороше кіно та зустрічі з друзями.",
+      de: "Natalia verfügt über langjährige Erfahrung in Bildung und Übersetzung und arbeitet seit mehreren Jahren im internationalen Geschäft, wo sie Geschäftsprozesse organisiert und steuert. Als Vorstandsvorsitzende von SONNENBLUME verantwortet sie die strategische Entwicklung des Vereins, initiiert neue Projekte, baut Partnerschaften auf, koordiniert die Teamarbeit und vertritt den Verein nach außen. Ihr ist wichtig, dass SONNENBLUME Menschen aus der Ukraine verbindet, ukrainische Kultur bewahrt und zugleich die Ukraine für die deutsche Gesellschaft erlebbar macht. Eine zentrale Aufgabe des Vereins sieht sie darin, eine lebendige Brücke zwischen der ukrainischen und der deutschen Gemeinschaft zu bauen – für Verständigung, Vertrauen und langfristige Unterstützung der Ukraine. In ihrer Freizeit reist Natalia gern, unternimmt lange Spaziergänge, liest, schaut gute Filme und trifft Freunde.",
     },
     teacherBio: {
       uk: "Веде курс німецької мови у SONNENBLUME та допомагає учасникам упевненіше користуватися мовою в повсякденних ситуаціях.",
       de: "Sie leitet bei SONNENBLUME den Deutschkurs und unterstützt die Teilnehmenden dabei, Deutsch im Alltag sicherer anzuwenden.",
+    },
+    image: {
+      src: "/images/people/natalia-petrova.webp",
+      alt: {
+        uk: "Портрет Наталії Петрової",
+        de: "Porträt von Natalia Petrova",
+      },
+      width: 1200,
+      height: 1600,
     },
     languages: [],
     relatedCourseIds: ["course-german"],
@@ -35,7 +44,7 @@ export const people: Person[] = [
       },
     },
     createdAt: "2026-07-26",
-    updatedAt: "2026-08-09",
+    updatedAt: "2026-08-16",
   },
   {
     id: "person-mariya-kaplunovska",
@@ -223,8 +232,17 @@ export const people: Person[] = [
     },
     roles: ["teacher"],
     bio: {
-      uk: "Веде курс малювання для підлітків від 10 до 15 років у SONNENBLUME.",
-      de: "Er leitet bei SONNENBLUME den Malkurs für Jugendliche von 10 bis 15 Jahren.",
+      uk: "Даніїл Бабич родом з України. З дитинства він любив малювати та навчався в Академії мистецтв імені Сальвадора Далі. Основний напрям його творчості — реалістичний живопис, особливо портрети. Він працює з олійними фарбами, акрилом та іншими художніми матеріалами, бере участь у мистецьких проєктах, виставках і фестивалях та працював разом із Gregor Wosik, Daniela Löch і Beate Krempe. Творчість і волонтерство завжди були важливою частиною його життя. На заняттях він допомагає дітям і підліткам не лише опановувати малювання, ліплення й різні творчі техніки, а й розвивати уяву, впевненість у власних силах і сміливість у самовираженні.",
+      de: "Daniil Babych stammt aus der Ukraine. Seit seiner Kindheit zeichnet er und entwickelte seine künstlerischen Fähigkeiten an der Salvador-Dalí-Kunstakademie weiter. Sein Schwerpunkt ist realistische Malerei, besonders das Porträt. Er arbeitet mit Öl, Acryl und weiteren Materialien, beteiligt sich an Kunstprojekten, Ausstellungen und Festivals und arbeitete unter anderem mit Gregor Wosik, Daniela Löch und Beate Krempe. Kreativität und Ehrenamt sind für ihn wichtige Bestandteile seines Lebens. Im Unterricht vermittelt er Kindern und Jugendlichen nicht nur Zeichnen, Modellieren und verschiedene kreative Techniken, sondern stärkt auch Fantasie, Selbstvertrauen und Freude am eigenen Ausdruck. Jüngere Kinder entdecken Farben und Materialien, ältere beschäftigen sich mit Perspektive, Proportionen und Grundlagen der bildenden Kunst.",
+    },
+    image: {
+      src: "/images/people/daniil-babych.webp",
+      alt: {
+        uk: "Портрет Даніїла Бабича",
+        de: "Porträt von Daniil Babych",
+      },
+      width: 1200,
+      height: 900,
     },
     languages: [],
     relatedCourseIds: ["course-painting-daniil"],
@@ -238,6 +256,6 @@ export const people: Person[] = [
       },
     },
     createdAt: "2026-08-08",
-    updatedAt: "2026-08-08",
+    updatedAt: "2026-08-16",
   },
 ];

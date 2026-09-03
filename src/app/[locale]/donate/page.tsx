@@ -3,15 +3,13 @@ import { notFound } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { getDonationSettings } from "@/data/content";
 import { isLocale, type Locale } from "@/i18n/config";
-import { getPath } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/metadata";
 import { t, tList } from "@/lib/localize";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
-import { Alert } from "@/components/ui/Alert";
 import { DonationMethodCard } from "@/components/content/DonationMethodCard";
-import { LinkButton } from "@/components/ui/Button";
+import { ContentImage } from "@/components/ui/ContentImage";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -46,6 +44,20 @@ export default async function DonatePage({ params }: PageProps) {
         eyebrow={locale === "uk" ? "Підтримка" : "Unterstützung"}
         title={t(donations.title, locale)}
         description={t(donations.description, locale)}
+        visual={
+          <ContentImage
+            image={{
+              src: "/images/community/children-art-exhibition.jpg",
+              alt: {
+                uk: "Дитячі творчі роботи на виставці SONNENBLUME",
+                de: "Kreative Arbeiten von Kindern bei einer SONNENBLUME-Ausstellung",
+              },
+            }}
+            locale={locale}
+            className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3]"
+            preload
+          />
+        }
       >
         <Breadcrumbs
           locale={locale}
@@ -58,53 +70,27 @@ export default async function DonatePage({ params }: PageProps) {
         />
       </PageHeader>
       <Section>
-        <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
-          <div className="grid gap-6">
-            <Alert>
+        <div className="grid gap-8 lg:grid-cols-[0.58fr_1.42fr] lg:items-start">
+          <div className="rounded-[20px] border border-border bg-surface p-6 shadow-sm lg:sticky lg:top-28">
+            <h2 className="text-2xl font-bold text-blue-strong">
               {locale === "uk"
-                ? "Сайт не використовує платіжні віджети або сторонні платіжні сервіси: реквізити призначені для прямого банківського переказу."
-                : "Die Website nutzt keine Zahlungswidgets oder externen Zahlungsdienste. Die Angaben sind für eine direkte Banküberweisung bestimmt."}
-            </Alert>
-            <div className="rounded-[8px] border border-border bg-surface p-5">
-              <h2 className="text-2xl font-bold text-blue-strong">
-                {locale === "uk"
-                  ? "На що йде допомога"
-                  : "Wofür Hilfe genutzt wird"}
-              </h2>
-              <ul className="mt-5 grid gap-3">
-                {tList(donations.impact, locale).map((item) => (
-                  <li
-                    className="flex gap-3 text-sm leading-6 text-ink-muted"
-                    key={item}
-                  >
-                    <CheckCircle2
-                      aria-hidden="true"
-                      className="mt-0.5 h-5 w-5 shrink-0 text-green"
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="rounded-[18px] border border-yellow/50 bg-yellow/12 p-5">
-              <h2 className="text-xl font-bold text-blue-strong">
-                {locale === "uk"
-                  ? "Можете допомогти не коштами?"
-                  : "Sie möchten anders helfen?"}
-              </h2>
-              <p className="mt-2 text-sm leading-6 text-ink-muted">
-                {locale === "uk"
-                  ? "Запропонуйте час, матеріали, приміщення або професійну підтримку — форма одразу направить звернення відповідальній команді."
-                  : "Bieten Sie Zeit, Materialien, Räume oder fachliche Hilfe an – das Formular leitet Ihre Nachricht direkt an das zuständige Team weiter."}
-              </p>
-              <LinkButton
-                href={`${getPath(locale, "contact")}?topic=partnership`}
-                variant="ghost"
-                className="mt-5"
-              >
-                {locale === "uk" ? "Запропонувати допомогу" : "Hilfe anbieten"}
-              </LinkButton>
-            </div>
+                ? "На що йде допомога"
+                : "Wofür Hilfe genutzt wird"}
+            </h2>
+            <ul className="mt-5 grid gap-3">
+              {tList(donations.impact, locale).map((item) => (
+                <li
+                  className="flex gap-3 text-sm leading-6 text-ink-muted"
+                  key={item}
+                >
+                  <CheckCircle2
+                    aria-hidden="true"
+                    className="mt-0.5 h-5 w-5 shrink-0 text-green"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="grid gap-5 md:grid-cols-2">
             {donations.methods.map((method) => (

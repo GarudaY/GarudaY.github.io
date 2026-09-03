@@ -1,7 +1,7 @@
 import type { Locale } from "@/i18n/config";
 
 export const siteConfig = {
-  defaultLocale: "uk" satisfies Locale,
+  defaultLocale: "de" satisfies Locale,
   baseUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://garuday.github.io",
   timeZone: "Europe/Berlin",
   organizationId: "sonnenblume-ukraine-community-mg",

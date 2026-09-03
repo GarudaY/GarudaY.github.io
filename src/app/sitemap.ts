@@ -12,6 +12,7 @@ const staticRoutes: RouteKey[] = [
   "join",
   "courses",
   "events",
+  "news",
   "donate",
   "contact",
 ];

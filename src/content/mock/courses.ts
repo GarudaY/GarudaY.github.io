@@ -39,8 +39,8 @@ export const courses: Course[] = [
     language: { uk: "українська + німецька", de: "Ukrainisch + Deutsch" },
     format: { uk: "очно", de: "vor Ort" },
     location: {
-      uk: "Welfenstraße 10, 41238 Mönchengladbach",
-      de: "Welfenstraße 10, 41238 Mönchengladbach",
+      uk: "Hauptstraße 91, 41236 Mönchengladbach",
+      de: "Hauptstraße 91, 41236 Mönchengladbach",
     },
     schedule: [],
     price: {
@@ -57,7 +57,7 @@ export const courses: Course[] = [
     teacherIds: ["person-natalia-petrova"],
     relatedCourseIds: ["course-choir"],
     image: {
-      src: "/images/generated/course-german-a1-v1.webp",
+      src: "/images/community/community-gathering.jpg",
       alt: {
         uk: "Учасники практикують німецьку мову в малій групі",
         de: "Teilnehmende üben Deutsch in einer kleinen Gruppe",
@@ -113,8 +113,8 @@ export const courses: Course[] = [
     language: { uk: "українська", de: "Ukrainisch" },
     format: { uk: "очно", de: "vor Ort" },
     location: {
-      uk: "Welfenstraße 10, 41238 Mönchengladbach",
-      de: "Welfenstraße 10, 41238 Mönchengladbach",
+      uk: "Hauptstraße 91, 41236 Mönchengladbach",
+      de: "Hauptstraße 91, 41236 Mönchengladbach",
     },
     schedule: [
       {
@@ -195,8 +195,8 @@ export const courses: Course[] = [
     language: { uk: "українська", de: "Ukrainisch" },
     format: { uk: "очно", de: "vor Ort" },
     location: {
-      uk: "Welfenstraße 10, 41238 Mönchengladbach",
-      de: "Welfenstraße 10, 41238 Mönchengladbach",
+      uk: "Hauptstraße 91, 41236 Mönchengladbach",
+      de: "Hauptstraße 91, 41236 Mönchengladbach",
     },
     schedule: [
       {
@@ -280,8 +280,8 @@ export const courses: Course[] = [
     language: { uk: "українська", de: "Ukrainisch" },
     format: { uk: "очно", de: "vor Ort" },
     location: {
-      uk: "Welfenstraße 10, 41238 Mönchengladbach",
-      de: "Welfenstraße 10, 41238 Mönchengladbach",
+      uk: "Hauptstraße 91, 41236 Mönchengladbach",
+      de: "Hauptstraße 91, 41236 Mönchengladbach",
     },
     schedule: [],
     price: { uk: "Безкоштовно", de: "Kostenfrei" },
@@ -295,7 +295,7 @@ export const courses: Course[] = [
     teacherIds: [],
     relatedCourseIds: ["course-german"],
     image: {
-      src: "/images/generated/course-choir-v1.webp",
+      src: "/images/community/community-concert-choir-wide.jpg",
       alt: {
         uk: "Хор репетирує у світлій залі",
         de: "Ein Chor probt in einem hellen Saal",

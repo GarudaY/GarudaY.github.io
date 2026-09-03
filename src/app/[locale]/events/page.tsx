@@ -27,11 +27,11 @@ export async function generateMetadata({
   return buildMetadata({
     locale,
     route: "events",
-    title: locale === "uk" ? "Події та анонси" : "Veranstaltungen und Termine",
+    title: locale === "uk" ? "Події та заходи" : "Events",
     description:
       locale === "uk"
-        ? "Найближчі події, фотографії та короткі розповіді про зустрічі SONNENBLUME."
-        : "Kommende Termine, Fotos und kurze Geschichten von SONNENBLUME.",
+        ? "Найближчі події, фотографії та короткі розповіді про заходи SONNENBLUME."
+        : "Kommende Events, Fotos und kurze Rückblicke von SONNENBLUME.",
   });
 }
 
@@ -45,30 +45,28 @@ export default async function EventsPage({ params }: PageProps) {
   return (
     <>
       <PageHeader
+        className="pb-8 sm:pb-10"
+        descriptionClassName="font-semibold text-blue-strong/80"
         eyebrow={locale === "uk" ? "Життя спільноти" : "Gemeinschaft erleben"}
-        title={
-          locale === "uk"
-            ? "Події, на які чекаємо і які пам’ятаємо"
-            : "Termine, auf die wir uns freuen und an die wir uns erinnern"
-        }
+        title={locale === "uk" ? "Події та заходи" : "Events"}
         description={
           locale === "uk"
-            ? "Тут зібрані найближчі анонси SONNENBLUME та фоторозповіді про вже проведені зустрічі."
-            : "Hier finden Sie kommende SONNENBLUME-Termine und Fotogeschichten vergangener Begegnungen."
+            ? "Тут зібрані найближчі анонси SONNENBLUME та фоторозповіді про вже проведені події."
+            : "Hier finden Sie kommende SONNENBLUME-Events und Fotogeschichten bereits durchgeführter Veranstaltungen."
         }
       >
         <Breadcrumbs
           locale={locale}
           items={[
             {
-              label: locale === "uk" ? "Події" : "Veranstaltungen",
+              label: locale === "uk" ? "Події" : "Events",
               route: "events",
             },
           ]}
         />
       </PageHeader>
       {upcoming.length ? (
-        <Section>
+        <Section className="pt-8 sm:pt-10 lg:pt-12">
           <div className="mb-8 max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
               {locale === "uk" ? "Анонси" : "Ankündigungen"}

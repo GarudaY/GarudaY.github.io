@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, FileCheck2, Mail, MapPin, Phone } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getPath } from "@/i18n/routing";
@@ -69,118 +69,81 @@ export function Footer({
   settings: SiteSettings;
 }) {
   const dict = getDictionary(locale);
+  const isUk = locale === "uk";
+  const emails = [
+    {
+      label: isUk ? "Загальні питання" : "Allgemeine Anfragen",
+      value: settings.contact.email,
+    },
+    {
+      label: isUk ? "Курси" : "Kurse",
+      value: settings.contact.coursesEmail,
+    },
+    {
+      label: isUk ? "Правління" : "Vorstand",
+      value: settings.contact.boardEmail,
+    },
+  ];
 
   return (
     <footer className="site-footer border-t border-border/80 text-blue-strong">
-      <Container className="py-10 sm:py-12 lg:py-14">
-        <section aria-labelledby="footer-identity" className="footer-intro">
-          <div className="footer-intro-copy">
+      <Container className="py-10 sm:py-12">
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr_0.62fr_0.72fr] lg:gap-8">
+          <section aria-labelledby="footer-identity">
             <h2 id="footer-identity" className="sr-only">
               {t(settings.name, locale)}
             </h2>
             <SiteLogo locale={locale} />
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-ink-muted">
+            <p className="mt-5 max-w-md text-sm leading-7 text-ink-muted">
               {t(settings.description, locale)}
             </p>
-            <p className="mt-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-blue">
-              <span
-                aria-hidden="true"
-                className="h-2 w-2 rounded-full bg-yellow shadow-[0_0_0_5px_rgba(244,200,74,0.14)]"
-              />
-              e.V. · Mönchengladbach
-            </p>
-          </div>
+          </section>
 
-          <div className="footer-funding">
-            <p className="footer-funding-label">
-              <span aria-hidden="true" />
-              {locale === "uk" ? "Проєкт підтримано" : "Projektförderung"}
-            </p>
-            <div className="mt-5 grid gap-5 sm:grid-cols-[10.5rem_1fr] sm:items-center lg:grid-cols-1 xl:grid-cols-[10.5rem_1fr]">
-              <a
-                href="https://www.deutsche-stiftung-engagement-und-ehrenamt.de/"
-                target="_blank"
-                rel="noreferrer"
-                className="focus-ring block w-full max-w-[10.5rem] rounded-[8px] bg-white p-2"
-              >
-                <Image
-                  src="/images/partners/dsee-foerderlogo.svg"
-                  alt="Gefördert durch Deutsche Stiftung für Engagement und Ehrenamt"
-                  width={560}
-                  height={240}
-                  className="h-auto w-full"
-                />
-              </a>
-              <div>
-                <p className="text-base font-bold text-blue-strong">
-                  Digitale Brücken bauen
-                </p>
-                <p className="mt-2 text-sm leading-6 text-ink-muted">
-                  {locale === "uk"
-                    ? "Новий сайт і залучення волонтерів реалізуються за підтримки DSEE."
-                    : "Website und Ehrenamtsgewinnung werden durch die DSEE unterstützt."}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="mt-10 grid gap-10 lg:grid-cols-[1.35fr_0.75fr_0.9fr]">
           <section>
             <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
               {dict.nav.contact}
             </h2>
-            <ul className="mt-5 grid gap-3 text-sm text-ink-muted sm:grid-cols-2 lg:grid-cols-1">
-              <li className="flex items-start gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-blue-strong text-yellow">
-                  <MapPin aria-hidden="true" className="h-4 w-4" />
-                </span>
-                <span className="pt-2.5 leading-5">
-                  {t(settings.contact.address, locale)}
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-surface text-blue shadow-sm">
-                  <Mail aria-hidden="true" className="h-4 w-4" />
-                </span>
-                <a
-                  className="footer-link focus-ring inline-flex min-h-11 items-center rounded-full"
-                  href={`mailto:${settings.contact.email}`}
-                >
-                  {settings.contact.email}
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-surface text-blue shadow-sm">
-                  <Mail aria-hidden="true" className="h-4 w-4" />
-                </span>
-                <a
-                  className="footer-link focus-ring inline-flex min-h-11 items-center rounded-full"
-                  href={`mailto:${settings.contact.coursesEmail}`}
-                >
-                  {settings.contact.coursesEmail}
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-surface text-blue shadow-sm">
-                  <Mail aria-hidden="true" className="h-4 w-4" />
-                </span>
-                <a
-                  className="footer-link focus-ring inline-flex min-h-11 items-center rounded-full"
-                  href={`mailto:${settings.contact.boardEmail}`}
-                >
-                  {settings.contact.boardEmail}
-                </a>
-              </li>
-              {settings.contact.phone ? (
-                <li className="flex items-center gap-3 sm:col-span-2 lg:col-span-1">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-surface text-blue shadow-sm">
-                    <Phone aria-hidden="true" className="h-4 w-4" />
-                  </span>
+            <div className="mt-5 flex items-start gap-3 text-sm text-ink-muted">
+              <MapPin
+                aria-hidden="true"
+                className="mt-0.5 h-5 w-5 shrink-0 text-blue"
+              />
+              <span className="leading-6">
+                {t(settings.contact.address, locale)}
+              </span>
+            </div>
+            <ul className="mt-4 grid gap-2 text-sm">
+              {emails.map((email) => (
+                <li key={email.value}>
                   <a
-                    className="footer-link focus-ring inline-flex min-h-11 items-center rounded-full"
+                    className="footer-link focus-ring group inline-flex min-h-11 items-center gap-3 rounded-full text-ink-muted"
+                    href={`mailto:${email.value}`}
+                  >
+                    <Mail
+                      aria-hidden="true"
+                      className="h-4 w-4 shrink-0 text-blue"
+                    />
+                    <span>
+                      <span className="block text-xs text-ink-muted">
+                        {email.label}
+                      </span>
+                      <span className="font-semibold text-blue-strong">
+                        {email.value}
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+              {settings.contact.phone ? (
+                <li>
+                  <a
+                    className="footer-link focus-ring inline-flex min-h-11 items-center gap-3 rounded-full text-ink-muted"
                     href={`tel:${settings.contact.phone.replaceAll(" ", "")}`}
                   >
+                    <Phone
+                      aria-hidden="true"
+                      className="h-4 w-4 shrink-0 text-blue"
+                    />
                     {settings.contact.phone}
                   </a>
                 </li>
@@ -193,6 +156,20 @@ export function Footer({
               {dict.footer.legal}
             </h2>
             <ul className="mt-4 grid gap-1 text-sm text-ink-muted">
+              <li>
+                <a
+                  className="footer-link focus-ring inline-flex min-h-11 items-center gap-2 rounded-full"
+                  href="/documents/membership/satzung-sonnenblume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FileCheck2
+                    aria-hidden="true"
+                    className="h-4 w-4 text-blue"
+                  />
+                  Satzung
+                </a>
+              </li>
               {settings.legalLinks.map((link) => (
                 <li key={link.route}>
                   <Link
@@ -211,11 +188,11 @@ export function Footer({
             <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
               {dict.footer.social}
             </h2>
-            <ul className="mt-5 flex flex-wrap gap-2 text-sm">
+            <ul className="mt-5 grid gap-2 text-sm">
               {settings.socialLinks.map((link) => (
                 <li key={link.href}>
                   <a
-                    className="footer-social focus-ring inline-flex min-h-11 items-center gap-2.5 rounded-full border border-border bg-surface px-4 font-semibold text-blue-strong"
+                    className="footer-social focus-ring inline-flex min-h-11 w-full items-center gap-3 rounded-full border border-border bg-surface px-3 font-semibold text-blue-strong"
                     href={link.href}
                     rel="noreferrer"
                     target="_blank"
@@ -231,12 +208,30 @@ export function Footer({
           </nav>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-border pt-6 text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>{t(settings.name, locale)}</p>
-          <p>
-            {locale === "uk"
-              ? "Спільнота, освіта та взаємопідтримка"
-              : "Gemeinschaft, Bildung und gegenseitige Unterstützung"}
+        <div className="mt-9 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex max-w-2xl items-center gap-4">
+            <a
+              href="https://www.deutsche-stiftung-engagement-und-ehrenamt.de/"
+              target="_blank"
+              rel="noreferrer"
+              className="focus-ring shrink-0 rounded-[8px] bg-white p-2"
+            >
+              <Image
+                src="/images/partners/dsee-foerderlogo.svg"
+                alt="Gefördert durch Deutsche Stiftung für Engagement und Ehrenamt"
+                width={560}
+                height={240}
+                className="h-auto w-24"
+              />
+            </a>
+            <p className="text-xs leading-5 text-ink-muted">
+              {isUk
+                ? "Багатомовний сайт та залучення волонтерів підтримано DSEE."
+                : "Mehrsprachige Website und Ehrenamtsgewinnung werden durch die DSEE gefördert."}
+            </p>
+          </div>
+          <p className="text-xs text-ink-muted">
+            © {new Date().getFullYear()} {t(settings.name, locale)}
           </p>
         </div>
       </Container>

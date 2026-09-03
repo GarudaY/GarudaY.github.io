@@ -56,7 +56,7 @@ export function Header({ locale, navigation }: HeaderProps) {
         <SiteLogo locale={locale} />
         <nav
           aria-label={locale === "uk" ? "Основна навігація" : "Hauptnavigation"}
-          className="hidden items-center gap-0.5 xl:flex"
+          className="hidden items-center gap-1.5 xl:flex"
         >
           {navigation.map((item) => (
             <Link

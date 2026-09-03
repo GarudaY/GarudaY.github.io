@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 export default function Home() {
   useEffect(() => {
-    window.location.replace("/uk/");
+    window.location.replace("/de/");
   }, []);
 
   return (
@@ -15,13 +15,13 @@ export default function Home() {
           SONNENBLUME
         </p>
         <h1 className="mt-3 text-3xl font-bold text-blue-strong">
-          Відкриваємо українську версію
+          Deutsche Version wird geöffnet
         </h1>
         <Link
-          href="/uk/"
+          href="/de/"
           className="focus-ring mt-6 inline-flex min-h-11 items-center justify-center rounded-full bg-blue-strong px-5 py-2.5 text-sm font-semibold text-white"
         >
-          Перейти на сайт
+          Zur Website
         </Link>
       </div>
     </main>

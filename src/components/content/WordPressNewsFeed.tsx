@@ -23,7 +23,13 @@ function formatDate(value: string, locale: Locale) {
   }).format(new Date(value));
 }
 
-export function WordPressNewsFeed({ locale }: { locale: Locale }) {
+export function WordPressNewsFeed({
+  locale,
+  limit,
+}: {
+  locale: Locale;
+  limit?: number;
+}) {
   const [posts, setPosts] = useState<EditorialPost[] | null>(null);
   const isUk = locale === "uk";
 
@@ -70,7 +76,7 @@ export function WordPressNewsFeed({ locale }: { locale: Locale }) {
 
   return (
     <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      {posts.map((post) => (
+      {posts.slice(0, limit).map((post) => (
         <Card key={post.id} className="group overflow-hidden">
           <a
             href={post.href}

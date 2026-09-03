@@ -12,6 +12,7 @@ import {
   getFeaturedCourses,
   getUpcomingEvents,
   getPartners,
+  getPeople,
   getPeopleByIds,
   getSiteSettings,
 } from "@/data/content";
@@ -28,8 +29,9 @@ import { FeaturedContentList } from "@/components/content/FeaturedContentList";
 import { CourseCard } from "@/components/content/CourseCard";
 import { EventCard } from "@/components/content/EventCard";
 import { PartnerLogo } from "@/components/content/PartnerLogo";
+import { PersonPortrait } from "@/components/content/PersonPortrait";
 import { StatsSection } from "@/components/content/StatsSection";
-import { CTASection } from "@/components/content/CTASection";
+import { WordPressNewsFeed } from "@/components/content/WordPressNewsFeed";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { siteConfig } from "@/config/site";
 
@@ -59,18 +61,27 @@ export async function generateMetadata({
 export default async function HomePage({ params }: PageProps) {
   const locale = await resolveLocale(params);
   const dict = getDictionary(locale);
-  const [settings, featured, featuredCourses, courses, events, partners] =
-    await Promise.all([
-      getSiteSettings(),
-      getFeaturedContent(),
-      getFeaturedCourses(),
-      getCourses(),
-      getUpcomingEvents(),
-      getPartners(),
-    ]);
+  const [
+    settings,
+    featured,
+    featuredCourses,
+    courses,
+    events,
+    partners,
+    people,
+  ] = await Promise.all([
+    getSiteSettings(),
+    getFeaturedContent(),
+    getFeaturedCourses(),
+    getCourses(),
+    getUpcomingEvents(),
+    getPartners(),
+    getPeople(),
+  ]);
   const allTeachers = await getPeopleByIds(
     courses.flatMap((course) => course.teacherIds),
   );
+  const board = people.filter((person) => person.roles.includes("board"));
 
   const organizationJsonLd = {
     "@context": "https://schema.org",
@@ -235,6 +246,62 @@ export default async function HomePage({ params }: PageProps) {
         </div>
       </Section>
 
+      <Section className="section-soft">
+        <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+              {locale === "uk" ? "Правління" : "Vorstand"}
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-blue-strong sm:text-4xl">
+              {locale === "uk"
+                ? "П’ять людей — одна команда"
+                : "Fünf Menschen – ein Team"}
+            </h2>
+            <p className="mt-4 max-w-xl leading-7 text-ink-muted">
+              {locale === "uk"
+                ? "Правління відповідає за стратегію, фінанси, комунікацію та програми для дітей і молоді."
+                : "Der Vorstand verantwortet Strategie, Finanzen, Kommunikation sowie Programme für Kinder und Jugendliche."}
+            </p>
+            <LinkButton
+              href={getPath(locale, "about")}
+              variant="ghost"
+              className="mt-6"
+            >
+              {locale === "uk"
+                ? "Познайомитися з командою"
+                : "Das Team kennenlernen"}
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </LinkButton>
+          </div>
+          <ol className="board-preview-grid grid list-none gap-3 p-0 sm:grid-cols-2 xl:grid-cols-5">
+            {board.map((person, index) => (
+              <li
+                key={person.id}
+                className={
+                  index === 0 ? "sm:col-span-2 xl:col-span-1" : undefined
+                }
+              >
+                <article className="board-preview-card h-full rounded-[18px] border border-border bg-surface p-3 text-center shadow-sm">
+                  <PersonPortrait
+                    person={person}
+                    locale={locale}
+                    preload={index === 0}
+                    className="mx-auto aspect-square w-full rounded-[14px]"
+                    sizes="(min-width: 1280px) 10rem, (min-width: 640px) 18rem, 100vw"
+                  />
+                  <h3 className="mt-3 text-sm font-bold leading-snug text-blue-strong">
+                    {t(person.name, locale)}
+                  </h3>
+                  <p className="mt-1 text-xs leading-5 text-ink-muted">
+                    {t(person.roleLabel, locale)}
+                  </p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Section>
+
       <Section className="section-warm">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -269,7 +336,7 @@ export default async function HomePage({ params }: PageProps) {
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-              {locale === "uk" ? "Події" : "Veranstaltungen"}
+              {locale === "uk" ? "Події" : "Events"}
             </p>
             <h2 className="mt-3 text-3xl font-bold text-blue-strong">
               {locale === "uk" ? "Найближчі події" : "Kommende Veranstaltungen"}
@@ -286,30 +353,21 @@ export default async function HomePage({ params }: PageProps) {
         </div>
       </Section>
 
-      <Section className="section-soft pb-10 lg:pb-14">
-        <CTASection>
-          <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-                {locale === "uk" ? "Підтримка" : "Unterstützung"}
-              </p>
-              <h2 className="mt-2 text-2xl font-bold text-blue-strong">
-                {locale === "uk"
-                  ? "Зробімо програми доступнішими разом"
-                  : "Gemeinsam Angebote zugänglicher machen"}
-              </h2>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-ink-muted">
-                {locale === "uk"
-                  ? "Підтримати можна не лише коштами: волонтерство, партнерство й експертна допомога також мають значення."
-                  : "Unterstützung ist mehr als Geld: Ehrenamt, Partnerschaften und Fachwissen machen ebenfalls einen Unterschied."}
-              </p>
-            </div>
-            <LinkButton href={getPath(locale, "donate")}>
-              {dict.common.donate}
-              <ArrowRight aria-hidden="true" className="h-4 w-4" />
-            </LinkButton>
+      <Section className="section-soft">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+              {locale === "uk" ? "Активності команди" : "Aus dem Team"}
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
+              {locale === "uk" ? "Наше щодення" : "Was uns bewegt"}
+            </h2>
           </div>
-        </CTASection>
+          <LinkButton href={getPath(locale, "news")} variant="quiet">
+            {locale === "uk" ? "Усі новини" : "Alle Neuigkeiten"}
+          </LinkButton>
+        </div>
+        <WordPressNewsFeed locale={locale} limit={3} />
       </Section>
 
       <Section className="pt-10 lg:pt-14">
@@ -323,9 +381,14 @@ export default async function HomePage({ params }: PageProps) {
               : "Partner, mit denen wir Gemeinschaft gestalten"}
           </h2>
         </div>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {partners.map((partner) => (
-            <PartnerLogo key={partner.id} partner={partner} locale={locale} />
+            <PartnerLogo
+              key={partner.id}
+              partner={partner}
+              locale={locale}
+              compact
+            />
           ))}
         </div>
       </Section>

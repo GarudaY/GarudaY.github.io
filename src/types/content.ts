@@ -196,6 +196,7 @@ export type DonationMethod = {
   title: LocalizedString;
   description: LocalizedString;
   details: LocalizedList;
+  href?: string;
   isDemo: boolean;
 };
 

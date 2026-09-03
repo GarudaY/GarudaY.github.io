@@ -1,13 +1,9 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Check, HandHeart, Sparkles, UsersRound } from "lucide-react";
+import { Check, HandHeart, Lightbulb, Sparkles } from "lucide-react";
 import { isLocale, type Locale } from "@/i18n/config";
-import { getPath } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { LinkButton } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { ContactForm } from "@/components/contact/ContactForm";
@@ -29,88 +25,45 @@ export async function generateMetadata({
   return buildMetadata({
     locale,
     route: "join",
-    title: locale === "uk" ? "Долучитися" : "Mitmachen",
+    title: locale === "uk" ? "Волонтерство" : "Ehrenamt",
     description:
       locale === "uk"
-        ? "Волонтерство без членства, вступ до SONNENBLUME, партнерство та актуальні проєкти."
-        : "Ehrenamt ohne Mitgliedschaft, Vereinsbeitritt, Partnerschaft und aktuelle Projekte bei SONNENBLUME.",
+        ? "Волонтерство у SONNENBLUME: розкажіть про свій досвід, час або ідею."
+        : "Ehrenamt bei SONNENBLUME: Erzählen Sie uns von Ihrer Erfahrung, Ihrer Zeit oder Ihrer Idee.",
   });
 }
 
 export default async function JoinPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
   const isUk = locale === "uk";
-
-  const ways = [
-    {
-      icon: HandHeart,
-      badge: isUk ? "Без внеску" : "Ohne Beitrag",
-      title: isUk ? "Зовнішнє волонтерство" : "Externes Ehrenamt",
-      text: isUk
-        ? "Допомагайте разово або регулярно без вступу до Verein. Обсяг і напрям узгоджуємо до початку."
-        : "Einmalig oder regelmäßig helfen, ohne dem Verein beizutreten. Umfang und Aufgabe werden vorher abgestimmt.",
-      items: isUk
-        ? ["Гнучкий формат", "Чітке завдання", "Контактна особа від Verein"]
-        : ["Flexibles Format", "Klare Aufgabe", "Ansprechperson im Verein"],
-      href: "#mitmachen-formular",
-      cta: isUk ? "Запропонувати допомогу" : "Hilfe anbieten",
-    },
-    {
-      icon: UsersRound,
-      badge: isUk ? "24–120 € / рік" : "24–120 € / Jahr",
-      title: isUk ? "Членство у Verein" : "Vereinsmitgliedschaft",
-      text: isUk
-        ? "Для тих, хто хоче довгостроково підтримувати цілі SONNENBLUME та формально приєднатися до організації."
-        : "Für Menschen, die die Ziele von SONNENBLUME langfristig unterstützen und dem Verein formell beitreten möchten.",
-      items: isUk
-        ? ["Заява на вступ", "Ознайомлення зі статутом", "Окрема згода на дані"]
-        : [
-            "Aufnahmeantrag",
-            "Kenntnis der Satzung",
-            "Separate Datenschutzinformation",
-          ],
-      href: "#mitmachen-formular",
-      cta: isUk ? "Написати про вступ" : "Zum Beitritt schreiben",
-    },
-    {
-      icon: Sparkles,
-      badge: isUk ? "Організації й ініціативи" : "Organisationen & Initiativen",
-      title: isUk ? "Партнерство" : "Partnerschaft",
-      text: isUk
-        ? "Спільні події, експертна допомога, приміщення, матеріали або інформаційна підтримка."
-        : "Gemeinsame Veranstaltungen, Fachwissen, Räume, Materialien oder kommunikative Unterstützung.",
-      items: isUk
-        ? ["Спільна мета", "Прозорі ролі", "Публічна подяка за згодою"]
-        : [
-            "Gemeinsames Ziel",
-            "Transparente Rollen",
-            "Öffentlicher Dank nach Abstimmung",
-          ],
-      href: `${getPath(locale, "contact")}?topic=partnership`,
-      cta: isUk ? "Обговорити співпрацю" : "Zusammenarbeit besprechen",
-    },
-  ];
+  const qualities = isUk
+    ? [
+        "Надійність і готовність домовлятися про конкретне завдання",
+        "Час для разової або регулярної допомоги",
+        "Досвід, навичка або власна ідея, яку можна реалізувати разом",
+      ]
+    : [
+        "Verlässlichkeit und die Bereitschaft, eine konkrete Aufgabe abzustimmen",
+        "Zeit für einmalige oder regelmäßige Unterstützung",
+        "Erfahrung, eine praktische Fähigkeit oder eine eigene Idee, die wir gemeinsam umsetzen können",
+      ];
 
   return (
     <>
       <PageHeader
         eyebrow={isUk ? "Долучитися" : "Mitmachen"}
-        title={
-          isUk
-            ? "Допомагати можна по-різному"
-            : "Engagement hat mehr als eine Form"
-        }
+        title={isUk ? "Волонтерство" : "Ehrenamt"}
         description={
           isUk
-            ? "Волонтерство без членства, формальний вступ і партнерство — це три окремі шляхи. Оберіть той, який відповідає вашому часу та бажаному рівню відповідальності."
-            : "Ehrenamt ohne Mitgliedschaft, formeller Beitritt und Partnerschaft sind drei getrennte Wege. Wählen Sie, was zu Ihrer Zeit und gewünschten Verantwortung passt."
+            ? "SONNENBLUME відкрита до людей, які хочуть підтримати громаду своїм часом, досвідом або власною ідеєю. Членство в об’єднанні для цього не потрібне."
+            : "SONNENBLUME freut sich über Menschen, die die Gemeinschaft mit Zeit, Erfahrung oder einer eigenen Idee unterstützen möchten. Eine Vereinsmitgliedschaft ist dafür nicht erforderlich."
         }
       >
         <Breadcrumbs
           locale={locale}
           items={[
             {
-              label: isUk ? "Долучитися" : "Mitmachen",
+              label: isUk ? "Волонтерство" : "Ehrenamt",
               route: "join",
             },
           ]}
@@ -118,112 +71,101 @@ export default async function JoinPage({ params }: PageProps) {
       </PageHeader>
 
       <Section>
-        <div className="grid gap-5 lg:grid-cols-3">
-          {ways.map((way) => {
-            const Icon = way.icon;
-            return (
-              <article
-                key={way.title}
-                className="card-surface flex h-full flex-col rounded-[22px] border border-border bg-surface p-6"
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <span className="grid h-12 w-12 place-items-center rounded-[14px] bg-blue-strong text-yellow">
-                    <Icon aria-hidden="true" className="h-5 w-5" />
-                  </span>
-                  <Badge tone="yellow">{way.badge}</Badge>
-                </div>
-                <h2 className="mt-6 text-2xl font-bold text-blue-strong">
-                  {way.title}
-                </h2>
-                <p className="mt-3 leading-7 text-ink-muted">{way.text}</p>
-                <ul className="mt-5 grid gap-2 text-sm text-blue-strong">
-                  {way.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <Check
-                        aria-hidden="true"
-                        className="mt-0.5 h-4 w-4 shrink-0 text-green"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <LinkButton
-                  href={way.href}
-                  variant="ghost"
-                  className="mt-7 w-full"
-                >
-                  {way.cta}
-                </LinkButton>
-              </article>
-            );
-          })}
-        </div>
-      </Section>
-
-      <Section className="section-soft">
-        <div className="mx-auto max-w-3xl text-center">
-          <HandHeart aria-hidden="true" className="mx-auto h-9 w-9 text-blue" />
-          <p className="mt-5 text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-            {isUk ? "Допомога без членства" : "Hilfe ohne Mitgliedschaft"}
-          </p>
-          <h2 className="mt-3 text-3xl font-bold text-blue-strong">
-            {isUk
-              ? "Розкажіть, чим ви хотіли б допомогти"
-              : "Erzählen Sie uns, wie Sie helfen möchten"}
-          </h2>
-          <p className="mt-4 text-lg leading-8 text-ink-muted">
-            {isUk
-              ? "Ми не пропонуємо наперед вигаданий перелік ролей. Напишіть про свій досвід, доступний час або конкретну ідею — команда відповість, чи є зараз відповідне завдання."
-              : "Wir geben keine erfundene Rollenliste vor. Schreiben Sie uns über Ihre Erfahrung, verfügbare Zeit oder eine konkrete Idee – das Team meldet sich, wenn es eine passende Aufgabe gibt."}
-          </p>
-          <LinkButton
-            href="#mitmachen-formular"
-            variant="ghost"
-            className="mt-7"
-          >
-            {isUk ? "Написати команді" : "Dem Team schreiben"}
-          </LinkButton>
-        </div>
-      </Section>
-
-      <Section>
-        <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-          <div className="rounded-[22px] border border-border bg-surface p-6 shadow-sm">
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
-              {isUk ? "Проєкт підтримано" : "Projektförderung"}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <article className="card-surface rounded-[24px] border border-border bg-surface p-6 sm:p-8">
+            <span className="grid h-13 w-13 place-items-center rounded-[16px] bg-blue-strong text-yellow">
+              <HandHeart aria-hidden="true" className="h-6 w-6" />
+            </span>
+            <p className="mt-7 text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+              {isUk ? "Кого ми шукаємо" : "Wen wir suchen"}
             </p>
-            <a
-              href="https://www.deutsche-stiftung-engagement-und-ehrenamt.de/"
-              target="_blank"
-              rel="noreferrer"
-              className="focus-ring mt-5 block rounded-[12px] bg-white p-4"
-            >
-              <Image
-                src="/images/partners/dsee-foerderlogo.svg"
-                alt="Gefördert durch Deutsche Stiftung für Engagement und Ehrenamt"
-                width={560}
-                height={240}
-                className="h-auto w-full"
-              />
-            </a>
-            <p className="mt-5 text-sm leading-6 text-ink-muted">
+            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
               {isUk
-                ? "Нова багатомовна сторінка та залучення волонтерів реалізуються в межах проєкту «Digitale Brücken bauen» за підтримки мікрогрантової програми DSEE у 2026 році."
-                : "Die neue mehrsprachige Website und die Gewinnung von Ehrenamtlichen werden 2026 im Projekt „Digitale Brücken bauen“ durch das Mikroförderprogramm der DSEE unterstützt."}
+                ? "Людей, яким важлива спільна справа"
+                : "Menschen, denen gemeinsames Engagement wichtig ist"}
+            </h2>
+            <p className="mt-4 leading-7 text-ink-muted">
+              {isUk
+                ? "Потреби команди змінюються, тому ми не публікуємо вигаданий перелік «вакансій». Нам важливо спочатку познайомитися з вами та зрозуміти, що ми можемо зробити разом."
+                : "Der Bedarf im Team verändert sich. Deshalb veröffentlichen wir keine erfundene Liste fester „Stellen“. Zuerst möchten wir Sie kennenlernen und gemeinsam herausfinden, was gerade wirklich passt."}
             </p>
-          </div>
-          <div id="mitmachen-formular" className="scroll-mt-28">
-            <ContactForm
-              locale={locale}
-              initialTopic="volunteering"
-              requestContext="volunteering"
-              requestLabel={
+            <ul className="mt-6 grid gap-3">
+              {qualities.map((quality) => (
+                <li
+                  key={quality}
+                  className="flex items-start gap-3 text-sm leading-6 text-blue-strong"
+                >
+                  <Check
+                    aria-hidden="true"
+                    className="mt-0.5 h-5 w-5 shrink-0 text-green"
+                  />
+                  {quality}
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <article className="volunteer-idea-card card-surface rounded-[24px] border border-blue/15 p-6 sm:p-8">
+            <span className="grid h-13 w-13 place-items-center rounded-[16px] bg-yellow text-blue-strong">
+              <Lightbulb aria-hidden="true" className="h-6 w-6" />
+            </span>
+            <p className="mt-7 text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+              {isUk ? "Запропонуйте себе" : "Bringen Sie sich ein"}
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
+              {isUk
+                ? "Розкажіть, що ви вмієте і чого хотіли б"
+                : "Erzählen Sie uns, was Sie einbringen möchten"}
+            </h2>
+            <p className="mt-4 leading-7 text-ink-muted">
+              {isUk
+                ? "Опишіть свій досвід, зручний час і формат участі. Якщо у вас є власна ідея, напишіть і про неї — команда відповість і запропонує наступний крок."
+                : "Beschreiben Sie Ihre Erfahrung, Ihre verfügbare Zeit und die Form, in der Sie helfen möchten. Wenn Sie eine eigene Idee haben, schreiben Sie auch davon – das Team meldet sich mit einem passenden nächsten Schritt."}
+            </p>
+            <div className="mt-8 grid gap-4 rounded-[18px] border border-white/70 bg-white/70 p-5">
+              {[
                 isUk
-                  ? "Волонтерство, членство або партнерство"
-                  : "Ehrenamt, Mitgliedschaft oder Partnerschaft"
-              }
-            />
+                  ? "1. Коротко представтеся"
+                  : "1. Stellen Sie sich kurz vor",
+                isUk
+                  ? "2. Опишіть досвід або ідею"
+                  : "2. Beschreiben Sie Erfahrung oder Idee",
+                isUk
+                  ? "3. Вкажіть, коли вам зручно"
+                  : "3. Nennen Sie Ihre verfügbare Zeit",
+              ].map((step) => (
+                <p
+                  key={step}
+                  className="flex items-center gap-3 font-semibold text-blue-strong"
+                >
+                  <Sparkles
+                    aria-hidden="true"
+                    className="h-4 w-4 shrink-0 text-blue"
+                  />
+                  {step}
+                </p>
+              ))}
+            </div>
+          </article>
+        </div>
+      </Section>
+
+      <Section id="mitmachen-formular" className="section-soft scroll-mt-28">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-7 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+              {isUk ? "Ваша пропозиція" : "Ihr Angebot"}
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
+              {isUk ? "Напишіть команді" : "Schreiben Sie dem Team"}
+            </h2>
           </div>
+          <ContactForm
+            locale={locale}
+            initialTopic="volunteering"
+            requestContext="volunteering"
+            requestLabel={isUk ? "Волонтерство" : "Ehrenamt"}
+          />
         </div>
       </Section>
     </>
