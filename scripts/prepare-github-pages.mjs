@@ -1,9 +1,53 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputDirectory = path.join(root, ".pages-out");
+
+export async function prepareGitHubPagesSegmentFiles(
+  directory = outputDirectory,
+) {
+  let copied = 0;
+
+  async function flattenSegments(segmentDirectory, pageDirectory) {
+    for (const entry of await readdir(segmentDirectory, {
+      withFileTypes: true,
+    })) {
+      const source = path.join(segmentDirectory, entry.name);
+      if (entry.isDirectory()) {
+        await flattenSegments(source, pageDirectory);
+      } else if (entry.isFile() && entry.name.endsWith(".txt")) {
+        const filename = path
+          .relative(pageDirectory, source)
+          .split(path.sep)
+          .join(".");
+        await copyFile(source, path.join(pageDirectory, filename));
+        copied += 1;
+      }
+    }
+  }
+
+  async function visit(currentDirectory) {
+    for (const entry of await readdir(currentDirectory, {
+      withFileTypes: true,
+    })) {
+      if (!entry.isDirectory()) continue;
+      const child = path.join(currentDirectory, entry.name);
+      // Next's exporter flattens forward slashes, but Windows segment paths
+      // retain backslashes and become nested directories. The client router
+      // always requests dot-separated filenames, on every platform.
+      if (entry.name.startsWith("__next.")) {
+        await flattenSegments(child, currentDirectory);
+      } else {
+        await visit(child);
+      }
+    }
+  }
+
+  await visit(directory);
+  return copied;
+}
 
 export async function prepareGitHubPagesRedirects() {
   // Pages has no server redirects. Keep old links working without JavaScript.
@@ -42,6 +86,9 @@ export async function prepareGitHubPagesRedirects() {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const copied = await prepareGitHubPagesSegmentFiles();
   await prepareGitHubPagesRedirects();
-  console.log("GitHub Pages legacy redirects prepared.");
+  console.log(
+    `GitHub Pages redirects prepared; ${copied} segment files normalized.`,
+  );
 }

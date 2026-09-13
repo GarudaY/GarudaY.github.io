@@ -12,7 +12,8 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "test:operations": "node scripts/smoke-operations.mjs"
+    "test:operations": "node scripts/smoke-operations.mjs",
+    "test:pages": "node --test scripts/test-github-pages.mjs"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.2",

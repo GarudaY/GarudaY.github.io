@@ -39,6 +39,9 @@ jobs:
       - name: Check code
         run: npm run lint
 
+      - name: Check static export preparation
+        run: npm run test:pages
+
       - name: Build static site
         run: npm run build:pages
 
