@@ -24,7 +24,10 @@ export function SiteLogo({ locale }: { locale: Locale }) {
         <span className="block text-sm font-bold text-blue-strong sm:text-base">
           {siteConfig.shortName[locale]}
         </span>
-        <span className="block max-w-[10.5rem] truncate text-[11px] text-ink-muted sm:max-w-none sm:text-xs">
+        <span className="block text-xs text-ink-muted sm:hidden">
+          Verein e.V.
+        </span>
+        <span className="hidden text-xs text-ink-muted sm:block">
           Interkultureller Verein e.V.
         </span>
       </span>

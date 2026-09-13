@@ -88,7 +88,10 @@ export function PhotoCarousel({
 
       {images.length > 1 ? (
         <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
-          <div className="flex rounded-full bg-blue-strong/72 p-1.5 backdrop-blur-md">
+          <span className="rounded-full bg-blue-strong/72 px-3 py-2 text-sm font-semibold tabular-nums text-white backdrop-blur-md sm:hidden">
+            {active + 1} / {images.length}
+          </span>
+          <div className="hidden rounded-full bg-blue-strong/72 p-1.5 backdrop-blur-md sm:flex">
             {images.map((image, index) => (
               <button
                 key={image.src}
@@ -112,7 +115,7 @@ export function PhotoCarousel({
               </button>
             ))}
           </div>
-          <div className="flex gap-2">
+          <div className="flex shrink-0 gap-2">
             <button
               type="button"
               onClick={() => move(-1)}

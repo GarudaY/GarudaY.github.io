@@ -858,6 +858,26 @@ select {
   box-shadow: var(--shadow-card);
 }
 
+.volunteer-role-card,
+.verein-update-card {
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color 240ms ease,
+    box-shadow 350ms var(--ease-out-soft);
+}
+
+.volunteer-role-card:focus-within {
+  border-color: rgba(36, 95, 143, 0.5);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .volunteer-role-card:hover,
+  .verein-update-card:hover {
+    border-color: rgba(36, 95, 143, 0.3);
+    box-shadow: 0 16px 40px rgba(23, 57, 87, 0.1);
+  }
+}
+
 @keyframes intro-rise {
   from {
     opacity: 0;

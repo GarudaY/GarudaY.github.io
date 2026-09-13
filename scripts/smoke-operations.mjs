@@ -60,24 +60,50 @@ try {
     ["general", "kontakt@sonnenblume-mg.com"],
     ["courses", "kurse@sonnenblume-mg.com"],
     ["partnership", "vorstand@sonnenblume-mg.com"],
+    ["volunteering", "vorstand@sonnenblume-mg.com", "volunteering-events"],
+    ["volunteering", "vorstand@sonnenblume-mg.com", "volunteering-own-idea"],
   ];
   const contacts = [];
-  for (const [topic, expectedTarget] of contactCases) {
+  for (const [topic, expectedTarget, context] of contactCases) {
     const contact = await jsonRequest("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         locale: "uk",
         name: "Smoke Test",
-        email: `contact-${topic}-${suffix}@example.invalid`,
+        email: `contact-${context || topic}-${suffix}@example.invalid`,
         topic,
         message: `Automated ${topic} contact queue smoke test.`,
+        context,
         consent: true,
         company: "",
       }),
     });
     assert(contact.response.status === 201, `${topic} contact was not stored.`);
-    contacts.push({ ...contact.body, expectedTarget });
+    contacts.push({ ...contact.body, expectedTarget, context });
+  }
+
+  for (const invalidFields of [
+    { topic: "volunteering", consent: false },
+    { topic: "membership", consent: true, statuteAccepted: false },
+  ]) {
+    const invalidContact = await jsonRequest("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        locale: "uk",
+        name: "Smoke Test",
+        email: `invalid-${suffix}@example.invalid`,
+        message: "This request must not be accepted without required consent.",
+        company: "",
+        ...invalidFields,
+      }),
+    });
+    assert(
+      invalidContact.response.status === 400 &&
+        invalidContact.body.code === "invalid_contact",
+      "A contact request without required consent was accepted.",
+    );
   }
 
   const admin = await jsonRequest("/api/admin/operations");
@@ -91,6 +117,10 @@ try {
       stored.notificationTarget === contact.expectedTarget,
       `Contact was routed to ${stored.notificationTarget} instead of ${contact.expectedTarget}.`,
     );
+    assert(
+      stored.context === contact.context,
+      "The selected volunteer role or own-idea context was lost.",
+    );
   }
 
   const csv = await fetch(`${baseUrl}/api/admin/export?kind=contacts`);
@@ -101,7 +131,7 @@ try {
   );
 
   console.log(
-    "Operations smoke test passed: closed registration, routed contact queues, admin and CSV.",
+    "Operations smoke test passed: closed registration, contact routing, volunteer context, required consent, admin and CSV.",
   );
 } finally {
   if (backup === null) {

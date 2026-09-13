@@ -55,6 +55,7 @@ export default async function EventDetailPage({ params }: PageProps) {
   const event = await getEventBySlug(slug);
   if (!event) notFound();
   const isUpcoming = event.eventStatus === "upcoming";
+  const isAnnouncement = event.archiveType === "announcement";
   const breadcrumbItems = [
     {
       label: locale === "uk" ? "Події" : "Veranstaltungen",
@@ -76,17 +77,17 @@ export default async function EventDetailPage({ params }: PageProps) {
       siteConfig.baseUrl,
     ).toString(),
     image: new URL(event.image.src, siteConfig.baseUrl).toString(),
-    startDate: event.startsAt,
+    startDate: event.dateLabel ? undefined : event.startsAt,
     endDate: event.endsAt,
-    eventStatus: isUpcoming
-      ? "https://schema.org/EventScheduled"
-      : "https://schema.org/EventCompleted",
+    eventStatus: isUpcoming ? "https://schema.org/EventScheduled" : undefined,
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: { "@type": "Place", name: t(event.location, locale) },
     organizer: {
       "@type": "Organization",
-      name: "SONNENBLUME — Interkultureller Verein e.V.",
-      url: new URL(getPath(locale, "home"), siteConfig.baseUrl).toString(),
+      name: event.organizerName ?? "SONNENBLUME — Interkultureller Verein e.V.",
+      url: event.organizerName
+        ? undefined
+        : new URL(getPath(locale, "home"), siteConfig.baseUrl).toString(),
     },
   };
 
@@ -100,9 +101,13 @@ export default async function EventDetailPage({ params }: PageProps) {
             ? locale === "uk"
               ? "Анонс"
               : "Ankündigung"
-            : locale === "uk"
-              ? "Фоторозповідь"
-              : "Fotogeschichte"
+            : isAnnouncement
+              ? locale === "uk"
+                ? "Архівний анонс"
+                : "Archivierte Ankündigung"
+              : locale === "uk"
+                ? "Фоторозповідь"
+                : "Fotogeschichte"
         }
         title={t(event.title, locale)}
         description={t(event.summary, locale)}
@@ -112,11 +117,15 @@ export default async function EventDetailPage({ params }: PageProps) {
       <Section>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-start">
           <article className="min-w-0">
-            {isUpcoming ? (
+            {isUpcoming || isAnnouncement ? (
               <ContentImage
                 image={event.image}
                 locale={locale}
-                className="aspect-[4/3] sm:aspect-[16/10]"
+                className={
+                  isAnnouncement
+                    ? "aspect-[3/4] bg-white"
+                    : "aspect-[4/3] sm:aspect-[16/10]"
+                }
                 preload
               />
             ) : (
@@ -128,14 +137,30 @@ export default async function EventDetailPage({ params }: PageProps) {
               />
             )}
             <div className="mx-auto mt-9 max-w-3xl">
+              {isAnnouncement ? (
+                <a
+                  href={event.image.src}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="focus-ring mb-6 inline-flex min-h-11 items-center rounded-full text-sm font-semibold text-blue underline underline-offset-4"
+                >
+                  {locale === "uk"
+                    ? "Відкрити оригінальну афішу"
+                    : "Originalplakat öffnen"}
+                </a>
+              ) : null}
               <h2 className="text-3xl font-bold text-blue-strong">
                 {isUpcoming
                   ? locale === "uk"
                     ? "Про подію"
                     : "Über die Veranstaltung"
-                  : locale === "uk"
-                    ? "Як це було"
-                    : "So war es"}
+                  : isAnnouncement
+                    ? locale === "uk"
+                      ? "Про цей анонс"
+                      : "Über diese Ankündigung"
+                    : locale === "uk"
+                      ? "Як це було"
+                      : "So war es"}
               </h2>
               <p className="mt-4 text-lg leading-8 text-ink-muted">
                 {t(event.description, locale)}

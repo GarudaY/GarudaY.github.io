@@ -2,6 +2,126 @@ import type { Event } from "@/types/content";
 
 export const events: Event[] = [
   {
+    id: "event-adult-dance-2025",
+    slug: "tantsi-dlia-doroslykh-2025",
+    status: "published",
+    eventStatus: "past",
+    archiveType: "announcement",
+    category: "culture",
+    title: {
+      uk: "Танці для дорослих: для душі та тіла",
+      de: "Tanzen für Erwachsene: für Körper und Seele",
+    },
+    summary: {
+      uk: "Архівний анонс танцювального курсу 30+: рух, знайомство з різними стилями й задоволення від танцю.",
+      de: "Archivierte Ankündigung eines Tanzkurses 30+: Bewegung, verschiedene Tanzstile und Freude am Tanzen.",
+    },
+    description: {
+      uk: "У травні 2025 року SONNENBLUME анонсувала старт танцювального курсу в червні. Програма поєднувала м’яку розминку, основи вальсу, українського народного танцю й латино, прості комбінації, розтяжку та імпровізацію. На афіші збережені історичні умови та адреса. Цей матеріал є архівом анонсу; актуальні заняття й розклад можна уточнити в команди курсів.",
+      de: "Im Mai 2025 kündigte SONNENBLUME den Start eines Tanzkurses im Juni an. Geplant waren sanftes Aufwärmen, Grundlagen von Walzer, ukrainischem Volkstanz und Latino, einfache Kombinationen, Dehnen und Improvisation. Das Plakat zeigt die damaligen Angaben und die frühere Adresse. Diese Ankündigung ist archiviert; aktuelle Angebote und Zeiten erfahren Sie beim Kursteam.",
+    },
+    startsAt: "2025-06-01",
+    dateLabel: { uk: "Червень 2025", de: "Juni 2025" },
+    timeLabel: {
+      uk: "В архівному анонсі час не зазначено",
+      de: "Keine Uhrzeit in der archivierten Ankündigung",
+    },
+    location: {
+      uk: "Welfenstraße 10, Mönchengladbach · адреса на момент анонсу",
+      de: "Welfenstraße 10, Mönchengladbach · damalige Adresse",
+    },
+    price: { uk: "Архівний анонс", de: "Archivierte Ankündigung" },
+    registrationLabel: { uk: "Архів", de: "Archiv" },
+    capacity: 0,
+    seatsAvailable: 0,
+    contactEmail: "kurse@sonnenblume-mg.com",
+    image: {
+      src: "/images/community/adult-dance-june-2025.jpg",
+      alt: {
+        uk: "Оригінальна афіша танцювального курсу SONNENBLUME для дорослих, червень 2025",
+        de: "Originalplakat zum SONNENBLUME-Tanzkurs für Erwachsene, Juni 2025",
+      },
+      width: 905,
+      height: 1280,
+      fit: "contain",
+    },
+    gallery: [],
+    relatedArticleIds: [],
+    relatedCourseIds: [],
+    isFeatured: false,
+    seo: {
+      title: {
+        uk: "Танці для дорослих — архів 2025",
+        de: "Tanzen für Erwachsene – Archiv 2025",
+      },
+      description: {
+        uk: "Оригінальна афіша та опис танцювального курсу, анонсованого SONNENBLUME у 2025 році.",
+        de: "Originalplakat und Beschreibung des 2025 von SONNENBLUME angekündigten Tanzkurses.",
+      },
+    },
+    createdAt: "2025-05-23",
+    updatedAt: "2026-09-05",
+  },
+  {
+    id: "event-healthcare-networking-2025",
+    slug: "zustrich-fakhivtsiv-okhorony-zdorovia-2025",
+    status: "published",
+    eventStatus: "past",
+    archiveType: "announcement",
+    organizerName: "KLiQG | HSNR · Hochschule Niederrhein",
+    category: "integration",
+    title: {
+      uk: "Знайомство й обмін досвідом для фахівців охорони здоров’я",
+      de: "Kennenlernen und Austausch für Gesundheitsfachkräfte",
+    },
+    summary: {
+      uk: "Архівне запрошення KLiQG | HSNR на зустріч у Hochschule Niederrhein 26 травня 2025 року.",
+      de: "Archivierte Einladung von KLiQG | HSNR zum Get-together an der Hochschule Niederrhein am 26. Mai 2025.",
+    },
+    description: {
+      uk: "KLiQG | HSNR запросив фахівців сфери охорони здоров’я та тих, хто планував працювати в цій галузі, на вечір знайомств і спілкування. Зустріч була запланована в інституті SO.CON у Monforts Quartier. Програма передбачала обмін досвідом, неформальні розмови та можливість зробити безкоштовне фото для резюме учасникам KLiQG. Зберігаємо оригінальну афішу й опис запрошення як частину архіву спільноти.",
+      de: "KLiQG | HSNR lud Gesundheitsfachkräfte und Interessierte an einer Tätigkeit im Gesundheitswesen zu einem Kennenlern- und Austauschabend ein. Geplant war das Treffen im Institut SO.CON im Monforts Quartier. Vorgesehen waren Erfahrungsaustausch, informelle Gespräche und kostenlose Bewerbungsfotos für KLiQG-Teilnehmende. Das Originalplakat und die Einladung bleiben als Teil unseres Gemeinschaftsarchivs erhalten.",
+    },
+    startsAt: "2025-05-26T17:00:00+02:00",
+    endsAt: "2025-05-26T19:00:00+02:00",
+    timeLabel: { uk: "17:00 — приблизно 19:00", de: "17:00 – ca. 19:00 Uhr" },
+    location: {
+      uk: "Institut SO.CON, Hochschule Niederrhein · Monforts Quartier",
+      de: "Institut SO.CON, Hochschule Niederrhein · Monforts Quartier",
+    },
+    price: { uk: "Архівний анонс", de: "Archivierte Ankündigung" },
+    registrationLabel: { uk: "Архів", de: "Archiv" },
+    capacity: 0,
+    seatsAvailable: 0,
+    contactEmail: "kliqg@hs-niederrhein.de",
+    image: {
+      src: "/images/community/healthcare-networking-may-2025.jpg",
+      alt: {
+        uk: "Оригінальна афіша KLiQG | HSNR: Get-together 26 травня 2025",
+        de: "Originaleinladung KLiQG | HSNR: Get-together am 26. Mai 2025",
+      },
+      width: 898,
+      height: 1280,
+      fit: "contain",
+    },
+    gallery: [],
+    relatedArticleIds: [],
+    relatedCourseIds: [],
+    isFeatured: false,
+    seo: {
+      title: {
+        uk: "Зустріч фахівців охорони здоров’я — архів 2025",
+        de: "Get-together für Gesundheitsfachkräfte – Archiv 2025",
+      },
+      description: {
+        uk: "Афіша та архівний анонс зустрічі KLiQG | HSNR 26 травня 2025 року.",
+        de: "Plakat und archivierte Ankündigung des KLiQG | HSNR-Treffens am 26. Mai 2025.",
+      },
+    },
+    createdAt: "2025-05-23",
+    updatedAt: "2026-09-05",
+  },
+  {
     id: "event-independence-day-2026",
     slug: "den-nezalezhnosti-ukrainy-2026",
     status: "published",

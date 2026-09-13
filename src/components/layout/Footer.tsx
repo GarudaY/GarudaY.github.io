@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight, FileCheck2, Mail, MapPin, Phone } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -204,32 +203,25 @@ export function Footer({
                   </a>
                 </li>
               ))}
+              <li>
+                <span
+                  aria-disabled="true"
+                  className="inline-flex min-h-11 w-full items-center gap-3 rounded-full border border-dashed border-blue/25 bg-surface/50 px-3 text-blue-strong"
+                >
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-muted text-blue">
+                    <SocialIcon type="telegram" />
+                  </span>
+                  <span className="font-semibold">Telegram</span>
+                  <span className="ml-auto text-xs text-ink-muted">
+                    {isUk ? "Незабаром" : "Demnächst"}
+                  </span>
+                </span>
+              </li>
             </ul>
           </nav>
         </div>
 
-        <div className="mt-9 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex max-w-2xl items-center gap-4">
-            <a
-              href="https://www.deutsche-stiftung-engagement-und-ehrenamt.de/"
-              target="_blank"
-              rel="noreferrer"
-              className="focus-ring shrink-0 rounded-[8px] bg-white p-2"
-            >
-              <Image
-                src="/images/partners/dsee-foerderlogo.svg"
-                alt="Gefördert durch Deutsche Stiftung für Engagement und Ehrenamt"
-                width={560}
-                height={240}
-                className="h-auto w-24"
-              />
-            </a>
-            <p className="text-xs leading-5 text-ink-muted">
-              {isUk
-                ? "Багатомовний сайт та залучення волонтерів підтримано DSEE."
-                : "Mehrsprachige Website und Ehrenamtsgewinnung werden durch die DSEE gefördert."}
-            </p>
-          </div>
+        <div className="mt-9 border-t border-border pt-5">
           <p className="text-xs text-ink-muted">
             © {new Date().getFullYear()} {t(settings.name, locale)}
           </p>

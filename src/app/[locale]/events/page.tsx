@@ -51,8 +51,8 @@ export default async function EventsPage({ params }: PageProps) {
         title={locale === "uk" ? "Події та заходи" : "Events"}
         description={
           locale === "uk"
-            ? "Тут зібрані найближчі анонси SONNENBLUME та фоторозповіді про вже проведені події."
-            : "Hier finden Sie kommende SONNENBLUME-Events und Fotogeschichten bereits durchgeführter Veranstaltungen."
+            ? "Найближчі події SONNENBLUME, фотографії зі спільних зустрічей та афіші з життя громади."
+            : "Kommende SONNENBLUME-Events, Fotos gemeinsamer Begegnungen und Plakate aus dem Gemeinschaftsleben."
         }
       >
         <Breadcrumbs
@@ -93,7 +93,9 @@ export default async function EventsPage({ params }: PageProps) {
             {locale === "uk" ? "Архів" : "Rückblicke"}
           </p>
           <h2 className="mt-3 text-3xl font-bold text-blue-strong">
-            {locale === "uk" ? "Як це було" : "So war es"}
+            {locale === "uk"
+              ? "Історії та афіші спільноти"
+              : "Geschichten und Plakate aus der Gemeinschaft"}
           </h2>
         </div>
         {past.length ? (

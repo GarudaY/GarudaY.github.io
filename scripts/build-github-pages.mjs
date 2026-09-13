@@ -2,6 +2,7 @@ import { cp, mkdir, rm, symlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { prepareGitHubPagesRedirects } from "./prepare-github-pages.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const workDirectory = path.join(root, ".pages-work");
@@ -41,7 +42,6 @@ for (const entry of [
   "public",
   "package.json",
   "tsconfig.json",
-  "next-env.d.ts",
   "next.config.ts",
   "postcss.config.mjs",
 ]) {
@@ -93,5 +93,6 @@ await cp(
   { recursive: true },
 );
 await writeFile(path.join(outputDirectory, ".nojekyll"), "", "utf8");
+await prepareGitHubPagesRedirects();
 
 console.log(`GitHub Pages export ready: ${outputDirectory}`);

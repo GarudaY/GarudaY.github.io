@@ -20,6 +20,8 @@ type HeaderProps = {
 
 function isActive(pathname: string, locale: Locale, item: NavigationItem) {
   const segments = pathname.split("/").filter(Boolean);
+  if (item.route === "home")
+    return segments.length === 1 && segments[0] === locale;
   const current =
     publicToInternalSegment[locale][segments[1] ?? ""] ?? segments[1];
   return current === item.route;
@@ -41,17 +43,31 @@ export function Header({ locale, navigation }: HeaderProps) {
       }
     }
 
+    const desktopViewport = window.matchMedia("(min-width: 1280px)");
+    function handleViewportChange(event: MediaQueryListEvent) {
+      if (event.matches) setOpen(false);
+    }
+
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     document.addEventListener("keydown", handleKeyDown);
+    desktopViewport.addEventListener("change", handleViewportChange);
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleKeyDown);
+      desktopViewport.removeEventListener("change", handleViewportChange);
     };
   }, [open]);
 
   return (
-    <header className="header-glass sticky top-0 z-40 border-b border-border/70 bg-background/88 backdrop-blur-xl">
+    <header
+      className="header-glass sticky top-0 z-40 border-b border-border/70 bg-background/88 backdrop-blur-xl"
+      onBlurCapture={(event) => {
+        if (open && !event.currentTarget.contains(event.relatedTarget))
+          setOpen(false);
+      }}
+    >
       <div className="mx-auto flex min-h-20 max-w-[90rem] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <SiteLogo locale={locale} />
         <nav

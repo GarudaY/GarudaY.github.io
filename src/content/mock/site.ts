@@ -37,8 +37,8 @@ export const siteSettings: SiteSettings = {
   },
   navigation: [
     {
-      label: { uk: "Про нас", de: "Über uns" },
-      route: "about",
+      label: { uk: "Головна", de: "Startseite" },
+      route: "home",
       priority: "primary",
     },
     {
@@ -54,11 +54,6 @@ export const siteSettings: SiteSettings = {
     {
       label: { uk: "Події", de: "Events" },
       route: "events",
-      priority: "primary",
-    },
-    {
-      label: { uk: "Наше щодення", de: "Was uns bewegt" },
-      route: "news",
       priority: "primary",
     },
     {

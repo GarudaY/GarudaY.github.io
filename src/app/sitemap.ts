@@ -8,11 +8,9 @@ export const dynamic = "force-static";
 
 const staticRoutes: RouteKey[] = [
   "home",
-  "about",
   "join",
   "courses",
   "events",
-  "news",
   "donate",
   "contact",
 ];

@@ -63,7 +63,6 @@ export default async function PersonPage({ params }: PageProps) {
         <Breadcrumbs
           locale={locale}
           items={[
-            { label: locale === "uk" ? "Про нас" : "Über uns", route: "about" },
             {
               label: t(person.name, locale),
               route: "people",

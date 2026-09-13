@@ -37,7 +37,14 @@ export type LegalLink = {
 export type NavigationItem = {
   label: LocalizedString;
   route:
-    "about" | "join" | "courses" | "events" | "news" | "donate" | "contact";
+    | "home"
+    | "about"
+    | "join"
+    | "courses"
+    | "events"
+    | "news"
+    | "donate"
+    | "contact";
   priority: "primary" | "secondary";
 };
 
@@ -138,6 +145,8 @@ export type Event = {
   slug: string;
   status: PublicationStatus;
   eventStatus: EventStatus;
+  archiveType?: "announcement";
+  organizerName?: string;
   category: EventCategory;
   title: LocalizedString;
   summary: LocalizedString;

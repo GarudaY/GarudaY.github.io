@@ -63,11 +63,21 @@ export function ContactForm({
   initialTopic = "general",
   requestContext,
   requestLabel,
+  fixedTopic,
+  title,
+  description,
+  messageLabel,
+  messagePlaceholder,
 }: {
   locale: Locale;
   initialTopic?: ContactTopic;
   requestContext?: string;
   requestLabel?: string;
+  fixedTopic?: ContactTopic;
+  title?: string;
+  description?: string;
+  messageLabel?: string;
+  messagePlaceholder?: string;
 }) {
   const [receipt, setReceipt] = useState<ContactReceipt | null>(null);
   const [pending, setPending] = useState(false);
@@ -82,6 +92,7 @@ export function ContactForm({
   );
   const clientContext = new URLSearchParams(search).get("topic") ?? undefined;
   const topic =
+    fixedTopic ??
     selectedTopic ??
     topicFromContext(requestContext ?? clientContext) ??
     initialTopic;
@@ -135,12 +146,13 @@ export function ContactForm({
     >
       <div>
         <h2 className="text-xl font-bold text-blue-strong">
-          {isUk ? "Написати нам" : "Nachricht schreiben"}
+          {title ?? (isUk ? "Написати нам" : "Nachricht schreiben")}
         </h2>
         <p className="mt-2 text-sm leading-6 text-ink-muted">
-          {isUk
-            ? "Звернення потрапить у структуровану чергу, а відповідальна команда одразу отримає email-сповіщення за обраною темою."
-            : "Die Anfrage landet in einer strukturierten Warteschlange; das zuständige Team erhält sofort eine E-Mail-Benachrichtigung zum gewählten Thema."}
+          {description ??
+            (isUk
+              ? "Напишіть нам — ми передамо звернення команді, яка займається вашим питанням."
+              : "Schreiben Sie uns – Ihre Nachricht erreicht das Team, das sich um Ihr Anliegen kümmert.")}
         </p>
         {requestLabel ? (
           <p className="mt-4 rounded-[8px] bg-surface-muted p-3 text-sm text-blue-strong">
@@ -207,36 +219,43 @@ export function ContactForm({
           autoComplete="email"
         />
       </FormField>
-      <FormField label={isUk ? "Тема" : "Betreff"} htmlFor="topic">
-        <select
-          id="topic"
-          name="topic"
-          className={fieldClassName}
-          value={topic}
-          onChange={(event) =>
-            setSelectedTopic(event.target.value as ContactTopic)
-          }
-        >
-          <option value="general">
-            {isUk ? "Загальні питання" : "Allgemeine Anfrage"}
-          </option>
-          <option value="courses">{isUk ? "Курси" : "Kurse"}</option>
-          <option value="events">{isUk ? "Події" : "Veranstaltungen"}</option>
-          <option value="volunteering">
-            {isUk
-              ? "Волонтерство без членства"
-              : "Ehrenamt ohne Mitgliedschaft"}
-          </option>
-          <option value="membership">
-            {isUk ? "Членство у Verein" : "Mitgliedschaft im Verein"}
-          </option>
-          <option value="donation">{isUk ? "Пожертви" : "Spenden"}</option>
-          <option value="partnership">
-            {isUk ? "Співпраця" : "Partnerschaft"}
-          </option>
-        </select>
-      </FormField>
-      <FormField label={isUk ? "Повідомлення" : "Nachricht"} htmlFor="message">
+      {fixedTopic ? (
+        <input type="hidden" name="topic" value={fixedTopic} />
+      ) : (
+        <FormField label={isUk ? "Тема" : "Betreff"} htmlFor="topic">
+          <select
+            id="topic"
+            name="topic"
+            className={fieldClassName}
+            value={topic}
+            onChange={(event) =>
+              setSelectedTopic(event.target.value as ContactTopic)
+            }
+          >
+            <option value="general">
+              {isUk ? "Загальні питання" : "Allgemeine Anfrage"}
+            </option>
+            <option value="courses">{isUk ? "Курси" : "Kurse"}</option>
+            <option value="events">{isUk ? "Події" : "Veranstaltungen"}</option>
+            <option value="volunteering">
+              {isUk
+                ? "Волонтерство без членства"
+                : "Ehrenamt ohne Mitgliedschaft"}
+            </option>
+            <option value="membership">
+              {isUk ? "Членство у Verein" : "Mitgliedschaft im Verein"}
+            </option>
+            <option value="donation">{isUk ? "Пожертви" : "Spenden"}</option>
+            <option value="partnership">
+              {isUk ? "Співпраця" : "Partnerschaft"}
+            </option>
+          </select>
+        </FormField>
+      )}
+      <FormField
+        label={messageLabel ?? (isUk ? "Повідомлення" : "Nachricht")}
+        htmlFor="message"
+      >
         <textarea
           id="message"
           name="message"
@@ -244,6 +263,7 @@ export function ContactForm({
           minLength={5}
           maxLength={3000}
           rows={5}
+          placeholder={messagePlaceholder}
           className={fieldClassName}
         />
       </FormField>
