@@ -98,7 +98,7 @@ GitHub Pages: задать repository variable `WORDPRESS_CMS_URL` только 
 
 ## Проверки
 
-`npm run test:cms` — schema-тесты, unit-тесты логики самой панели (переводы, сохранение/ошибки, блокировка повторных кликов, фото, архив) и disposable WordPress 7.1 / PHP 8.2: роли, авторство, черновики/live, согласование, восстановление, архив, валидация, cookie/nonce HTTP, параллельные сохранения, media upload/public image. В текущем цикле — 39 schema/unit-тестов и 150 проверок WordPress. Не обращается к старому сайту и не отправляет реальные письма. Отдельный GitHub Actions workflow подготовлен в `.github/workflows/cms.yml`; запуск на GitHub ещё не подтверждён.
+`npm run test:cms` — schema-тесты, unit-тесты логики самой панели (переводы, сохранение/ошибки, блокировка повторных кликов, фото, архив) и disposable WordPress 7.1 / PHP 8.2: роли, авторство, черновики/live, согласование, восстановление, архив, валидация, cookie/nonce HTTP, параллельные сохранения, media upload/public image. В текущем цикле — 39 schema/unit-тестов и 150 проверок WordPress. Не обращается к старому сайту и не отправляет реальные письма. Отдельный GitHub Actions workflow в `.github/workflows/cms.yml` прошёл на GitHub в ветке `code`.
 
 `npm run test:cms:frontend` — локальный end-to-end с backend `127.0.0.1:9400` и frontend `localhost:3000`: тестовая запись проходит черновик → публикация → новый черновик → архив. Создаёт только маркированную тестовую запись в отдельной локальной БД и архивирует её; не менять URL на рабочий сайт.
 
