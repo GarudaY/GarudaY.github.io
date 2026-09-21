@@ -3,6 +3,7 @@ import type {
   FeaturedContent,
   SiteSettings,
 } from "@/types/content";
+import donationBank from "@/config/donation-bank.json";
 
 export const siteSettings: SiteSettings = {
   id: "site-settings",
@@ -203,16 +204,16 @@ export const donationSettings: DonationSettings = {
       },
       details: {
         uk: [
-          "Отримувач: Sonnenblume e.V.",
-          "IBAN: DE83 3105 0000 1004 2098 37",
-          "BIC: MGLSDE33XXX",
-          "Призначення: Spende",
+          `Отримувач: ${donationBank.recipient}`,
+          `IBAN: ${donationBank.ibanDisplay}`,
+          `BIC: ${donationBank.bic}`,
+          `Призначення: ${donationBank.reference}`,
         ],
         de: [
-          "Empfänger: Sonnenblume e.V.",
-          "IBAN: DE83 3105 0000 1004 2098 37",
-          "BIC: MGLSDE33XXX",
-          "Verwendungszweck: Spende",
+          `Empfänger: ${donationBank.recipient}`,
+          `IBAN: ${donationBank.ibanDisplay}`,
+          `BIC: ${donationBank.bic}`,
+          `Verwendungszweck: ${donationBank.reference}`,
         ],
       },
       isDemo: false,
@@ -242,9 +243,17 @@ export const donationSettings: DonationSettings = {
       },
       details: {
         uk: [
+          `Отримувач: ${donationBank.recipient}`,
+          `IBAN: ${donationBank.ibanDisplay}`,
+          `Призначення: ${donationBank.reference}`,
+          "Суму пожертви вкажіть у банківському застосунку.",
           "Перед підтвердженням перевірте отримувача та суму у своєму банку.",
         ],
         de: [
+          `Empfänger: ${donationBank.recipient}`,
+          `IBAN: ${donationBank.ibanDisplay}`,
+          `Verwendungszweck: ${donationBank.reference}`,
+          "Den Spendenbetrag geben Sie in Ihrer Banking-App ein.",
           "Bitte prüfen Sie Empfänger und Betrag vor der Bestätigung in Ihrer Banking-App.",
         ],
       },

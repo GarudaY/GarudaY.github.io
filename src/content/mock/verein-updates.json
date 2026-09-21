@@ -1,0 +1,53 @@
+[
+  {
+    "id": "example-partners",
+    "icon": "handshake",
+    "order": 10,
+    "isExample": true,
+    "publishedAt": null,
+    "image": null,
+    "status": { "uk": "Діалог із партнерами", "de": "Im Austausch" },
+    "title": {
+      "uk": "Більше простору для спільних ідей",
+      "de": "Mehr Raum für gemeinsame Ideen"
+    },
+    "text": {
+      "uk": "Обговорюємо з місцевими культурними просторами формат спільних майстерень та невеликих виставок. Шукаємо можливості, які допоможуть українській і німецькій спільнотам частіше зустрічатися.",
+      "de": "Mit lokalen Kulturorten sprechen wir über gemeinsame Werkstätten und kleine Ausstellungen. Wir suchen nach Möglichkeiten, ukrainische und deutsche Nachbarschaften öfter zusammenzubringen."
+    }
+  },
+  {
+    "id": "example-project",
+    "icon": "lightbulb",
+    "order": 20,
+    "isExample": true,
+    "publishedAt": null,
+    "image": null,
+    "status": { "uk": "Готуємо проєкт", "de": "In Vorbereitung" },
+    "title": {
+      "uk": "Від ідеї — до сімейної майстерні",
+      "de": "Aus einer Idee wird eine Familienwerkstatt"
+    },
+    "text": {
+      "uk": "Команда збирає концепцію творчого проєкту для дітей і батьків: обираємо теми, рахуємо матеріали та продумуємо, як зробити участь доступною для різних родин.",
+      "de": "Das Team entwickelt ein Kreativprojekt für Kinder und Eltern: Wir sammeln Themen, planen Materialien und überlegen, wie unterschiedliche Familien unkompliziert mitmachen können."
+    }
+  },
+  {
+    "id": "example-team",
+    "icon": "users",
+    "order": 30,
+    "isExample": true,
+    "publishedAt": null,
+    "image": null,
+    "status": { "uk": "Усередині команди", "de": "Aus dem Team" },
+    "title": {
+      "uk": "Допомагати має бути простіше",
+      "de": "Engagement soll leichter werden"
+    },
+    "text": {
+      "uk": "Готуємо короткий путівник для нових волонтерів і зрозумілий розподіл завдань. Хочемо, щоб кожна людина знала, до кого звернутися та з чого почати.",
+      "de": "Wir bereiten einen kurzen Wegweiser für neue Ehrenamtliche und eine klare Aufgabenverteilung vor. Jede Person soll wissen, an wen sie sich wenden kann und wie der Einstieg gelingt."
+    }
+  }
+]

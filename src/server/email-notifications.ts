@@ -163,10 +163,23 @@ async function submitSmtp({
     throw new Error("smtp_not_configured");
   }
 
+  const rawPort = process.env.SMTP_PORT?.trim() || "465";
+  const port = Number(rawPort);
+  if (
+    !/^\d+$/.test(rawPort) ||
+    !Number.isInteger(port) ||
+    port < 1 ||
+    port > 65535
+  ) {
+    throw new Error("smtp_invalid_port");
+  }
   const transporter = nodemailer.createTransport({
     host,
-    port: Number.parseInt(process.env.SMTP_PORT ?? "465", 10),
-    secure: true,
+    port,
+    secure: port === 465,
+    requireTLS: port !== 465,
+    disableFileAccess: true,
+    disableUrlAccess: true,
     auth: { user, pass: password },
     connectionTimeout: 10_000,
     greetingTimeout: 10_000,

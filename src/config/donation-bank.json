@@ -1,0 +1,9 @@
+{
+  "recipient": "Sonnenblume e.V.",
+  "iban": "DE83310500001004209837",
+  "ibanDisplay": "DE83 3105 0000 1004 2098 37",
+  "bic": "MGLSDE33XXX",
+  "reference": "Spende Ukraine-Hilfe",
+  "qrImage": "/images/donation/bank-transfer-epc-qr.png",
+  "sourceUrl": "https://sonnenblume-mg.com/spenden/"
+}

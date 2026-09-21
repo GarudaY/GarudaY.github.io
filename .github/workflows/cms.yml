@@ -1,0 +1,75 @@
+name: Check WordPress editorial workflow
+
+on:
+  push:
+    branches: [code]
+    paths:
+      - "cms/**"
+      - "scripts/*wordpress*"
+      - "scripts/test-cms-updates.mjs"
+      - "scripts/test-cms-people.mjs"
+      - "scripts/test-cms-courses.mjs"
+      - "scripts/test-cms-events.mjs"
+      - "scripts/test-cms-volunteer.mjs"
+      - "scripts/test-cms-partners.mjs"
+      - "scripts/test-cms-admin.mjs"
+      - "src/lib/verein-updates.ts"
+      - "src/lib/cms-people.ts"
+      - "src/lib/cms-courses.ts"
+      - "src/lib/cms-events.ts"
+      - "src/lib/cms-volunteer.ts"
+      - "src/lib/cms-partners.ts"
+      - "src/server/cms-people.ts"
+      - "src/server/cms-courses.ts"
+      - "src/server/cms-events.ts"
+      - "src/server/volunteer-opportunities.ts"
+      - "src/server/cms-partners.ts"
+      - "src/content/mock/volunteer-opportunities.ts"
+      - "scripts/prepare-cms-snapshot.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/cms.yml"
+  pull_request:
+    paths:
+      - "cms/**"
+      - "scripts/*wordpress*"
+      - "scripts/test-cms-updates.mjs"
+      - "scripts/test-cms-people.mjs"
+      - "scripts/test-cms-courses.mjs"
+      - "scripts/test-cms-events.mjs"
+      - "scripts/test-cms-volunteer.mjs"
+      - "scripts/test-cms-partners.mjs"
+      - "scripts/test-cms-admin.mjs"
+      - "src/lib/verein-updates.ts"
+      - "src/lib/cms-people.ts"
+      - "src/lib/cms-courses.ts"
+      - "src/lib/cms-events.ts"
+      - "src/lib/cms-volunteer.ts"
+      - "src/lib/cms-partners.ts"
+      - "src/server/cms-people.ts"
+      - "src/server/cms-courses.ts"
+      - "src/server/cms-events.ts"
+      - "src/server/volunteer-opportunities.ts"
+      - "src/server/cms-partners.ts"
+      - "src/content/mock/volunteer-opportunities.ts"
+      - "scripts/prepare-cms-snapshot.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/cms.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  editorial-workflow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run test:cms

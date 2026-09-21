@@ -21,6 +21,7 @@ export type ImageAsset = {
   height?: number;
   fit?: "cover" | "contain";
   credit?: string;
+  focus?: number;
 };
 
 export type SocialLink = {
@@ -73,6 +74,16 @@ export type SiteSettings = {
 
 export type PersonRole = "board" | "team" | "teacher" | "volunteer";
 
+export type VolunteerOpportunity = {
+  id: string;
+  icon: "calendar" | "camera" | "languages" | "list" | "heart";
+  title: LocalizedString;
+  description: LocalizedString;
+  time: LocalizedString;
+  location: LocalizedString;
+  order: number;
+};
+
 export type Person = {
   id: string;
   slug: string;
@@ -81,6 +92,7 @@ export type Person = {
   roleLabel: LocalizedString;
   teacherRoleLabel?: LocalizedString;
   roles: PersonRole[];
+  boardPosition?: "chair" | "member";
   bio: LocalizedString;
   teacherBio?: LocalizedString;
   languages: string[];
@@ -191,11 +203,12 @@ export type NewsArticle = {
 
 export type Partner = {
   id: string;
+  kind?: "organization" | "person";
   name: string;
   status: PublicationStatus;
   description: LocalizedString;
   website?: string;
-  logo: ImageAsset;
+  logo?: ImageAsset;
   order: number;
 };
 

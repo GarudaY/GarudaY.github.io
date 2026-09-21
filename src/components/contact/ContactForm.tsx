@@ -174,7 +174,7 @@ export function ContactForm({
             <span>
               {isUk
                 ? receipt.notificationStatus === "sent"
-                  ? `Звернення ${receipt.reference} збережено, а відповідальна команда отримала email-сповіщення.`
+                  ? `Звернення ${receipt.reference} збережено. Email-сповіщення надіслано відповідальній команді.`
                   : `Звернення ${receipt.reference} надійно збережено, але email-сповіщення не пройшло. Команда все одно бачить його в панелі.`
                 : receipt.notificationStatus === "sent"
                   ? `Die Anfrage ${receipt.reference} wurde gespeichert und das zuständige Team per E-Mail benachrichtigt.`

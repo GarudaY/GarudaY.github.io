@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { VolunteerOpportunities } from "@/components/contact/VolunteerOpportunities";
+import { getPublishedVolunteer } from "@/server/volunteer-opportunities";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -25,14 +26,15 @@ export async function generateMetadata({
     title: locale === "uk" ? "Долучитися" : "Mitmachen",
     description:
       locale === "uk"
-        ? "Волонтерські завдання у SONNENBLUME: допомога на подіях, соцмережі, переклади, організація проєктів або ваша власна ідея."
-        : "Ehrenamtliche Aufgaben bei SONNENBLUME: Veranstaltungen, Social Media, Übersetzungen, Projektorganisation oder Ihre eigene Idee.",
+        ? "Актуальні волонтерські завдання SONNENBLUME або можливість запропонувати власну ідею."
+        : "Aktuelle ehrenamtliche Aufgaben bei SONNENBLUME oder die Möglichkeit, eine eigene Idee vorzuschlagen.",
   });
 }
 
 export default async function JoinPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
   const isUk = locale === "uk";
+  const roles = await getPublishedVolunteer();
   return (
     <>
       <PageHeader
@@ -50,7 +52,7 @@ export default async function JoinPage({ params }: PageProps) {
         />
       </PageHeader>
       <Section className="pt-8 lg:pt-10">
-        <VolunteerOpportunities locale={locale} />
+        <VolunteerOpportunities locale={locale} roles={roles} />
       </Section>
     </>
   );

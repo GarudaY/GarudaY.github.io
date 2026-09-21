@@ -1,11 +1,4 @@
-import {
-  cp,
-  mkdir,
-  readdir,
-  readFile,
-  rm,
-  writeFile,
-} from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const bundleDirectory = path.resolve(".sites-bundle");
@@ -14,6 +7,7 @@ const distDirectory = path.join(bundleDirectory, "dist");
 const serverDirectory = path.join(distDirectory, "server");
 const clientDirectory = path.join(distDirectory, "client");
 const bundleOpenAiDirectory = path.join(distDirectory, ".openai");
+const packageOpenAiDirectory = path.join(bundleDirectory, ".openai");
 const preservedBundleEntries = new Set([
   "README.md",
   "worker.js",
@@ -49,6 +43,12 @@ await mkdir(bundleOpenAiDirectory, { recursive: true });
 await cp(
   path.resolve(".openai", "hosting.json"),
   path.join(bundleOpenAiDirectory, "hosting.json"),
+);
+// The standard Sites packager reads source metadata beside the dist directory.
+await mkdir(packageOpenAiDirectory, { recursive: true });
+await cp(
+  path.resolve(".openai", "hosting.json"),
+  path.join(packageOpenAiDirectory, "hosting.json"),
 );
 await cp(
   path.resolve(".openai", "drizzle"),

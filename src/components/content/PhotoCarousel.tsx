@@ -73,10 +73,17 @@ export function PhotoCarousel({
           src={image.src}
           alt={t(image.alt, locale)}
           fill
+          unoptimized={/^https?:\/\//.test(image.src)}
+          style={
+            image.focus === undefined
+              ? undefined
+              : { objectPosition: `50% ${image.focus}%` }
+          }
           preload={preloadFirst && index === 0}
           sizes="(min-width: 1024px) 50vw, 100vw"
           className={cn(
-            "object-cover transition-[opacity,transform] duration-1000 ease-out",
+            image.fit === "contain" ? "object-contain" : "object-cover",
+            "transition-[opacity,transform] duration-1000 ease-out",
             index === active
               ? "scale-100 opacity-100"
               : "pointer-events-none scale-[1.035] opacity-0",

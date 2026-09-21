@@ -11,7 +11,10 @@ const PUBLIC_FILE = /\.[^/]+$/;
 // OpenNext currently requires the Edge middleware output. Keep the deprecated
 // file convention until its Next.js 16 Node proxy runtime is supported.
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  // skipProxyUrlNormalize preserves request.url; NextURL still normalizes
+  // loopback hosts to localhost, so use the native URL for rewrite destinations.
+  const originalUrl = new URL(request.url);
+  const { pathname } = originalUrl;
 
   if (
     pathname.startsWith("/_next") ||
@@ -30,7 +33,7 @@ export function middleware(request: NextRequest) {
   const locale = segments[0];
 
   if (!isLocale(locale)) {
-    const url = request.nextUrl.clone();
+    const url = new URL(originalUrl);
     url.pathname = `/${defaultLocale}${pathname}`;
     return NextResponse.redirect(url);
   }
@@ -42,7 +45,7 @@ export function middleware(request: NextRequest) {
       internalToPublicSegment[locale][publicSegment];
 
     if (canonicalPublicSegment && canonicalPublicSegment !== publicSegment) {
-      const url = request.nextUrl.clone();
+      const url = new URL(originalUrl);
       url.pathname = `/${[locale, canonicalPublicSegment, ...segments.slice(2)].join("/")}`;
       return NextResponse.redirect(url);
     }
@@ -50,7 +53,7 @@ export function middleware(request: NextRequest) {
     const internalSegment = publicToInternalSegment[locale][publicSegment];
 
     if (internalSegment && internalSegment !== publicSegment) {
-      const url = request.nextUrl.clone();
+      const url = new URL(originalUrl);
       url.pathname = `/${[locale, internalSegment, ...segments.slice(2)].join("/")}`;
       return NextResponse.rewrite(url);
     }

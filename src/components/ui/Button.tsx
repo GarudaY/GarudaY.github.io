@@ -35,7 +35,7 @@ export function LinkButton({
   className,
   ...props
 }: LinkButtonProps) {
-  if (href.startsWith("#")) {
+  if (href.startsWith("#") || props.download) {
     return (
       <a
         href={href}

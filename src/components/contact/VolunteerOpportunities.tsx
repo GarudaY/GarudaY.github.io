@@ -6,6 +6,7 @@ import {
   CalendarHeart,
   Camera,
   Check,
+  HeartHandshake,
   Languages,
   Lightbulb,
   ListChecks,
@@ -13,66 +14,29 @@ import {
   Clock3,
 } from "lucide-react";
 import type { Locale } from "@/i18n/config";
+import type { VolunteerOpportunity } from "@/types/content";
 import { Button } from "@/components/ui/Button";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { cn } from "@/lib/cn";
 
-export function VolunteerOpportunities({ locale }: { locale: Locale }) {
+const icons = {
+  calendar: CalendarHeart,
+  camera: Camera,
+  languages: Languages,
+  list: ListChecks,
+  heart: HeartHandshake,
+};
+
+export function VolunteerOpportunities({
+  locale,
+  roles,
+}: {
+  locale: Locale;
+  roles: VolunteerOpportunity[];
+}) {
   const isUk = locale === "uk";
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
-  const roles = [
-    {
-      id: "events",
-      icon: CalendarHeart,
-      title: isUk ? "Допомога на подіях" : "Mithilfe bei Veranstaltungen",
-      description: isUk
-        ? "Зустрічати гостей, готувати простір і допомагати команді в день події. Підійде, якщо любите живе спілкування та командну роботу."
-        : "Gäste begrüßen, Räume vorbereiten und das Team am Veranstaltungstag unterstützen. Für Menschen, die gern anpacken und mit anderen zusammenarbeiten.",
-      time: isUk
-        ? "Кілька годин у день події"
-        : "Einige Stunden am Veranstaltungstag",
-      location: isUk ? "Мьонхенгладбах" : "Mönchengladbach",
-    },
-    {
-      id: "media",
-      icon: Camera,
-      title: isUk
-        ? "Фото, відео та соцмережі"
-        : "Fotos, Videos und Social Media",
-      description: isUk
-        ? "Знімати моменти з життя спільноти, монтувати короткі відео або готувати дописи. Допоможіть більше розповідати про нашу роботу."
-        : "Momente aus dem Vereinsleben festhalten, kurze Videos schneiden oder Beiträge gestalten. Helfen Sie mit, unsere Arbeit sichtbar zu machen.",
-      time: isUk ? "Гнучко, за домовленістю" : "Flexibel nach Absprache",
-      location: isUk ? "На місці або онлайн" : "Vor Ort oder online",
-    },
-    {
-      id: "translation",
-      icon: Languages,
-      title: isUk
-        ? "Тексти й переклади UA / DE"
-        : "Texte und Übersetzungen UA / DE",
-      description: isUk
-        ? "Перекладати короткі анонси, вичитувати тексти та робити інформацію зрозумілою двома мовами. Стане в пригоді впевнена українська й німецька."
-        : "Kurze Ankündigungen übersetzen, Texte gegenlesen und Informationen in beiden Sprachen verständlich machen. Gute Ukrainisch- und Deutschkenntnisse sind hilfreich.",
-      time: isUk ? "Невеликі окремі завдання" : "Kleine, einzelne Aufgaben",
-      location: isUk ? "Можна дистанційно" : "Auch von zu Hause",
-    },
-    {
-      id: "projects",
-      icon: ListChecks,
-      title: isUk
-        ? "Організація спільних проєктів"
-        : "Organisation gemeinsamer Projekte",
-      description: isUk
-        ? "Допомагати зі списками матеріалів, розкладом і домовленостями. Підійде тим, хто любить порядок і хоче доводити ідеї до результату."
-        : "Materiallisten, Zeitpläne und Absprachen unterstützen. Für Menschen, die gern den Überblick behalten und Ideen Schritt für Schritt umsetzen.",
-      time: isUk
-        ? "Регулярно або на один проєкт"
-        : "Regelmäßig oder für ein Projekt",
-      location: isUk ? "Гібридний формат" : "Vor Ort und online",
-    },
-  ];
   const selected = roles.find((role) => role.id === selectedId);
 
   function chooseRole(id: string | null) {
@@ -109,6 +73,7 @@ export function VolunteerOpportunities({ locale }: { locale: Locale }) {
         <div className="grid gap-4">
           {roles.map((role) => {
             const active = selectedId === role.id;
+            const Icon = icons[role.icon];
             return (
               <article
                 key={role.id}
@@ -126,23 +91,23 @@ export function VolunteerOpportunities({ locale }: { locale: Locale }) {
                         : "bg-surface-muted text-blue",
                     )}
                   >
-                    <role.icon aria-hidden="true" className="h-6 w-6" />
+                    <Icon aria-hidden="true" className="h-6 w-6" />
                   </span>
                   <h3 className="self-center text-xl font-bold leading-snug text-blue-strong">
-                    {role.title}
+                    {role.title[locale]}
                   </h3>
                 </div>
                 <p className="mt-4 text-base leading-7 text-ink-muted">
-                  {role.description}
+                  {role.description[locale]}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-ink-muted">
                   <span className="inline-flex items-center gap-1.5">
                     <Clock3 aria-hidden="true" className="h-4 w-4 text-blue" />
-                    {role.time}
+                    {role.time[locale]}
                   </span>
                   <span className="inline-flex items-center gap-1.5">
                     <MapPin aria-hidden="true" className="h-4 w-4 text-blue" />
-                    {role.location}
+                    {role.location[locale]}
                   </span>
                 </div>
                 <Button
@@ -153,9 +118,7 @@ export function VolunteerOpportunities({ locale }: { locale: Locale }) {
                   onClick={() => chooseRole(role.id)}
                   className="mt-5"
                 >
-                  {active ? (
-                    <Check aria-hidden="true" className="h-4 w-4" />
-                  ) : null}
+                  {active ? <Check aria-hidden="true" className="h-4 w-4" /> : null}
                   {active
                     ? isUk
                       ? "Обрано"
@@ -163,13 +126,18 @@ export function VolunteerOpportunities({ locale }: { locale: Locale }) {
                     : isUk
                       ? "Хочу допомогти"
                       : "Hier möchte ich helfen"}
-                  {!active ? (
-                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                  ) : null}
+                  {!active ? <ArrowRight aria-hidden="true" className="h-4 w-4" /> : null}
                 </Button>
               </article>
             );
           })}
+          {!roles.length ? (
+            <p className="rounded-[22px] border border-border bg-surface p-6 text-base leading-7 text-ink-muted">
+              {isUk
+                ? "Зараз відкритих волонтерських завдань немає. Розкажіть нам, як ви хотіли б допомогти."
+                : "Zurzeit sind keine ehrenamtlichen Aufgaben ausgeschrieben. Erzählen Sie uns, wie Sie helfen möchten."}
+            </p>
+          ) : null}
         </div>
       </div>
       <div
@@ -206,7 +174,7 @@ export function VolunteerOpportunities({ locale }: { locale: Locale }) {
             selected ? "volunteering-" + selected.id : "volunteering-own-idea"
           }
           requestLabel={
-            selected?.title ??
+            selected?.title[locale] ??
             (isUk ? "Власна ініціатива" : "Eigene Initiative")
           }
           title={isUk ? "Познайоммося" : "Lernen wir uns kennen"}
@@ -216,9 +184,7 @@ export function VolunteerOpportunities({ locale }: { locale: Locale }) {
               : "Hinterlassen Sie Ihre Kontaktdaten und ein paar Worte über sich. Unser Team meldet sich, um den nächsten Schritt zu besprechen."
           }
           messageLabel={
-            isUk
-              ? "Про себе та вашу пропозицію"
-              : "Über Sie und Ihren Vorschlag"
+            isUk ? "Про себе та вашу пропозицію" : "Über Sie und Ihren Vorschlag"
           }
           messagePlaceholder={
             isUk

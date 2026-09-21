@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCoursesByIds, getPeople, getPersonBySlug } from "@/data/content";
-import { isLocale, locales, type Locale } from "@/i18n/config";
+import { getCoursesByIds, getPersonBySlug } from "@/data/content";
+import { isLocale, type Locale } from "@/i18n/config";
 import { getPath } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/metadata";
 import { t } from "@/lib/localize";
@@ -21,13 +21,6 @@ async function resolveParams(
   const resolved = await params;
   if (!isLocale(resolved.locale)) notFound();
   return { locale: resolved.locale as Locale, slug: resolved.slug };
-}
-
-export async function generateStaticParams() {
-  const people = await getPeople();
-  return locales.flatMap((locale) =>
-    people.map((person) => ({ locale, slug: person.slug })),
-  );
 }
 
 export async function generateMetadata({
@@ -83,7 +76,14 @@ export default async function PersonPage({ params }: PageProps) {
             <div className="mt-4 flex flex-wrap gap-2">
               {person.roles.map((role) => (
                 <Badge tone="blue" key={role}>
-                  {role}
+                  {
+                    {
+                      board: { uk: "Правління", de: "Vorstand" },
+                      team: { uk: "Команда", de: "Team" },
+                      teacher: { uk: "Викладачі", de: "Kursleitung" },
+                      volunteer: { uk: "Волонтери", de: "Ehrenamt" },
+                    }[role][locale]
+                  }
                 </Badge>
               ))}
             </div>
@@ -118,8 +118,8 @@ export default async function PersonPage({ params }: PageProps) {
                       ? "Профіль напряму"
                       : "Bereichsprofil"
                     : locale === "uk"
-                      ? "Підтверджено"
-                      : "Bestätigt"}
+                      ? "Публічний профіль"
+                      : "Öffentliches Profil"}
                 </dd>
               </div>
             </dl>

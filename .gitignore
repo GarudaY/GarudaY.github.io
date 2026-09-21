@@ -27,6 +27,7 @@
 
 # local operational data
 /.data/
+/.cms-build/
 
 # misc
 .DS_Store

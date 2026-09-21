@@ -1,4 +1,5 @@
 import Image from "next/image";
+import donationBank from "@/config/donation-bank.json";
 import {
   ArrowUpRight,
   BadgeEuro,
@@ -48,14 +49,14 @@ export function DonationMethodCard({
       {method.type === "qr" ? (
         <div className="flex min-h-44 items-center justify-center rounded-[12px] border border-blue/15 bg-white p-5">
           <Image
-            src="/images/donation/bank-transfer-qr.png"
+            src={donationBank.qrImage}
             alt={
               locale === "uk"
                 ? "QR-код для банківського переказу на рахунок SONNENBLUME"
                 : "QR-Code für eine Banküberweisung an SONNENBLUME"
             }
-            width={270}
-            height={270}
+            width={328}
+            height={328}
             className="h-auto w-full max-w-56"
           />
         </div>
@@ -65,6 +66,15 @@ export function DonationMethodCard({
           <li key={detail}>{detail}</li>
         ))}
       </ul>
+      {method.type === "qr" ? (
+        <LinkButton
+          href={donationBank.qrImage}
+          download="sonnenblume-spenden-qr.png"
+          className="w-full"
+        >
+          {locale === "uk" ? "Зберегти QR-код" : "QR-Code speichern"}
+        </LinkButton>
+      ) : null}
       {method.href ? (
         <LinkButton
           href={method.href}

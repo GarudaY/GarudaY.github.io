@@ -1,8 +1,8 @@
-import { courses } from "@/content/mock/courses";
-import { events } from "@/content/mock/events";
 import { newsArticles } from "@/content/mock/news";
-import { partners } from "@/content/mock/partners";
-import { people } from "@/content/mock/people";
+import { getPublishedPartners } from "@/server/cms-partners";
+import { getPublishedPeople } from "@/server/cms-people";
+import { getPublishedCourses } from "@/server/cms-courses";
+import { getPublishedEvents } from "@/server/cms-events";
 import {
   donationSettings,
   featuredContent,
@@ -32,7 +32,7 @@ export async function getFeaturedContent() {
 }
 
 export async function getCourses() {
-  return published(courses).sort((a, b) => a.order - b.order);
+  return getPublishedCourses();
 }
 
 export async function getFeaturedCourses() {
@@ -49,7 +49,7 @@ export async function getRelatedCourses(course: Course) {
 }
 
 export async function getPeople() {
-  return published(people).sort((a, b) => a.order - b.order);
+  return getPublishedPeople();
 }
 
 export async function getTeachers() {
@@ -73,9 +73,7 @@ export async function getCoursesByIds(ids: string[]) {
 }
 
 export async function getEvents() {
-  return published(events).sort(
-    (a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime(),
-  );
+  return getPublishedEvents();
 }
 
 export async function getUpcomingEvents() {
@@ -88,6 +86,12 @@ export async function getPastEvents() {
   return (await getEvents())
     .filter((event) => event.eventStatus === "past")
     .reverse();
+}
+
+export async function getCancelledEvents() {
+  return (await getEvents()).filter(
+    (event) => event.eventStatus === "cancelled",
+  );
 }
 
 export async function getEventBySlug(slug: string) {
@@ -120,7 +124,7 @@ export async function getNewsByIds(ids: string[]) {
 }
 
 export async function getPartners() {
-  return published(partners).sort((a, b) => a.order - b.order);
+  return getPublishedPartners();
 }
 
 export async function getDonationSettings() {

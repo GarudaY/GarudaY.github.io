@@ -11,11 +11,10 @@ import {
 } from "lucide-react";
 import {
   getCourseBySlug,
-  getCourses,
   getPeopleByIds,
   getRelatedCourses,
 } from "@/data/content";
-import { isLocale, locales, type Locale } from "@/i18n/config";
+import { isLocale, type Locale } from "@/i18n/config";
 import { getPath } from "@/i18n/routing";
 import { formatDate, t, tList } from "@/lib/localize";
 import { buildMetadata, routeBreadcrumbJsonLd } from "@/lib/metadata";
@@ -40,13 +39,6 @@ async function resolveParams(
   const resolved = await params;
   if (!isLocale(resolved.locale)) notFound();
   return { locale: resolved.locale as Locale, slug: resolved.slug };
-}
-
-export async function generateStaticParams() {
-  const courses = await getCourses();
-  return locales.flatMap((locale) =>
-    courses.map((course) => ({ locale, slug: course.slug })),
-  );
 }
 
 export async function generateMetadata({

@@ -32,6 +32,12 @@ export function ContentImage({
         src={image.src}
         alt={t(image.alt, locale)}
         fill
+        unoptimized={/^https?:\/\//.test(image.src)}
+        style={
+          image.focus === undefined
+            ? undefined
+            : { objectPosition: `50% ${image.focus}%` }
+        }
         preload={preload}
         loading={preload ? undefined : eager ? "eager" : undefined}
         quality={82}

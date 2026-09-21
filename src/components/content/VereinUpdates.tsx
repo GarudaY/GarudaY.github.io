@@ -1,42 +1,18 @@
+import Image from "next/image";
 import { Handshake, Lightbulb, UsersRound } from "lucide-react";
 import type { Locale } from "@/i18n/config";
+import { getVereinUpdates } from "@/server/verein-updates";
+import { Section } from "@/components/ui/Section";
 
-export function VereinUpdates({ locale }: { locale: Locale }) {
+const icons = { handshake: Handshake, lightbulb: Lightbulb, users: UsersRound };
+
+export async function VereinUpdates({ locale }: { locale: Locale }) {
   const isUk = locale === "uk";
-  const updates = [
-    {
-      icon: Handshake,
-      status: isUk ? "Діалог із партнерами" : "Im Austausch",
-      title: isUk
-        ? "Більше простору для спільних ідей"
-        : "Mehr Raum für gemeinsame Ideen",
-      text: isUk
-        ? "Обговорюємо з місцевими культурними просторами формат спільних майстерень та невеликих виставок. Шукаємо можливості, які допоможуть українській і німецькій спільнотам частіше зустрічатися."
-        : "Mit lokalen Kulturorten sprechen wir über gemeinsame Werkstätten und kleine Ausstellungen. Wir suchen nach Möglichkeiten, ukrainische und deutsche Nachbarschaften öfter zusammenzubringen.",
-    },
-    {
-      icon: Lightbulb,
-      status: isUk ? "Готуємо проєкт" : "In Vorbereitung",
-      title: isUk
-        ? "Від ідеї — до сімейної майстерні"
-        : "Aus einer Idee wird eine Familienwerkstatt",
-      text: isUk
-        ? "Команда збирає концепцію творчого проєкту для дітей і батьків: обираємо теми, рахуємо матеріали та продумуємо, як зробити участь доступною для різних родин."
-        : "Das Team entwickelt ein Kreativprojekt für Kinder und Eltern: Wir sammeln Themen, planen Materialien und überlegen, wie unterschiedliche Familien unkompliziert mitmachen können.",
-    },
-    {
-      icon: UsersRound,
-      status: isUk ? "Усередині команди" : "Aus dem Team",
-      title: isUk
-        ? "Допомагати має бути простіше"
-        : "Engagement soll leichter werden",
-      text: isUk
-        ? "Готуємо короткий путівник для нових волонтерів і зрозумілий розподіл завдань. Хочемо, щоб кожна людина знала, до кого звернутися та з чого почати."
-        : "Wir bereiten einen kurzen Wegweiser für neue Ehrenamtliche und eine klare Aufgabenverteilung vor. Jede Person soll wissen, an wen sie sich wenden kann und wie der Einstieg gelingt.",
-    },
-  ];
+  const updates = await getVereinUpdates();
+  if (!updates.length) return null;
+  const allExamples = updates.every((item) => item.isExample);
   return (
-    <div>
+    <Section id="team-news" className="section-soft">
       <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
@@ -46,39 +22,66 @@ export function VereinUpdates({ locale }: { locale: Locale }) {
             {isUk ? "Над чим ми працюємо" : "Was wir gerade bewegen"}
           </h2>
         </div>
-        <span className="rounded-full border border-blue/15 bg-surface px-3 py-1.5 text-xs font-medium text-ink-muted">
-          {isUk ? "Приклади новин" : "Beispielmeldungen"}
-        </span>
+        {allExamples && (
+          <span className="rounded-full border border-blue/15 bg-surface px-3 py-1.5 text-xs font-medium text-ink-muted">
+            {isUk ? "Приклади новин" : "Beispielmeldungen"}
+          </span>
+        )}
       </div>
       <div className="grid gap-5 lg:grid-cols-3">
-        {updates.map((update, index) => (
-          <article
-            key={update.title}
-            className="verein-update-card rounded-[22px] border border-border bg-surface p-6 sm:p-7"
-          >
-            <div className="flex items-center justify-between">
-              <span className="grid h-12 w-12 place-items-center rounded-[15px] bg-yellow/25 text-blue-strong">
-                <update.icon aria-hidden="true" className="h-6 w-6" />
-              </span>
-              <span
-                aria-hidden="true"
-                className="font-mono text-sm text-blue/45"
-              >
-                0{index + 1}
-              </span>
-            </div>
-            <p className="mt-7 text-sm font-semibold text-blue">
-              {update.status}
-            </p>
-            <h3 className="mt-2 text-2xl font-bold leading-tight text-blue-strong">
-              {update.title}
-            </h3>
-            <p className="mt-4 text-base leading-7 text-ink-muted">
-              {update.text}
-            </p>
-          </article>
-        ))}
+        {updates.map((update, index) => {
+          const Icon = icons[update.icon];
+          return (
+            <article
+              key={update.id}
+              className="verein-update-card overflow-hidden rounded-[22px] border border-border bg-surface"
+            >
+              {update.image && (
+                <div className="relative aspect-[16/10]">
+                  <Image
+                    src={update.image.url}
+                    alt={update.image.alt[locale]}
+                    fill
+                    unoptimized
+                    sizes="(min-width: 1024px) 33vw, 100vw"
+                    className="object-cover"
+                    style={{ objectPosition: `50% ${update.image.focus}%` }}
+                  />
+                </div>
+              )}
+              <div className="p-6 sm:p-7">
+                <div className="flex items-center justify-between">
+                  {!update.image && (
+                    <span className="grid h-12 w-12 place-items-center rounded-[15px] bg-yellow/25 text-blue-strong">
+                      <Icon aria-hidden="true" className="h-6 w-6" />
+                    </span>
+                  )}
+                  <span
+                    aria-hidden="true"
+                    className="ml-auto font-mono text-sm text-blue/45"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <p className="mt-7 text-sm font-semibold text-blue">
+                  {update.status[locale]}
+                </p>
+                <h3 className="mt-2 break-words text-2xl font-bold leading-tight text-blue-strong">
+                  {update.title[locale]}
+                </h3>
+                <p className="mt-4 whitespace-pre-line break-words text-base leading-7 text-ink-muted">
+                  {update.text[locale]}
+                </p>
+                {update.isExample && !allExamples && (
+                  <p className="mt-4 text-xs text-ink-muted">
+                    {isUk ? "Демонстраційний приклад" : "Beispielmeldung"}
+                  </p>
+                )}
+              </div>
+            </article>
+          );
+        })}
       </div>
-    </div>
+    </Section>
   );
 }

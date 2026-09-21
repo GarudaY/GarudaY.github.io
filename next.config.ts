@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
   ...(isGitHubPagesExport
     ? {}
     : {
+        // Next 16's normalized middleware URL may use localhost while the router
+        // init URL uses the bound host. That turns a localized internal rewrite
+        // into a self-proxy/redirect loop in production. Preserve the init URL.
+        skipProxyUrlNormalize: true,
         async headers() {
           return [
             {

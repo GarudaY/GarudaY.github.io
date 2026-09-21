@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CalendarDays, Clock, MapPin } from "lucide-react";
-import { getEventBySlug, getEvents } from "@/data/content";
-import { isLocale, locales, type Locale } from "@/i18n/config";
+import { getEventBySlug } from "@/data/content";
+import { isLocale, type Locale } from "@/i18n/config";
 import { getPath } from "@/i18n/routing";
 import { formatDate, formatTime, t } from "@/lib/localize";
 import { buildMetadata, routeBreadcrumbJsonLd } from "@/lib/metadata";
@@ -27,13 +27,6 @@ async function resolveParams(
   return { locale: resolved.locale as Locale, slug: resolved.slug };
 }
 
-export async function generateStaticParams() {
-  const events = await getEvents();
-  return locales.flatMap((locale) =>
-    events.map((event) => ({ locale, slug: event.slug })),
-  );
-}
-
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -55,6 +48,7 @@ export default async function EventDetailPage({ params }: PageProps) {
   const event = await getEventBySlug(slug);
   if (!event) notFound();
   const isUpcoming = event.eventStatus === "upcoming";
+  const isCancelled = event.eventStatus === "cancelled";
   const isAnnouncement = event.archiveType === "announcement";
   const breadcrumbItems = [
     {
@@ -79,7 +73,11 @@ export default async function EventDetailPage({ params }: PageProps) {
     image: new URL(event.image.src, siteConfig.baseUrl).toString(),
     startDate: event.dateLabel ? undefined : event.startsAt,
     endDate: event.endsAt,
-    eventStatus: isUpcoming ? "https://schema.org/EventScheduled" : undefined,
+    eventStatus: isCancelled
+      ? "https://schema.org/EventCancelled"
+      : isUpcoming
+        ? "https://schema.org/EventScheduled"
+        : undefined,
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: { "@type": "Place", name: t(event.location, locale) },
     organizer: {
@@ -97,7 +95,11 @@ export default async function EventDetailPage({ params }: PageProps) {
       <JsonLd data={routeBreadcrumbJsonLd(locale, breadcrumbItems)} />
       <PageHeader
         eyebrow={
-          isUpcoming
+          isCancelled
+            ? locale === "uk"
+              ? "Подію скасовано"
+              : "Veranstaltung abgesagt"
+            : isUpcoming
             ? locale === "uk"
               ? "Анонс"
               : "Ankündigung"
@@ -150,7 +152,11 @@ export default async function EventDetailPage({ params }: PageProps) {
                 </a>
               ) : null}
               <h2 className="text-3xl font-bold text-blue-strong">
-                {isUpcoming
+                {isCancelled
+                  ? locale === "uk"
+                    ? "Про скасування"
+                    : "Zur Absage"
+                  : isUpcoming
                   ? locale === "uk"
                     ? "Про подію"
                     : "Über die Veranstaltung"

@@ -4,6 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:cms": "node --experimental-strip-types scripts/dev-wordpress.mjs",
+    "dev:with-cms": "node scripts/dev-with-cms.mjs",
+    "test:cms": "node --experimental-strip-types --test scripts/test-cms-updates.mjs scripts/test-cms-people.mjs scripts/test-cms-courses.mjs scripts/test-cms-events.mjs scripts/test-cms-volunteer.mjs scripts/test-cms-partners.mjs scripts/test-cms-admin.mjs && node --experimental-strip-types scripts/test-wordpress.mjs",
+    "test:cms:frontend": "node scripts/smoke-cms-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-people-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-courses-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-events-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-volunteer-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-partners-frontend.mjs",
+    "test:cms:delivery": "node scripts/test-cms-delivery.mjs",
     "build": "next build --webpack",
     "build:sites": "opennextjs-cloudflare build",
     "bundle:sites": "npm run build:sites && wrangler deploy --dry-run --outdir .sites-bundle && node scripts/prepare-sites-bundle.mjs",
@@ -13,17 +18,27 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "test:operations": "node scripts/smoke-operations.mjs",
-    "test:pages": "node --test scripts/test-github-pages.mjs"
+    "test:pages": "node --test scripts/test-github-pages.mjs",
+    "test:routing": "node --test scripts/test-localized-routing.mjs",
+    "generate:qr": "node scripts/donation-qr.mjs",
+    "test:notifications": "node --test scripts/test-email-notifications.mjs scripts/test-donation-qr.mjs"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.2",
     "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.24.0",
-    "next": "^16.2.12",
-    "nodemailer": "^9.0.3",
+    "next": "^16.3.5",
+    "nodemailer": "^9.1.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "^4.4.3"
+  },
+  "overrides": {
+    "@wp-playground/cli": {
+      "express": {
+        "qs": "6.16.0"
+      }
+    }
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -31,10 +46,15 @@
     "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@wp-playground/cli": "3.1.53",
     "drizzle-kit": "^0.31.10",
     "eslint": "^9",
-    "eslint-config-next": "^16.2.12",
+    "eslint-config-next": "^16.3.5",
+    "jsqr": "^1.4.0",
+    "pngjs": "^7.0.0",
     "prettier": "^3.9.5",
+    "qrcode": "^1.5.4",
+    "sharp": "0.35.4",
     "tailwindcss": "^4",
     "typescript": "^5",
     "wrangler": "^4.115.0"

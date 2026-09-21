@@ -27,13 +27,20 @@ export function PartnerLogo({
           compact ? "min-h-18" : "min-h-24",
         )}
       >
-        <Image
-          src={partner.logo.src}
-          alt={t(partner.logo.alt, locale)}
-          width={240}
-          height={88}
-          className={cn("w-full object-contain", compact ? "h-12" : "h-20")}
-        />
+        {partner.logo ? (
+          <Image
+            src={partner.logo.src}
+            alt={t(partner.logo.alt, locale)}
+            width={240}
+            height={88}
+            unoptimized={/^https?:\/\//.test(partner.logo.src)}
+            className={cn("w-full object-contain", compact ? "h-12" : "h-20")}
+          />
+        ) : (
+          <span className="text-center text-xl font-semibold text-blue-strong" aria-hidden="true">
+            {partner.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("")}
+          </span>
+        )}
       </div>
       <div>
         <div className="flex items-start justify-between gap-3">
@@ -49,11 +56,11 @@ export function PartnerLogo({
             />
           )}
         </div>
-        {compact ? null : (
+        {!compact || partner.kind === "person" ? (
           <p className="mt-2 text-sm leading-6 text-ink-muted">
             {t(partner.description, locale)}
           </p>
-        )}
+        ) : null}
       </div>
     </div>
   );

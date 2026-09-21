@@ -103,12 +103,14 @@ export function BoardPyramid({
           id="board-title"
           className="mt-3 text-balance text-3xl font-bold text-blue-strong sm:text-4xl"
         >
-          {isUk ? "П’ять людей — одна команда" : "Fünf Menschen — ein Team"}
+          {isUk
+            ? "Різні напрями — одна команда"
+            : "Verschiedene Aufgaben — ein Team"}
         </h2>
         <p className="mt-4 text-balance leading-7 text-ink-muted">
           {isUk
-            ? "Голова координує роботу, а кожна учасниця правління відповідає за свій напрям."
-            : "Die Vorsitzende koordiniert die Arbeit; jedes Vorstandsmitglied verantwortet einen eigenen Bereich."}
+            ? "Голова координує роботу, а кожен член правління відповідає за свій напрям."
+            : "Die Vorstandsleitung koordiniert die Arbeit; jedes Vorstandsmitglied verantwortet einen eigenen Bereich."}
         </p>
       </div>
 

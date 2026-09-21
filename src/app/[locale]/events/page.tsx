@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPastEvents, getUpcomingEvents } from "@/data/content";
+import {
+  getCancelledEvents,
+  getPastEvents,
+  getUpcomingEvents,
+} from "@/data/content";
 import { isLocale, type Locale } from "@/i18n/config";
 import { buildMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -37,9 +41,10 @@ export async function generateMetadata({
 
 export default async function EventsPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
-  const [upcoming, past] = await Promise.all([
+  const [upcoming, past, cancelled] = await Promise.all([
     getUpcomingEvents(),
     getPastEvents(),
+    getCancelledEvents(),
   ]);
 
   return (
@@ -83,6 +88,23 @@ export default async function EventsPage({ params }: PageProps) {
                 locale={locale}
                 eager={index < 2}
               />
+            ))}
+          </div>
+        </Section>
+      ) : null}
+      {cancelled.length ? (
+        <Section className="pt-8 sm:pt-10">
+          <div className="mb-8 max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
+              {locale === "uk" ? "Важливе оновлення" : "Wichtige Änderung"}
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-blue-strong">
+              {locale === "uk" ? "Скасовані події" : "Abgesagte Veranstaltungen"}
+            </h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {cancelled.map((event) => (
+              <EventCard key={event.id} event={event} locale={locale} />
             ))}
           </div>
         </Section>

@@ -15,6 +15,7 @@ import { BoardPyramid } from "@/components/content/BoardPyramid";
 import { StatsSection } from "@/components/content/StatsSection";
 import { VereinUpdates } from "@/components/content/VereinUpdates";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { PersonCard } from "@/components/content/PersonCard";
 import { siteConfig } from "@/config/site";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -47,8 +48,11 @@ export default async function HomePage({ params }: PageProps) {
     getPartners(),
   ]);
   const board = people.filter((person) => person.roles.includes("board"));
-  const chair = board.find((person) => person.id === "person-natalia-petrova");
+  const chair = board.find((person) => person.boardPosition === "chair");
   const members = board.filter((person) => person.id !== chair?.id);
+  const volunteers = people.filter((person) =>
+    person.roles.includes("volunteer"),
+  );
 
   return (
     <>
@@ -179,9 +183,11 @@ export default async function HomePage({ params }: PageProps) {
         </div>
       </Section>
 
-      <Section id="board" className="section-soft scroll-mt-24">
-        <BoardPyramid chair={chair} members={members} locale={locale} />
-      </Section>
+      {board.length ? (
+        <Section id="board" className="section-soft scroll-mt-24">
+          <BoardPyramid chair={chair} members={members} locale={locale} />
+        </Section>
+      ) : null}
 
       <Section className="section-warm">
         <div className="grid gap-7 rounded-[24px] border border-border bg-surface p-6 sm:p-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
@@ -214,10 +220,22 @@ export default async function HomePage({ params }: PageProps) {
         </div>
       </Section>
 
-      <Section id="team-news" className="section-soft">
-        <VereinUpdates locale={locale} />
-      </Section>
+      {volunteers.length ? (
+        <Section>
+          <h2 className="mb-6 text-3xl font-bold text-blue-strong">
+            {isUk ? "Наші активні волонтери" : "Unsere aktiven Ehrenamtlichen"}
+          </h2>
+          <div className="grid gap-5 md:grid-cols-2">
+            {volunteers.map((person) => (
+              <PersonCard key={person.id} person={person} locale={locale} />
+            ))}
+          </div>
+        </Section>
+      ) : null}
 
+      <VereinUpdates locale={locale} />
+
+      {partners.length > 0 ? (
       <Section id="partners">
         <div className="mb-8 max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-blue">
@@ -243,6 +261,7 @@ export default async function HomePage({ params }: PageProps) {
           ))}
         </div>
       </Section>
+      ) : null}
     </>
   );
 }

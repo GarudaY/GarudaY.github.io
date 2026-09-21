@@ -3,6 +3,7 @@ import type { Person } from "@/types/content";
 export const people: Person[] = [
   {
     id: "person-natalia-petrova",
+    boardPosition: "chair",
     slug: "natalia-petrova",
     status: "published",
     name: { uk: "Наталія Петрова", de: "Natalia Petrova" },

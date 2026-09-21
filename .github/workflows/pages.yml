@@ -42,8 +42,19 @@ jobs:
       - name: Check static export preparation
         run: npm run test:pages
 
+      - name: Check localized routing
+        run: npm run test:routing
+
+      - name: Check published CMS schemas and editor
+        run: node --experimental-strip-types --test scripts/test-cms-updates.mjs scripts/test-cms-people.mjs scripts/test-cms-courses.mjs scripts/test-cms-events.mjs scripts/test-cms-volunteer.mjs scripts/test-cms-partners.mjs scripts/test-cms-admin.mjs
+
+      - name: Check email routing and donation QR
+        run: npm run test:notifications
+
       - name: Build static site
         run: npm run build:pages
+        env:
+          WORDPRESS_CMS_URL: ${{ vars.WORDPRESS_CMS_URL }}
 
       - name: Configure Pages
         uses: actions/configure-pages@v6

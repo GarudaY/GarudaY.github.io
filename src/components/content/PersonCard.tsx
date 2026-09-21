@@ -30,14 +30,24 @@ export function PersonCard({
           <div className="flex flex-wrap gap-2">
             {person.isDemo ? <Badge tone="yellow">Demo</Badge> : null}
             <Badge tone="blue">
-              {t(person.teacherRoleLabel ?? person.roleLabel, locale)}
+              {t(
+                person.roles.includes("teacher")
+                  ? (person.teacherRoleLabel ?? person.roleLabel)
+                  : person.roleLabel,
+                locale,
+              )}
             </Badge>
           </div>
           <h2 className="mt-4 text-xl font-bold text-blue-strong">
             {t(person.name, locale)}
           </h2>
           <p className="mt-2 line-clamp-3 text-sm leading-6 text-ink-muted">
-            {t(person.teacherBio ?? person.bio, locale)}
+            {t(
+              person.roles.includes("teacher")
+                ? (person.teacherBio ?? person.bio)
+                : person.bio,
+              locale,
+            )}
           </p>
           {person.languages.length ? (
             <p className="mt-4 text-sm font-semibold text-blue">

@@ -1,4 +1,4 @@
-import { cp, mkdir, rm, symlink, writeFile } from "node:fs/promises";
+import { cp, mkdir, rm, symlink, writeFile, readFile } from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -68,6 +68,84 @@ for (const serverOnlyPath of [
   assertGeneratedPath(serverOnlyPath);
   await rm(serverOnlyPath, { recursive: true, force: true });
 }
+
+// Metadata Route Handlers must be explicitly static for output:export.
+// Keep that literal config only in the generated copy, never freeze the runtime CMS sitemap.
+const sitemapPath = path.join(workDirectory, "src", "app", "sitemap.ts");
+assertGeneratedPath(sitemapPath);
+await writeFile(
+  sitemapPath,
+  'import buildSitemap from "@/server/site-sitemap";\nexport const dynamic = "force-static";\nexport default async function sitemap() { return buildSitemap(); }\n',
+  "utf8",
+);
+
+// Capture feeds once before Next workers start. All generated pages use the same published data.
+const peoplePagePath = path.join(
+  workDirectory,
+  "src",
+  "app",
+  "[locale]",
+  "people",
+  "[slug]",
+  "page.tsx",
+);
+assertGeneratedPath(peoplePagePath);
+const peoplePage = await readFile(peoplePagePath, "utf8");
+await writeFile(
+  peoplePagePath,
+  peoplePage +
+    '\nexport async function generateStaticParams() { const { getStaticPersonParams } = await import("@/server/person-static-params"); return getStaticPersonParams(); }\n',
+  "utf8",
+);
+
+const coursePagePath = path.join(
+  workDirectory,
+  "src",
+  "app",
+  "[locale]",
+  "courses",
+  "[slug]",
+  "page.tsx",
+);
+assertGeneratedPath(coursePagePath);
+const coursePage = await readFile(coursePagePath, "utf8");
+await writeFile(
+  coursePagePath,
+  coursePage +
+    '\nexport async function generateStaticParams() { const { getStaticCourseParams } = await import("@/server/course-static-params"); return getStaticCourseParams(); }\n',
+  "utf8",
+);
+
+const eventPagePath = path.join(
+  workDirectory,
+  "src",
+  "app",
+  "[locale]",
+  "events",
+  "[slug]",
+  "page.tsx",
+);
+assertGeneratedPath(eventPagePath);
+const eventPage = await readFile(eventPagePath, "utf8");
+await writeFile(
+  eventPagePath,
+  eventPage +
+    '\nexport async function generateStaticParams() { const { getStaticEventParams } = await import("@/server/event-static-params"); return getStaticEventParams(); }\n',
+  "utf8",
+);
+
+await run(
+  process.execPath,
+  [
+    "--experimental-strip-types",
+    path.join(root, "scripts", "prepare-cms-snapshot.mjs"),
+    workDirectory,
+  ],
+  {
+    cwd: root,
+    env: process.env,
+  },
+);
 
 await run(
   process.execPath,

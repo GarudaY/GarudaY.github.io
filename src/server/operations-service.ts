@@ -95,7 +95,8 @@ async function promoteWaitlist(store: OperationsStore, eventSlug: string) {
 
 export async function getRegistrationAvailability(eventSlug: string) {
   const event = await getEventBySlug(eventSlug);
-  if (!event || event.eventStatus !== "upcoming") return null;
+  if (!event || event.eventStatus !== "upcoming" || event.capacity <= 0)
+    return null;
   const store = await readOperationsStore();
   return availabilityFromStore(event, store);
 }
@@ -104,7 +105,7 @@ export async function createRegistration(
   input: RegistrationInput,
 ): Promise<RegistrationReceipt> {
   const event = await getEventBySlug(input.eventSlug);
-  if (!event || event.eventStatus !== "upcoming") {
+  if (!event || event.eventStatus !== "upcoming" || event.capacity <= 0) {
     throw new OperationsError("event_unavailable", 404);
   }
 
