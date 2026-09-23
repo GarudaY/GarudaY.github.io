@@ -56,8 +56,8 @@ export const cmsEventSchema = z
     location: translated(400),
     price: translated(300),
     registrationLabel: translated(180),
-    capacity: z.literal(0),
-    seatsAvailable: z.literal(0),
+    capacity: z.number().int().min(0).max(500),
+    seatsAvailable: z.number().int().min(0).max(500),
     contactEmail: z.email().max(254),
     image: media,
     gallery: z.array(media).max(12),
@@ -79,6 +79,22 @@ export const cmsEventSchema = z
       context.addIssue({
         code: "custom",
         message: "Event ends before it starts",
+      });
+    if (
+      event.seatsAvailable > event.capacity ||
+      (event.capacity === 0 && event.seatsAvailable !== 0)
+    )
+      context.addIssue({
+        code: "custom",
+        message: "Invalid event capacity",
+      });
+    if (
+      event.eventStatus !== "upcoming" &&
+      (event.capacity !== 0 || event.seatsAvailable !== 0)
+    )
+      context.addIssue({
+        code: "custom",
+        message: "Only upcoming events can accept registrations",
       });
   });
 

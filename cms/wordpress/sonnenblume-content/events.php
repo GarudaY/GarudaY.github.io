@@ -113,7 +113,15 @@ final class Sonnenblume_Events extends Sonnenblume_Content {
             $seen[$clean['imageId']] = true; $data['gallery'][] = $clean;
         }
         if ($publishing && !$data['imageId']) return new WP_Error('snb_validation', 'Для публікації події потрібна обкладинка.', ['status' => 400]);
-        $data['capacity'] = 0; $data['seatsAvailable'] = 0;
+        foreach (['capacity', 'seatsAvailable'] as $name) {
+            if (!is_int($input[$name] ?? null) || $input[$name] < 0 || $input[$name] > 500)
+                return new WP_Error('snb_validation', 'Кількість місць має бути цілим числом від 0 до 500.', ['status' => 400]);
+        }
+        if (($input['capacity'] === 0 && $input['seatsAvailable'] !== 0) || $input['seatsAvailable'] > $input['capacity'])
+            return new WP_Error('snb_validation', 'Місць для онлайн-реєстрації не може бути більше за загальну кількість.', ['status' => 400]);
+        if ($input['eventStatus'] !== 'upcoming' && ($input['capacity'] !== 0 || $input['seatsAvailable'] !== 0))
+            return new WP_Error('snb_validation', 'Реєстрацію можна ввімкнути лише для майбутньої події.', ['status' => 400]);
+        $data['capacity'] = $input['capacity']; $data['seatsAvailable'] = $input['seatsAvailable'];
         return $data;
     }
 

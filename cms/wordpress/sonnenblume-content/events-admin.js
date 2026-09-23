@@ -45,6 +45,8 @@
     startsAt: "",
     endsAt: "",
     contactEmail: "kontakt@sonnenblume-mg.com",
+    capacity: 0,
+    seatsAvailable: 0,
     relatedCourseIds: [],
     gallery: [],
     imageId: 0,
@@ -252,6 +254,25 @@
   );
   textField("contactEmail", "Контактний email", 254, "email");
 
+  for (const [name, label] of [
+    ["capacity", "Загальна кількість місць · 0 вимикає реєстрацію"],
+    ["seatsAvailable", "Місць для онлайн-реєстрації"],
+  ]) {
+    const wrap = element("label", "snb-field");
+    const input = element("input");
+    input.type = "number";
+    input.id = `snb-${name}`;
+    input.min = "0";
+    input.max = "500";
+    input.addEventListener("input", () => {
+      data[name] = Number(input.value);
+      change();
+    });
+    fields[name] = input;
+    wrap.append(element("span", "", label), input);
+    form.append(wrap);
+  }
+
   const orderWrap = element("label", "snb-field");
   const order = element("input");
   order.type = "number";
@@ -387,11 +408,11 @@
 
   const capacityNote = element("div", "snb-safety-note");
   capacityNote.append(
-    element("strong", "", "Місця та реєстрації не редагуються тут"),
+    element("strong", "", "Заявки рахуються автоматично"),
     element(
       "p",
       "",
-      "CMS керує публічним описом. Ліміт і залишок місць мають рахуватися сервером заявок, щоб редактор випадково не втратив уже підтверджених людей.",
+      "Після публікації сайт сам віднімає підтверджених учасників. Якщо місця закінчилися, нові заявки переходять у список очікування.",
     ),
   );
   form.append(capacityNote);
@@ -620,6 +641,8 @@
       "startsAt",
       "endsAt",
       "contactEmail",
+      "capacity",
+      "seatsAvailable",
       "order",
     ])
       fields[name].value = String(data[name]);

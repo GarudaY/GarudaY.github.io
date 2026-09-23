@@ -63,6 +63,8 @@ const data = {
   registrationLabel: { uk: "Дізнатися більше", de: "Mehr erfahren" },
   category: "community",
   eventStatus: "upcoming",
+  capacity: 0,
+  seatsAvailable: 0,
   archiveType: "",
   organizerName: "",
   startsAt: "2026-10-18T15:00:00+02:00",
@@ -118,6 +120,8 @@ try {
   console.log("PASS: event working draft does not replace the live page");
   const cancelled = structuredClone(data);
   cancelled.eventStatus = "cancelled";
+  cancelled.capacity = 0;
+  cancelled.seatsAvailable = 0;
   cancelled.description.uk = "Причину скасування повідомимо учасникам окремо.";
   cancelled.description.de = "Den Grund der Absage teilen wir separat mit.";
   await write("publish", cancelled);

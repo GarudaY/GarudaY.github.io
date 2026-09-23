@@ -21,6 +21,20 @@ const inside = relative(work, output);
 if (inside.startsWith("..") || isAbsolute(inside))
   throw new Error("Invalid generated snapshot path");
 const base = process.env.WORDPRESS_CMS_URL;
+const cmsHttpUser = process.env.WORDPRESS_CMS_HTTP_USER;
+const cmsHttpPassword = process.env.WORDPRESS_CMS_HTTP_PASSWORD;
+if ((cmsHttpUser && !cmsHttpPassword) || (!cmsHttpUser && cmsHttpPassword)) {
+  throw new Error(
+    "Set both WORDPRESS_CMS_HTTP_USER and WORDPRESS_CMS_HTTP_PASSWORD, or neither",
+  );
+}
+const cmsHeaders = { Accept: "application/json" };
+if (cmsHttpUser && cmsHttpPassword) {
+  cmsHeaders.Authorization = `Basic ${Buffer.from(
+    `${cmsHttpUser}:${cmsHttpPassword}`,
+    "utf8",
+  ).toString("base64")}`;
+}
 let snapshot = {
   origin: null,
   news: null,
@@ -38,7 +52,7 @@ if (base) {
     const response = await fetch(url, {
       redirect: "error",
       signal: AbortSignal.timeout(15000),
-      headers: { Accept: "application/json" },
+      headers: cmsHeaders,
     });
     if (
       !response.ok ||

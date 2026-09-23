@@ -42,15 +42,19 @@ test("bilingual event maps to the public site contract", () => {
   assert.equal("order" in result, false);
 });
 
-test("event identity, dates and registration-owned capacity stay safe", () => {
+test("event identity, dates and editable capacity stay safe", () => {
   const duplicate = event();
   assert.throws(() => parse([duplicate, duplicate]));
   const reversed = event();
   reversed.endsAt = "2026-10-18T14:00:00+02:00";
   assert.throws(() => parse([reversed]));
-  const forgedCapacity = event();
-  forgedCapacity.capacity = 50;
-  assert.throws(() => parse([forgedCapacity]));
+  const registration = event();
+  registration.capacity = 50;
+  registration.seatsAvailable = 40;
+  assert.equal(parse([registration])[0].capacity, 50);
+  const invalidCapacity = event();
+  invalidCapacity.seatsAvailable = 1;
+  assert.throws(() => parse([invalidCapacity]));
   const legacy = event("muzychna-zustrich-2025");
   legacy.id = "event-music-meeting-2025";
   assert.equal(parse([legacy])[0].id, "event-music-meeting-2025");

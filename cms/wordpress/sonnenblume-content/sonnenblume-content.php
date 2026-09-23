@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SONNENBLUME Content
  * Description: Structured bilingual news, people, courses, events, volunteer tasks and partners with review workflow and public APIs for the SONNENBLUME frontend.
- * Version: 0.6.0
+ * Version: 0.7.0
  * Requires at least: 6.5
  * Requires PHP: 8.2
  * License: GPL-2.0-or-later
@@ -11,7 +11,7 @@
 defined('ABSPATH') || exit;
 
 class Sonnenblume_Content {
-    const VERSION = '0.6.0';
+    const VERSION = '0.7.0';
     const TYPE = 'snb_update';
     const COLLECTION = 'updates';
     const LABEL = 'Новини спільноти';
@@ -37,6 +37,11 @@ class Sonnenblume_Content {
         }
         $admin = get_role('administrator');
         if ($admin) foreach ($editor as $cap => $enabled) $admin->add_cap($cap, $enabled);
+        foreach (['snb_editor', 'administrator'] as $role_name) {
+            $operations_role = get_role($role_name);
+            if ($operations_role) $operations_role->add_cap('snb_manage_operations', true);
+        }
+        if (class_exists('Sonnenblume_Operations')) Sonnenblume_Operations::install();
         update_option('snb_content_version', static::VERSION, false);
     }
 
@@ -288,6 +293,7 @@ require_once __DIR__ . '/courses.php';
 require_once __DIR__ . '/events.php';
 require_once __DIR__ . '/volunteer.php';
 require_once __DIR__ . '/partners.php';
+require_once __DIR__ . '/operations.php';
 
 register_activation_hook(__FILE__, [Sonnenblume_Content::class, 'install']);
 add_action('init', [Sonnenblume_Content::class, 'boot']);
@@ -311,3 +317,7 @@ add_action('admin_menu', [Sonnenblume_Volunteer::class, 'menu']);
 add_action('init', [Sonnenblume_Partners::class, 'boot']);
 add_action('rest_api_init', [Sonnenblume_Partners::class, 'routes']);
 add_action('admin_menu', [Sonnenblume_Partners::class, 'menu']);
+add_action('rest_api_init', [Sonnenblume_Operations::class, 'routes']);
+add_action('admin_menu', [Sonnenblume_Operations::class, 'menu']);
+add_action('admin_post_snb_operations_action', [Sonnenblume_Operations::class, 'admin_action']);
+add_action('admin_post_snb_operations_export', [Sonnenblume_Operations::class, 'export']);

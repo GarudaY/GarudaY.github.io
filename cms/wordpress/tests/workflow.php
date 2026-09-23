@@ -184,6 +184,7 @@ try {
         'price' => ['uk' => 'Безкоштовно', 'de' => 'Kostenfrei'],
         'registrationLabel' => ['uk' => 'Дізнатися більше', 'de' => 'Mehr erfahren'],
         'category' => 'community', 'eventStatus' => 'upcoming', 'archiveType' => '', 'organizerName' => '',
+        'capacity' => 0, 'seatsAvailable' => 0,
         'startsAt' => '2026-10-18T15:00:00+02:00', 'endsAt' => '2026-10-18T17:00:00+02:00',
         'contactEmail' => 'kontakt@sonnenblume-mg.com', 'relatedCourseIds' => [],
         'gallery' => [['imageId' => $courseImage, 'imageAlt' => ['uk' => 'Люди на події', 'de' => 'Teilnehmende'], 'imageFocus' => 40]],
@@ -293,6 +294,54 @@ try {
     check(rest_do_request($request)->get_status() === 404, 'core people endpoint cannot bypass workflow');
     $request = new WP_REST_Request('GET', '/wp/v2/snb_course');
     check(rest_do_request($request)->get_status() === 404, 'core course endpoint cannot bypass workflow');
+
+    $operationsEvent = $event;
+    $operationsEvent['slug'] = 'operations-event';
+    $operationsEvent['title'] = ['uk' => 'Тест реєстрації', 'de' => 'Anmeldungstest'];
+    $operationsEvent['capacity'] = 2;
+    $operationsEvent['seatsAvailable'] = 2;
+    [$code, $operationsDraft] = api($editor, 'POST', 'events', ['action' => 'publish', 'data' => $operationsEvent]);
+    check($code === 201 && $operationsDraft['hasLive'], 'editor publishes a capacity-managed event');
+    $request = new WP_REST_Request('GET', '/sonnenblume/v1/registrations');
+    $request->set_param('event', 'operations-event');
+    $availability = rest_do_request($request);
+    check($availability->get_status() === 200 && $availability->get_data()['remainingSeats'] === 2, 'public availability starts from the editor-defined capacity');
+    $registration = [
+        'locale' => 'de', 'eventSlug' => 'operations-event', 'name' => 'Test Person',
+        'email' => 'confirmed@example.invalid', 'participants' => 2, 'group' => 'adults',
+        'note' => 'Automated isolated test', 'consent' => true, 'company' => '',
+    ];
+    [$code, $confirmed] = api(0, 'POST', 'registrations', $registration);
+    check($code === 201 && $confirmed['status'] === 'confirmed' && $confirmed['remainingSeats'] === 0, 'registration reserves available seats atomically');
+    $waitlistInput = $registration;
+    $waitlistInput['email'] = 'waitlist@example.invalid';
+    $waitlistInput['participants'] = 1;
+    [$code, $waitlist] = api(0, 'POST', 'registrations', $waitlistInput);
+    check($code === 201 && $waitlist['status'] === 'waitlist', 'overflow registration enters the waitlist');
+    check(api(0, 'POST', 'registrations', $waitlistInput)[0] === 409, 'duplicate active registration is rejected');
+    $confirmedToken = basename($confirmed['cancellationPath']);
+    $waitlistToken = basename($waitlist['cancellationPath']);
+    check(api(0, 'GET', 'registrations/' . $confirmedToken)[1]['status'] === 'confirmed', 'private token returns only registration status data');
+    check(api(0, 'DELETE', 'registrations/' . $confirmedToken)[1]['status'] === 'cancelled', 'private token cancels a registration');
+    check(api(0, 'GET', 'registrations/' . $waitlistToken)[1]['status'] === 'confirmed', 'cancellation promotes the earliest fitting waitlist entry');
+    $contact = [
+        'locale' => 'uk', 'name' => 'Тестова людина', 'email' => 'contact@example.invalid',
+        'topic' => 'volunteering', 'message' => 'Хочу допомогти на подіях.',
+        'context' => 'volunteering-events', 'consent' => true, 'company' => '',
+    ];
+    [$code, $contactReceipt] = api(0, 'POST', 'contact', $contact);
+    check($code === 201 && str_starts_with($contactReceipt['reference'], 'MSG-'), 'contact request is stored before email delivery');
+    check(api(0, 'POST', 'contact', $contact)[0] === 409, 'duplicate contact request is rejected');
+    $membership = $contact; $membership['topic'] = 'membership'; $membership['email'] = 'member@example.invalid';
+    check(api(0, 'POST', 'contact', $membership)[0] === 400, 'membership requires explicit statute acceptance');
+    global $wpdb;
+    $storedContact = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}snb_contacts WHERE reference = %s", $contactReceipt['reference']), ARRAY_A);
+    check($storedContact['notification_target'] === 'vorstand@sonnenblume-mg.com' && $storedContact['context'] === 'volunteering-events', 'contact routing and selected volunteer context are stored safely');
+    wp_set_current_user($editor);
+    check(current_user_can('snb_manage_operations'), 'editor can manage applications without administrator access');
+    $wpdb->query("DELETE FROM {$wpdb->prefix}snb_contacts");
+    $wpdb->query("DELETE FROM {$wpdb->prefix}snb_registrations");
+    check(api($editor, 'POST', 'events/' . $operationsDraft['id'], ['action' => 'archive', 'revision' => $operationsDraft['revision']])[0] === 200, 'operations test event is archived after verification');
     echo wp_json_encode(['checks' => $checks, 'author' => session($author), 'other' => session($other), 'editor' => session($editor), 'subscriber' => session($subscriber), 'liveId' => $id, 'liveRevision' => 7, 'data' => $data]);
 } catch (Throwable $error) {
     echo wp_json_encode(['error' => $error->getMessage(), 'checks' => $checks]);

@@ -200,9 +200,10 @@ if (!get_option('snb_events_seeded')) {
             if (($state['working']['slug'] ?? '') === $event['slug']) { $exists = true; break; }
         }
         if ($exists) continue;
-        $data = array_intersect_key($event, array_flip(['slug', 'title', 'summary', 'description', 'dateLabel', 'timeLabel', 'location', 'price', 'registrationLabel', 'category', 'eventStatus', 'archiveType', 'organizerName', 'startsAt', 'endsAt', 'contactEmail', 'relatedCourseIds', 'isFeatured']));
+        $data = array_intersect_key($event, array_flip(['slug', 'title', 'summary', 'description', 'dateLabel', 'timeLabel', 'location', 'price', 'registrationLabel', 'category', 'eventStatus', 'archiveType', 'organizerName', 'startsAt', 'endsAt', 'contactEmail', 'relatedCourseIds', 'isFeatured', 'capacity', 'seatsAvailable']));
         foreach (['dateLabel', 'timeLabel'] as $name) if (!isset($data[$name])) $data[$name] = ['uk' => '', 'de' => ''];
         foreach (['archiveType', 'organizerName', 'endsAt'] as $name) if (!isset($data[$name])) $data[$name] = '';
+        foreach (['capacity', 'seatsAvailable'] as $name) if (!isset($data[$name])) $data[$name] = 0;
         $data['order'] = ($index + 1) * 10;
         $data['imageId'] = $attachment_ids[$event['image']['src']];
         $data['imageAlt'] = $event['image']['alt'];

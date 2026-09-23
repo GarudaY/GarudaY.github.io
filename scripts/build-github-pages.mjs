@@ -10,6 +10,13 @@ import {
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const workDirectory = path.join(root, ".pages-work");
 const outputDirectory = path.join(root, ".pages-out");
+const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://garuday.github.io"
+).replace(/\/$/, "");
+const apiBaseUrl = (
+  process.env.NEXT_PUBLIC_API_BASE_URL || siteUrl
+).replace(/\/$/, "");
+const apiMode = process.env.NEXT_PUBLIC_API_MODE || "wordpress";
 
 function assertGeneratedPath(target) {
   const relative = path.relative(root, target);
@@ -160,9 +167,9 @@ await run(
       ...process.env,
       GITHUB_PAGES_EXPORT: "true",
       NEXT_PUBLIC_STATIC_EXPORT: "true",
-      NEXT_PUBLIC_SITE_URL: "https://garuday.github.io",
-      NEXT_PUBLIC_API_BASE_URL:
-        "https://ukrainian-verein-demo.daskevich1122.chatgpt.site",
+      NEXT_PUBLIC_SITE_URL: siteUrl,
+      NEXT_PUBLIC_API_BASE_URL: apiBaseUrl,
+      NEXT_PUBLIC_API_MODE: apiMode,
     },
   },
 );
@@ -175,6 +182,6 @@ await cp(
 );
 await writeFile(path.join(outputDirectory, ".nojekyll"), "", "utf8");
 await prepareGitHubPagesSegmentFiles();
-await prepareGitHubPagesRedirects();
+await prepareGitHubPagesRedirects(outputDirectory, siteUrl);
 
 console.log(`GitHub Pages export ready: ${outputDirectory}`);

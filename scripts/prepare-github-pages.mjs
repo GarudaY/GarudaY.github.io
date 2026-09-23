@@ -49,7 +49,10 @@ export async function prepareGitHubPagesSegmentFiles(
   return copied;
 }
 
-export async function prepareGitHubPagesRedirects() {
+export async function prepareGitHubPagesRedirects(
+  directory = outputDirectory,
+  siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://garuday.github.io").replace(/\/$/, ""),
+) {
   // Pages has no server redirects. Keep old links working without JavaScript.
   const redirects = [
     ["", "/de/", "de"],
@@ -62,11 +65,11 @@ export async function prepareGitHubPagesRedirects() {
   ];
 
   for (const [source, target, locale] of redirects) {
-    const directory = path.join(outputDirectory, source);
-    await mkdir(directory, { recursive: true });
+    const redirectDirectory = path.join(directory, source);
+    await mkdir(redirectDirectory, { recursive: true });
     const label = locale === "uk" ? "Перейти на сайт" : "Zur Website";
     await writeFile(
-      path.join(directory, "index.html"),
+      path.join(redirectDirectory, "index.html"),
       `<!doctype html>
 <html lang="${locale}">
 <head>
@@ -74,7 +77,7 @@ export async function prepareGitHubPagesRedirects() {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,follow">
 <meta http-equiv="refresh" content="0;url=${target}">
-<link rel="canonical" href="https://garuday.github.io${target}">
+<link rel="canonical" href="${siteUrl}${target}">
 <title>SONNENBLUME</title>
 </head>
 <body><a href="${target}">${label}</a></body>

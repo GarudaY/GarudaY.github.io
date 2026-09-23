@@ -406,11 +406,13 @@ test("course author can submit drafts but cannot publish or withdraw", async () 
   assert.equal(editor.button("Зняти з публікації"), undefined);
 });
 
-test("event editor preserves both languages and keeps capacity outside content CMS", async () => {
+test("event editor preserves both languages and registration capacity", async () => {
   const editor = await app(true, "events");
   editor.field("title").input("Осіння зустріч");
   editor.field("slug").input("osinnia-zustrich-2026");
   editor.field("startsAt").input("2026-10-18T15:00:00+02:00");
+  editor.field("capacity").input("40");
+  editor.field("seatsAvailable").input("35");
   await editor.button("Deutsch").click();
   editor.field("title").input("Herbsttreffen");
   await editor.button("Зберегти чернетку").click();
@@ -418,8 +420,8 @@ test("event editor preserves both languages and keeps capacity outside content C
   assert.equal(write.path, "/sonnenblume/v1/events");
   assert.equal(write.body.data.title.uk, "Осіння зустріч");
   assert.equal(write.body.data.title.de, "Herbsttreffen");
-  assert.equal(write.body.data.capacity, undefined);
-  assert.equal(write.body.data.seatsAvailable, undefined);
+  assert.equal(write.body.data.capacity, 40);
+  assert.equal(write.body.data.seatsAvailable, 35);
   assert.equal(editor.field("slug").readOnly, true);
 });
 

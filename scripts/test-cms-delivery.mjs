@@ -60,6 +60,8 @@ const eventData = {
   registrationLabel: { uk: "Дізнатися більше", de: "Mehr erfahren" },
   category: "community",
   eventStatus: "upcoming",
+  capacity: 0,
+  seatsAvailable: 0,
   archiveType: "",
   organizerName: "",
   startsAt: "2026-10-18T15:00:00+02:00",
