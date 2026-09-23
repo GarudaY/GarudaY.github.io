@@ -96,7 +96,7 @@ public/images/partners/  Векторные demo-логотипы партнер
 
 Публичное demo: https://garuday.github.io/de/
 
-Актуальный исходный проект находится в ветке `code`; default-ветка `source` сохраняет опубликованную статическую копию и workflow. `Deploy GitHub Pages` запускается при push в `code` или `source`, вручную и по расписанию каждые 15 минут. Во всех случаях workflow явно забирает свежий `code`, собирает frontend из одного проверенного снимка шести WordPress feed и публикует только `.pages-out`.
+Актуальный исходный проект находится в ветке `code`; default-ветка `source` сохраняет опубликованную статическую копию и workflow. `Deploy GitHub Pages` запускается при push в `source`, вручную и по расписанию каждые 15 минут. Во всех случаях workflow явно забирает свежий `code`, собирает frontend из одного проверенного снимка шести WordPress feed и публикует только `.pages-out`. Push в `code` отдельно запускает полную CMS-проверку; Pages подхватывает его не позднее следующего планового запуска.
 
 Для сборки задаются repository variables `WORDPRESS_CMS_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_API_BASE_URL` и, пока staging закрыт HTTP Basic Auth, secrets `WORDPRESS_CMS_HTTP_USER` / `WORDPRESS_CMS_HTTP_PASSWORD`. Эти данные нужны только сборщику и не попадают в JavaScript. Публикация текста или фото в CMS появляется на статическом сайте после следующего успешного workflow; отправка форм и регистраций не ждёт пересборки.
 
