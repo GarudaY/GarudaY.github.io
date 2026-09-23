@@ -9,6 +9,8 @@
     "test:cms": "node --experimental-strip-types --test scripts/test-cms-updates.mjs scripts/test-cms-people.mjs scripts/test-cms-courses.mjs scripts/test-cms-events.mjs scripts/test-cms-volunteer.mjs scripts/test-cms-partners.mjs scripts/test-cms-admin.mjs && node --experimental-strip-types scripts/test-wordpress.mjs",
     "test:cms:frontend": "node scripts/smoke-cms-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-people-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-courses-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-events-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-volunteer-frontend.mjs && node --experimental-strip-types scripts/smoke-cms-partners-frontend.mjs",
     "test:cms:delivery": "node scripts/test-cms-delivery.mjs",
+    "qa:cms:publish": "node scripts/qa-cms-fixtures.mjs publish",
+    "qa:cms:archive": "node scripts/qa-cms-fixtures.mjs archive",
     "build": "next build --webpack",
     "build:sites": "opennextjs-cloudflare build",
     "bundle:sites": "npm run build:sites && wrangler deploy --dry-run --outdir .sites-bundle && node scripts/prepare-sites-bundle.mjs",
