@@ -14,10 +14,16 @@ export const dynamic = "force-dynamic";
 
 type PageProps = { params: Promise<{ locale: string; token: string }> };
 
-export const metadata: Metadata = {
-  title: "Registration status",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    title: locale === "uk" ? "Статус реєстрації" : "Anmeldestatus",
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function RegistrationStatusPage({ params }: PageProps) {
   const { locale: rawLocale, token } = await params;

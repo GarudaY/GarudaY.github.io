@@ -16,6 +16,7 @@ export function SiteLogo({ locale }: { locale: Locale }) {
           alt=""
           width={190}
           height={190}
+          loading="eager"
           className="h-full w-full object-cover"
           aria-hidden="true"
         />
