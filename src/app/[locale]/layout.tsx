@@ -5,7 +5,7 @@ import { isLocale, locales, type Locale } from "@/i18n/config";
 import { getNavigation, getSiteSettings } from "@/data/content";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { siteConfig } from "@/config/site";
+import { isPreviewSite, siteConfig } from "@/config/site";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -26,6 +26,7 @@ export async function generateMetadata({
       template: `%s | ${siteConfig.shortName[locale]}`,
     },
     metadataBase: new URL(siteConfig.baseUrl),
+    robots: isPreviewSite() ? { index: false, follow: false } : undefined,
   };
 }
 

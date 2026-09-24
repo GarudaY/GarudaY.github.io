@@ -14,3 +14,8 @@ export const siteConfig = {
     de: "SONNENBLUME",
   },
 } as const;
+
+export function isPreviewSite() {
+  const hostname = new URL(siteConfig.baseUrl).hostname.toLowerCase();
+  return hostname.endsWith(".github.io") || hostname.startsWith("staging.");
+}

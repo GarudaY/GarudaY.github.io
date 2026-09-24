@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/config/site";
+import { isPreviewSite, siteConfig } from "@/config/site";
 import type { Locale } from "@/i18n/config";
 import type { RouteKey } from "@/i18n/routing";
 import {
@@ -70,7 +70,10 @@ export function buildMetadata({
       description,
       images: [{ url: imageUrl, alt: title }],
     },
-    robots: noIndex ? { index: false, follow: false } : undefined,
+    robots:
+      noIndex || isPreviewSite()
+        ? { index: false, follow: false }
+        : undefined,
   };
 }
 
