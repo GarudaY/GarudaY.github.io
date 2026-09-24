@@ -12,6 +12,8 @@ import path from "node:path";
 import test from "node:test";
 import {
   prepareGitHubPagesSegmentFiles,
+  resolvePagesApiBase,
+  verifyPagesApiConfiguration,
   verifyPreviewIndexProtection,
 } from "./prepare-github-pages.mjs";
 
@@ -99,4 +101,25 @@ test("temporary Pages and staging exports cannot become indexable", async () => 
   } finally {
     await rm(fixture, { recursive: true, force: true });
   }
+});
+
+test("GitHub Pages forms always use a separate working API origin", () => {
+  const pagesUrl = "https://garuday.github.io";
+  const fallback = resolvePagesApiBase(pagesUrl);
+  assert.notEqual(new URL(fallback).origin, new URL(pagesUrl).origin);
+  assert.equal(
+    resolvePagesApiBase(pagesUrl, "https://api.example.org/"),
+    "https://api.example.org",
+  );
+  assert.equal(
+    resolvePagesApiBase("https://sonnenblume-mg.com"),
+    "https://sonnenblume-mg.com",
+  );
+  assert.throws(
+    () => verifyPagesApiConfiguration(pagesUrl, pagesUrl, "wordpress"),
+    /cannot host the form API/,
+  );
+  assert.doesNotThrow(() =>
+    verifyPagesApiConfiguration(pagesUrl, fallback, "wordpress"),
+  );
 });

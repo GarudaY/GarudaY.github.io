@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 import {
   prepareGitHubPagesRedirects,
   prepareGitHubPagesSegmentFiles,
+  resolvePagesApiBase,
+  verifyPagesApiConfiguration,
   verifyPreviewIndexProtection,
 } from "./prepare-github-pages.mjs";
 
@@ -14,10 +16,12 @@ const outputDirectory = path.join(root, ".pages-out");
 const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://garuday.github.io"
 ).replace(/\/$/, "");
-const apiBaseUrl = (
-  process.env.NEXT_PUBLIC_API_BASE_URL || siteUrl
-).replace(/\/$/, "");
 const apiMode = process.env.NEXT_PUBLIC_API_MODE || "wordpress";
+const apiBaseUrl = resolvePagesApiBase(
+  siteUrl,
+  process.env.NEXT_PUBLIC_API_BASE_URL,
+);
+verifyPagesApiConfiguration(siteUrl, apiBaseUrl, apiMode);
 
 function assertGeneratedPath(target) {
   const relative = path.relative(root, target);

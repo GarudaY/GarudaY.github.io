@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputDirectory = path.join(root, ".pages-out");
+const temporaryApiBaseUrl =
+  "https://ukrainian-verein-demo.daskevich1122.chatgpt.site";
 
 export async function prepareGitHubPagesSegmentFiles(
   directory = outputDirectory,
@@ -91,6 +93,25 @@ export async function prepareGitHubPagesRedirects(
 export function isPreviewSiteUrl(siteUrl) {
   const hostname = new URL(siteUrl).hostname.toLowerCase();
   return hostname.endsWith(".github.io") || hostname.startsWith("staging.");
+}
+
+export function resolvePagesApiBase(siteUrl, configuredApiBase) {
+  if (configuredApiBase?.trim()) return configuredApiBase.trim().replace(/\/$/, "");
+  return new URL(siteUrl).hostname.toLowerCase().endsWith(".github.io")
+    ? temporaryApiBaseUrl
+    : siteUrl.replace(/\/$/, "");
+}
+
+export function verifyPagesApiConfiguration(siteUrl, apiBaseUrl, apiMode) {
+  if (apiMode !== "wordpress") return;
+  if (
+    new URL(siteUrl).hostname.toLowerCase().endsWith(".github.io") &&
+    new URL(apiBaseUrl).origin === new URL(siteUrl).origin
+  ) {
+    throw new Error(
+      "GitHub Pages cannot host the form API; configure a separate HTTPS API base.",
+    );
+  }
 }
 
 export async function verifyPreviewIndexProtection(
