@@ -78,13 +78,28 @@ assert.ok(rawConfig, "Authenticated editor configuration is missing");
 nonce = JSON.parse(rawConfig[1]).nonce;
 
 const media = await json(
-  "wp-json/wp/v2/media?context=edit&media_type=image&per_page=20",
+  "wp-json/wp/v2/media?context=edit&media_type=image&per_page=100",
 );
 assert.ok(
   media.length >= 3,
   "QA needs at least three existing media-library images",
 );
-const [cover, galleryOne, galleryTwo] = media;
+function mediaByFilename(filename) {
+  const attachment = media.find((item) => {
+    try {
+      return new URL(item.source_url).pathname.endsWith(`/${filename}`);
+    } catch {
+      return false;
+    }
+  });
+  assert.ok(attachment, `QA media is missing ${filename}`);
+  return attachment;
+}
+const cover = mediaByFilename("event-community-festival.jpg");
+const galleryOne = mediaByFilename("event-children-day-volunteers.jpg");
+const galleryTwo = mediaByFilename("event-community-concert-musicians.jpg");
+const portrait = mediaByFilename("daniil-babych.webp");
+const partnerLogo = mediaByFilename("partner-gemeinsam-vielfalt.png");
 const tr = (uk, de) => ({ uk, de });
 const image = (attachment, uk, de, focus) => ({
   imageId: attachment.id,
@@ -137,7 +152,7 @@ const fixtures = {
     languages: ["uk", "de", "en"],
     order: 92,
     ...image(
-      galleryOne,
+      portrait,
       "Портрет тестового профілю редактора",
       "Porträt des QA-Redaktionsprofils",
       44,
@@ -289,7 +304,7 @@ const fixtures = {
     publicationPermission: true,
     order: 96,
     ...image(
-      galleryOne,
+      partnerLogo,
       "Логотип тестової партнерської організації",
       "Logo der QA-Partnerorganisation",
       50,

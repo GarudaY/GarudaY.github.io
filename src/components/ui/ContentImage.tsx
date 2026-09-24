@@ -43,7 +43,7 @@ export function ContentImage({
         quality={82}
         sizes={sizes}
         className={cn(
-          "select-none transition-transform duration-700 ease-out group-hover:scale-[1.035]",
+          "h-full w-full select-none transition-transform duration-700 ease-out group-hover:scale-[1.035]",
           image.fit === "contain" ? "object-contain p-7" : "object-cover",
         )}
       />

@@ -2,6 +2,7 @@ import type { Locale } from "@/i18n/config";
 import { t } from "@/lib/localize";
 import type { Person } from "@/types/content";
 import { ContentImage } from "@/components/ui/ContentImage";
+import { cn } from "@/lib/cn";
 
 function initials(name: string) {
   return name
@@ -30,7 +31,7 @@ export function PersonPortrait({
       <ContentImage
         image={person.image}
         locale={locale}
-        className={className}
+        className={cn("isolate min-w-0 max-w-full", className)}
         preload={preload}
         sizes={sizes}
       />
@@ -39,7 +40,10 @@ export function PersonPortrait({
 
   return (
     <div
-      className={`person-monogram relative grid overflow-hidden bg-blue-strong text-white ${className ?? ""}`}
+      className={cn(
+        "person-monogram relative isolate grid min-w-0 max-w-full overflow-hidden bg-blue-strong text-white",
+        className,
+      )}
       role="img"
       aria-label={
         locale === "uk"
