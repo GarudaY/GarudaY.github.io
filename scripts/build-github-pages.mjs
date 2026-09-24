@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import {
   prepareGitHubPagesRedirects,
   prepareGitHubPagesSegmentFiles,
+  verifyPreviewIndexProtection,
 } from "./prepare-github-pages.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -183,5 +184,6 @@ await cp(
 await writeFile(path.join(outputDirectory, ".nojekyll"), "", "utf8");
 await prepareGitHubPagesSegmentFiles();
 await prepareGitHubPagesRedirects(outputDirectory, siteUrl);
+await verifyPreviewIndexProtection(outputDirectory, siteUrl);
 
 console.log(`GitHub Pages export ready: ${outputDirectory}`);

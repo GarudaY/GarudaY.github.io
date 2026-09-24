@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readdir, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -88,9 +88,39 @@ export async function prepareGitHubPagesRedirects(
   }
 }
 
+export function isPreviewSiteUrl(siteUrl) {
+  const hostname = new URL(siteUrl).hostname.toLowerCase();
+  return hostname.endsWith(".github.io") || hostname.startsWith("staging.");
+}
+
+export async function verifyPreviewIndexProtection(
+  directory = outputDirectory,
+  siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://garuday.github.io",
+) {
+  if (!isPreviewSiteUrl(siteUrl)) return false;
+
+  const robots = await readFile(path.join(directory, "robots.txt"), "utf8");
+  if (!/^Disallow:\s*\/$/m.test(robots)) {
+    throw new Error("Preview export must disallow crawling in robots.txt.");
+  }
+
+  for (const locale of ["uk", "de"]) {
+    const html = await readFile(
+      path.join(directory, locale, "index.html"),
+      "utf8",
+    );
+    if (!/<meta name="robots" content="noindex, nofollow"\s*\/?\s*>/.test(html)) {
+      throw new Error(`Preview export is missing noindex metadata for ${locale}.`);
+    }
+  }
+
+  return true;
+}
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const copied = await prepareGitHubPagesSegmentFiles();
   await prepareGitHubPagesRedirects();
+  await verifyPreviewIndexProtection();
   console.log(
     `GitHub Pages redirects prepared; ${copied} segment files normalized.`,
   );

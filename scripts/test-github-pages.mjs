@@ -10,7 +10,10 @@ import {
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { prepareGitHubPagesSegmentFiles } from "./prepare-github-pages.mjs";
+import {
+  prepareGitHubPagesSegmentFiles,
+  verifyPreviewIndexProtection,
+} from "./prepare-github-pages.mjs";
 
 test("static segment URLs work for Windows and Linux exports", async () => {
   const fixture = await mkdtemp(path.join(os.tmpdir(), "ukr-pages-segments-"));
@@ -50,6 +53,49 @@ test("static segment URLs work for Windows and Linux exports", async () => {
     // Re-running the preparation must be safe and preserve the same URL.
     await prepareGitHubPagesSegmentFiles(fixture);
     assert.equal(await readFile(expected, "utf8"), "page payload");
+  } finally {
+    await rm(fixture, { recursive: true, force: true });
+  }
+});
+
+test("temporary Pages and staging exports cannot become indexable", async () => {
+  const fixture = await mkdtemp(path.join(os.tmpdir(), "ukr-pages-robots-"));
+  try {
+    for (const locale of ["uk", "de"]) {
+      await mkdir(path.join(fixture, locale), { recursive: true });
+      await writeFile(
+        path.join(fixture, locale, "index.html"),
+        '<meta name="robots" content="noindex, nofollow"/>',
+      );
+    }
+    await writeFile(
+      path.join(fixture, "robots.txt"),
+      "User-Agent: *\nDisallow: /\n",
+    );
+
+    assert.equal(
+      await verifyPreviewIndexProtection(
+        fixture,
+        "https://garuday.github.io",
+      ),
+      true,
+    );
+    assert.equal(
+      await verifyPreviewIndexProtection(
+        fixture,
+        "https://sonnenblume-mg.com",
+      ),
+      false,
+    );
+
+    await writeFile(path.join(fixture, "uk", "index.html"), "<title>UK</title>");
+    await assert.rejects(
+      verifyPreviewIndexProtection(
+        fixture,
+        "https://staging.sonnenblume-mg.com",
+      ),
+      /missing noindex metadata for uk/,
+    );
   } finally {
     await rm(fixture, { recursive: true, force: true });
   }
