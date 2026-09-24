@@ -52,10 +52,10 @@ npm run build
 ## Переменные окружения
 
 ```text
-NEXT_PUBLIC_SITE_URL=https://example-verein.de
+NEXT_PUBLIC_SITE_URL=https://sonnenblume-mg.com
 ```
 
-`https://example-verein.de` является mock-доменом. Перед production его нужно заменить на настоящий домен Verein.
+Для временного GitHub Pages workflow задаёт `https://garuday.github.io`; preview-адреса автоматически получают `noindex` и запрет обхода в `robots.txt`. После переключения на основной домен `https://sonnenblume-mg.com` индексация разрешается автоматически.
 
 ## Структура
 
