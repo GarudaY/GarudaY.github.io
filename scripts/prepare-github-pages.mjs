@@ -1,6 +1,17 @@
-import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import {
+  copyFile,
+  mkdir,
+  readFile,
+  readdir,
+  writeFile,
+} from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  getLegacyRedirectDirectory,
+  renderLegacyRedirectHtml,
+  validateLegacyRedirectConfiguration,
+} from "./legacy-redirects.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputDirectory = path.join(root, ".pages-out");
@@ -53,11 +64,14 @@ export async function prepareGitHubPagesSegmentFiles(
 
 export async function prepareGitHubPagesRedirects(
   directory = outputDirectory,
-  siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://garuday.github.io").replace(/\/$/, ""),
+  siteUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL || "https://garuday.github.io"
+  ).replace(/\/$/, ""),
 ) {
   // Pages has no server redirects. Keep old links working without JavaScript.
+  const legacy = await validateLegacyRedirectConfiguration();
   const redirects = [
-    ["", "/de/", "de"],
+    ...legacy.redirects.map(({ source, target }) => [source, target, "de"]),
     ["uk/about", "/uk/", "uk"],
     ["de/about", "/de/", "de"],
     ["de/ueber-uns", "/de/", "de"],
@@ -67,24 +81,11 @@ export async function prepareGitHubPagesRedirects(
   ];
 
   for (const [source, target, locale] of redirects) {
-    const redirectDirectory = path.join(directory, source);
+    const redirectDirectory = getLegacyRedirectDirectory(directory, source);
     await mkdir(redirectDirectory, { recursive: true });
-    const label = locale === "uk" ? "Перейти на сайт" : "Zur Website";
     await writeFile(
       path.join(redirectDirectory, "index.html"),
-      `<!doctype html>
-<html lang="${locale}">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,follow">
-<meta http-equiv="refresh" content="0;url=${target}">
-<link rel="canonical" href="${siteUrl}${target}">
-<title>SONNENBLUME</title>
-</head>
-<body><a href="${target}">${label}</a></body>
-</html>
-`,
+      renderLegacyRedirectHtml({ target, locale, siteUrl }),
       "utf8",
     );
   }
@@ -96,7 +97,8 @@ export function isPreviewSiteUrl(siteUrl) {
 }
 
 export function resolvePagesApiBase(siteUrl, configuredApiBase) {
-  if (configuredApiBase?.trim()) return configuredApiBase.trim().replace(/\/$/, "");
+  if (configuredApiBase?.trim())
+    return configuredApiBase.trim().replace(/\/$/, "");
   return new URL(siteUrl).hostname.toLowerCase().endsWith(".github.io")
     ? temporaryApiBaseUrl
     : siteUrl.replace(/\/$/, "");
@@ -155,8 +157,12 @@ export async function verifyPreviewIndexProtection(
       path.join(directory, locale, "index.html"),
       "utf8",
     );
-    if (!/<meta name="robots" content="noindex, nofollow"\s*\/?\s*>/.test(html)) {
-      throw new Error(`Preview export is missing noindex metadata for ${locale}.`);
+    if (
+      !/<meta name="robots" content="noindex, nofollow"\s*\/?\s*>/.test(html)
+    ) {
+      throw new Error(
+        `Preview export is missing noindex metadata for ${locale}.`,
+      );
     }
   }
 

@@ -11,6 +11,11 @@ import {
   verifyPreviewIndexProtection,
 } from "./prepare-github-pages.mjs";
 import { verifyStaticExport } from "./verify-static-export.mjs";
+import {
+  renderApacheLegacyRedirects,
+  validateLegacyRedirectConfiguration,
+  verifyLegacyRedirectTargets,
+} from "./legacy-redirects.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const workDirectory = path.join(root, ".pages-work");
@@ -194,6 +199,13 @@ await writeFile(path.join(outputDirectory, ".nojekyll"), "", "utf8");
 await prepareGitHubPagesSegmentFiles();
 await prepareGitHubPagesRedirects(outputDirectory, siteUrl);
 await verifyPreviewIndexProtection(outputDirectory, siteUrl);
+const legacyRedirects = await validateLegacyRedirectConfiguration();
+await writeFile(
+  path.join(outputDirectory, "legacy-redirects.htaccess"),
+  renderApacheLegacyRedirects(legacyRedirects.redirects),
+  "utf8",
+);
+await verifyLegacyRedirectTargets(outputDirectory);
 const exportVerification = await verifyStaticExport(outputDirectory, siteUrl);
 
 console.log(

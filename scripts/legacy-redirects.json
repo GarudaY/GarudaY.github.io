@@ -1,0 +1,274 @@
+{
+  "source": "https://sonnenblume-mg.com/wp-sitemap.xml",
+  "capturedAt": "2026-09-26",
+  "sitemapPaths": [
+    "/",
+    "/2025/05/23/%d0%b7%d1%83%d1%81%d1%82%d1%80%d1%96%d1%87-%d0%b4%d0%bb%d1%8f-%d1%82%d0%b8%d1%85-%d1%85%d1%82%d0%be-%d0%bf%d0%bb%d0%b0%d0%bd%d1%83%d1%94-%d0%bf%d1%80%d0%b0%d1%86%d1%8e%d0%b2%d0%b0%d1%82%d0%b8-%d0%b2/",
+    "/2025/05/23/%d1%82%d0%b0%d0%bd%d1%86i-%d0%b4%d0%bb%d1%8f-%d0%b4%d0%be%d1%80%d0%be%d1%81%d0%bb%d0%b8%d1%85/",
+    "/aktuelles/",
+    "/author/adm-1609-wp-2024/",
+    "/beratung/",
+    "/cart/",
+    "/category/%d1%82%d0%b0%d0%bd%d1%86i/",
+    "/category/allgemein/",
+    "/community/",
+    "/datenschutzerklaerung/",
+    "/ereignisgeschichte/",
+    "/erwachsenen-chor/",
+    "/foto/",
+    "/gesellschaftstanz/",
+    "/impressionen/",
+    "/impressum/",
+    "/integrationen/",
+    "/jugendchor-sonnenblume/",
+    "/kinderchor/",
+    "/kontakt/",
+    "/kurse-workshops/",
+    "/kurse-workshops/tanz-fur-erwachsene/",
+    "/malen-gestalten/",
+    "/mission/",
+    "/musikalische-frueherziehung/",
+    "/my-account/",
+    "/partner/",
+    "/programm/",
+    "/satzung/",
+    "/schausspiel-theater/",
+    "/sonstige-kulturelle-angebote/",
+    "/sozio-kultureller-treffpunkt/",
+    "/spenden/",
+    "/sprach-cafe/",
+    "/suchen-anbieten/",
+    "/tag/%d1%82%d0%b0%d0%bd%d1%86i-%d0%b4%d0%bb%d1%8f-%d0%b4%d0%be%d1%80%d0%be%d1%81%d0%bb%d0%b8%d1%85-%d1%83%d0%ba%d1%80%d0%b0%d1%97%d0%bd%d1%81%d0%ba%d0%b8%d0%b9-%d1%84%d0%b5%d1%80%d0%b0%d0%b9%d0%bd/",
+    "/tag/%d1%83%d0%ba%d1%80%d0%b0%d1%97%d0%bd%d1%81%d0%ba%d0%b8%d0%b9-%d1%84%d0%b5%d1%80%d0%b0%d0%b9%d0%bd-%d0%b2-%d0%bc%d0%b5%d0%bd%d1%85%d0%b5%d0%bd%d0%b3%d0%bb%d0%b0%d0%b4%d0%b1%d0%b0%d1%85/",
+    "/tag/%d1%83%d0%ba%d1%80%d0%b0%d1%97%d0%bd%d1%86%d1%96-%d0%b2-%d0%bc%d0%b5%d0%bd%d1%85%d0%b5%d0%bd%d0%b3%d0%bb%d0%b0%d0%b4%d0%b1%d0%b0%d1%85/",
+    "/tanz-hip-hop-breakdance/",
+    "/team/",
+    "/veranstaltungen/",
+    "/video/",
+    "/vorstand-geschaeftsfuehrung/",
+    "/zirkuskunst-clownkunst/"
+  ],
+  "redirects": [
+    { "source": "/", "target": "/de/", "reason": "German home page" },
+    {
+      "source": "/2025/05/23/%d0%b7%d1%83%d1%81%d1%82%d1%80%d1%96%d1%87-%d0%b4%d0%bb%d1%8f-%d1%82%d0%b8%d1%85-%d1%85%d1%82%d0%be-%d0%bf%d0%bb%d0%b0%d0%bd%d1%83%d1%94-%d0%bf%d1%80%d0%b0%d1%86%d1%8e%d0%b2%d0%b0%d1%82%d0%b8-%d0%b2/",
+      "target": "/de/events/zustrich-fakhivtsiv-okhorony-zdorovia-2025/",
+      "reason": "Imported event archive"
+    },
+    {
+      "source": "/2025/05/23/%d1%82%d0%b0%d0%bd%d1%86i-%d0%b4%d0%bb%d1%8f-%d0%b4%d0%be%d1%80%d0%be%d1%81%d0%bb%d0%b8%d1%85/",
+      "target": "/de/events/tantsi-dlia-doroslykh-2025/",
+      "reason": "Imported event archive"
+    },
+    {
+      "source": "/aktuelles/",
+      "target": "/de/events/",
+      "reason": "News and daily updates were consolidated into events"
+    },
+    {
+      "source": "/author/adm-1609-wp-2024/",
+      "target": "/de/events/",
+      "reason": "Author archive replacement"
+    },
+    {
+      "source": "/beratung/",
+      "target": "/de/contact/",
+      "reason": "Advice requests now use the contact route"
+    },
+    {
+      "source": "/cart/",
+      "target": "/de/contact/",
+      "reason": "WooCommerce was unused in the verified backup"
+    },
+    {
+      "source": "/category/%d1%82%d0%b0%d0%bd%d1%86i/",
+      "target": "/de/events/tantsi-dlia-doroslykh-2025/",
+      "reason": "Dance archive replacement"
+    },
+    {
+      "source": "/category/allgemein/",
+      "target": "/de/events/",
+      "reason": "General archive replacement"
+    },
+    {
+      "source": "/community/",
+      "target": "/de/#verein",
+      "reason": "Community section on the home page"
+    },
+    {
+      "source": "/datenschutzerklaerung/",
+      "target": "/de/privacy/",
+      "reason": "Current privacy notice"
+    },
+    {
+      "source": "/ereignisgeschichte/",
+      "target": "/de/events/",
+      "reason": "Current event archive"
+    },
+    {
+      "source": "/erwachsenen-chor/",
+      "target": "/de/courses/khor-sonnenblume/",
+      "reason": "Current choir course"
+    },
+    {
+      "source": "/foto/",
+      "target": "/de/events/",
+      "reason": "Event archive contains the photo stories"
+    },
+    {
+      "source": "/gesellschaftstanz/",
+      "target": "/de/events/tantsi-dlia-doroslykh-2025/",
+      "reason": "Closest imported dance archive"
+    },
+    {
+      "source": "/impressionen/",
+      "target": "/de/events/",
+      "reason": "Event archive contains the galleries"
+    },
+    {
+      "source": "/impressum/",
+      "target": "/de/impressum/",
+      "reason": "Current legal notice"
+    },
+    {
+      "source": "/integrationen/",
+      "target": "/de/join/",
+      "reason": "Current participation and support route"
+    },
+    {
+      "source": "/jugendchor-sonnenblume/",
+      "target": "/de/courses/khor-sonnenblume/",
+      "reason": "Current choir course"
+    },
+    {
+      "source": "/kinderchor/",
+      "target": "/de/courses/",
+      "reason": "Current course overview; no equivalent child choir is advertised"
+    },
+    {
+      "source": "/kontakt/",
+      "target": "/de/contact/",
+      "reason": "Current contact page"
+    },
+    {
+      "source": "/kurse-workshops/",
+      "target": "/de/courses/",
+      "reason": "Current course overview"
+    },
+    {
+      "source": "/kurse-workshops/tanz-fur-erwachsene/",
+      "target": "/de/events/tantsi-dlia-doroslykh-2025/",
+      "reason": "Imported historical announcement"
+    },
+    {
+      "source": "/malen-gestalten/",
+      "target": "/de/courses/maliuvannia-daniil-babych/",
+      "reason": "Current painting course"
+    },
+    {
+      "source": "/mission/",
+      "target": "/de/#verein",
+      "reason": "Mission section on the home page"
+    },
+    {
+      "source": "/musikalische-frueherziehung/",
+      "target": "/de/courses/",
+      "reason": "Current course overview; no equivalent offer is advertised"
+    },
+    {
+      "source": "/my-account/",
+      "target": "/de/contact/",
+      "reason": "WooCommerce accounts were unused in the verified backup"
+    },
+    {
+      "source": "/partner/",
+      "target": "/de/#partners",
+      "reason": "Partners section on the home page"
+    },
+    {
+      "source": "/programm/",
+      "target": "/de/courses/",
+      "reason": "Current programme overview"
+    },
+    {
+      "source": "/satzung/",
+      "target": "/documents/membership/satzung-sonnenblume.pdf",
+      "reason": "Current association statute PDF"
+    },
+    {
+      "source": "/schausspiel-theater/",
+      "target": "/de/courses/",
+      "reason": "Current course overview; no equivalent offer is advertised"
+    },
+    {
+      "source": "/sonstige-kulturelle-angebote/",
+      "target": "/de/courses/",
+      "reason": "Current course overview"
+    },
+    {
+      "source": "/sozio-kultureller-treffpunkt/",
+      "target": "/de/join/",
+      "reason": "Current community participation route"
+    },
+    {
+      "source": "/spenden/",
+      "target": "/de/donate/",
+      "reason": "Current donation page"
+    },
+    {
+      "source": "/sprach-cafe/",
+      "target": "/de/courses/kurs-nimetskoi-movy/",
+      "reason": "Current German language offer"
+    },
+    {
+      "source": "/suchen-anbieten/",
+      "target": "/de/join/",
+      "reason": "Current volunteer opportunities and proposal form"
+    },
+    {
+      "source": "/tag/%d1%82%d0%b0%d0%bd%d1%86i-%d0%b4%d0%bb%d1%8f-%d0%b4%d0%be%d1%80%d0%be%d1%81%d0%bb%d0%b8%d1%85-%d1%83%d0%ba%d1%80%d0%b0%d1%97%d0%bd%d1%81%d0%ba%d0%b8%d0%b9-%d1%84%d0%b5%d1%80%d0%b0%d0%b9%d0%bd/",
+      "target": "/de/events/tantsi-dlia-doroslykh-2025/",
+      "reason": "Dance archive replacement"
+    },
+    {
+      "source": "/tag/%d1%83%d0%ba%d1%80%d0%b0%d1%97%d0%bd%d1%81%d0%ba%d0%b8%d0%b9-%d1%84%d0%b5%d1%80%d0%b0%d0%b9%d0%bd-%d0%b2-%d0%bc%d0%b5%d0%bd%d1%85%d0%b5%d0%bd%d0%b3%d0%bb%d0%b0%d0%b4%d0%b1%d0%b0%d1%85/",
+      "target": "/de/#verein",
+      "reason": "Community section on the home page"
+    },
+    {
+      "source": "/tag/%d1%83%d0%ba%d1%80%d0%b0%d1%97%d0%bd%d1%86%d1%96-%d0%b2-%d0%bc%d0%b5%d0%bd%d1%85%d0%b5%d0%bd%d0%b3%d0%bb%d0%b0%d0%b4%d0%b1%d0%b0%d1%85/",
+      "target": "/de/#verein",
+      "reason": "Community section on the home page"
+    },
+    {
+      "source": "/tanz-hip-hop-breakdance/",
+      "target": "/de/courses/khoreohrafiia-studiia-mriya/",
+      "reason": "Current choreography course"
+    },
+    {
+      "source": "/team/",
+      "target": "/de/#board",
+      "reason": "Team section on the home page"
+    },
+    {
+      "source": "/veranstaltungen/",
+      "target": "/de/events/",
+      "reason": "Current event archive"
+    },
+    {
+      "source": "/video/",
+      "target": "/de/events/",
+      "reason": "Current event archive"
+    },
+    {
+      "source": "/vorstand-geschaeftsfuehrung/",
+      "target": "/de/#board",
+      "reason": "Board section on the home page"
+    },
+    {
+      "source": "/zirkuskunst-clownkunst/",
+      "target": "/de/courses/",
+      "reason": "Current course overview; no equivalent offer is advertised"
+    }
+  ]
+}
