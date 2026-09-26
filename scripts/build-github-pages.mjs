@@ -10,6 +10,7 @@ import {
   verifyPagesApiConfiguration,
   verifyPreviewIndexProtection,
 } from "./prepare-github-pages.mjs";
+import { verifyStaticExport } from "./verify-static-export.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const workDirectory = path.join(root, ".pages-work");
@@ -193,5 +194,9 @@ await writeFile(path.join(outputDirectory, ".nojekyll"), "", "utf8");
 await prepareGitHubPagesSegmentFiles();
 await prepareGitHubPagesRedirects(outputDirectory, siteUrl);
 await verifyPreviewIndexProtection(outputDirectory, siteUrl);
+const exportVerification = await verifyStaticExport(outputDirectory, siteUrl);
 
-console.log(`GitHub Pages export ready: ${outputDirectory}`);
+console.log(
+  `GitHub Pages export ready: ${outputDirectory}; verified ` +
+    `${exportVerification.checkedReferences} local references.`,
+);

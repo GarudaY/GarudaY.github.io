@@ -17,6 +17,7 @@ import {
   verifyPagesApiConfiguration,
   verifyPreviewIndexProtection,
 } from "./prepare-github-pages.mjs";
+import { verifyStaticExport } from "./verify-static-export.mjs";
 
 test("static segment URLs work for Windows and Linux exports", async () => {
   const fixture = await mkdtemp(path.join(os.tmpdir(), "ukr-pages-segments-"));
@@ -137,4 +138,37 @@ test("GitHub Pages forms always use a separate working API origin", () => {
     () => resolvePagesApiMode(fallback, "legacy"),
     /must be next or wordpress/,
   );
+});
+
+test("static export verification catches broken local links and assets", async () => {
+  const fixture = await mkdtemp(path.join(os.tmpdir(), "ukr-pages-links-"));
+  try {
+    await mkdir(path.join(fixture, "uk"), { recursive: true });
+    await mkdir(path.join(fixture, "assets"), { recursive: true });
+    await writeFile(path.join(fixture, "index.html"), '<a href="/uk/">UK</a>');
+    await writeFile(
+      path.join(fixture, "uk", "index.html"),
+      '<link href="/assets/site.css" rel="stylesheet"><a href="https://example.org/">External</a>',
+    );
+    await writeFile(
+      path.join(fixture, "assets", "site.css"),
+      'body { background-image: url("../assets/pattern.svg"); }',
+    );
+    await writeFile(path.join(fixture, "assets", "pattern.svg"), "<svg></svg>");
+
+    const verified = await verifyStaticExport(fixture, "https://preview.example");
+    assert.equal(verified.sourceFiles, 3);
+    assert.equal(verified.checkedReferences, 3);
+
+    await writeFile(
+      path.join(fixture, "uk", "index.html"),
+      '<img src="/assets/missing.png" alt="">',
+    );
+    await assert.rejects(
+      verifyStaticExport(fixture, "https://preview.example"),
+      /uk\/index\.html -> \/assets\/missing\.png/,
+    );
+  } finally {
+    await rm(fixture, { recursive: true, force: true });
+  }
 });

@@ -22,6 +22,7 @@
     "test:operations": "node scripts/smoke-operations.mjs",
     "test:pages": "node --test scripts/test-github-pages.mjs",
     "verify:pages-api": "node scripts/verify-pages-api.mjs",
+    "verify:pages-export": "node scripts/verify-static-export.mjs",
     "test:routing": "node --test scripts/test-localized-routing.mjs",
     "generate:qr": "node scripts/donation-qr.mjs",
     "test:notifications": "node --test scripts/test-email-notifications.mjs scripts/test-donation-qr.mjs"
