@@ -44,8 +44,9 @@ python scripts/upload-wordpress-ftps.py `
 1. Выполнить `npm run lint`, `npm run typecheck`, `npm run test:pages`, `npm run test:notifications`.
 2. Для GitHub Pages создать `.pages-out` через `npm run build:pages`; workflow выполняет это автоматически при push в `source`, вручную и каждые 15 минут, всегда собирая свежую ветку `code`. CMS/API остаются в WordPress.
 3. Выполнить `npm run verify:legacy-redirects` и `node scripts/legacy-redirects.mjs --fetch-live`. Production-экспорт содержит `legacy-redirects.htaccess`; его правила нужно вставить перед `# BEGIN WordPress`, сохранив штатные WordPress rewrite и доступ к `/wp-admin/` и `/wp-json/`.
-4. Перед production включить и проверить `wp_mail()` на правильных адресах, оставив сохранение заявки независимым от результата почты. Не переносить staging-заявки как реальные.
-5. После публикации убедиться, что новая картинка QR доступна по новому имени и старый закэшированный PNG не используется. Проверить один технический email и удалить/закрыть тестовые записи только штатными средствами после согласования.
+4. После production-сборки выполнить `npm run prepare:production-upload`. Команда повторно проверяет пакет, запрещает коллизии с `wp-admin`, `wp-content`, `wp-includes`, `wp-config.php`, `.htaccess` и другими WordPress-путями, создаёт `.production-upload/webroot` и SHA-256 manifest. Загружается только содержимое `webroot`; конфигурация редиректов лежит отдельно в `server-config` для контролируемого слияния.
+5. Перед production включить и проверить `wp_mail()` на правильных адресах, оставив сохранение заявки независимым от результата почты. Не переносить staging-заявки как реальные.
+6. После публикации убедиться, что новая картинка QR доступна по новому имени и старый закэшированный PNG не используется. Проверить один технический email и удалить/закрыть тестовые записи только штатными средствами после согласования.
 
 Проверка email-routing и QR добавлена в GitHub Actions: невалидный PNG или сломанная маршрутизация остановят сборку до публикации.
 

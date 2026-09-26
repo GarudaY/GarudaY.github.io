@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
     ".wrangler/**",
     ".pages-work/**",
     ".pages-out/**",
+    ".production-upload/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
