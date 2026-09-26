@@ -3,6 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches:
+      - code
       - source
   schedule:
     - cron: "*/15 * * * *"
