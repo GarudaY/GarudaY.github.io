@@ -282,6 +282,44 @@ async function inspectTls(hostname) {
   });
 }
 
+function errorMessage(error) {
+  return error?.message || error?.code || String(error);
+}
+
+async function inspectRedirect(
+  source,
+  destination,
+  check,
+  failureLevel = "block",
+) {
+  try {
+    const response = await fetchCheck(
+      new URL(source),
+      "/",
+      (status) => status >= 300 && status < 400,
+    );
+    const location = response.location
+      ? new URL(response.location, source).toString()
+      : null;
+    const expected = new URL(destination).toString();
+    const ok = response.ok && location === expected;
+    return result(
+      ok ? "pass" : failureLevel,
+      check,
+      ok
+        ? `${source} redirects to ${expected}.`
+        : `${source} returned HTTP ${response.status} and location ${location ?? "none"}; expected ${expected}.`,
+      { status: response.status, location },
+    );
+  } catch (error) {
+    return result(
+      failureLevel,
+      check,
+      `${source} redirect check failed: ${errorMessage(error)}`,
+    );
+  }
+}
+
 export async function inspectLiveProduction(siteUrl = DEFAULT_SITE_URL) {
   const base = new URL(siteUrl);
   const checks = [];
@@ -305,9 +343,27 @@ export async function inspectLiveProduction(siteUrl = DEFAULT_SITE_URL) {
     );
   } catch (error) {
     checks.push(
-      result("block", "live-root", `Production root failed: ${error.message}`),
+      result(
+        "block",
+        "live-root",
+        `Production root failed: ${errorMessage(error)}`,
+      ),
     );
   }
+  checks.push(
+    await inspectRedirect(
+      `http://${base.hostname}/`,
+      `${base.origin}/`,
+      "canonical-http",
+    ),
+  );
+  checks.push(
+    await inspectRedirect(
+      `https://www.${base.hostname}/`,
+      `${base.origin}/`,
+      "canonical-www",
+    ),
+  );
   try {
     const api = await fetchCheck(base, "/wp-json/", (status) => status === 200);
     const json = JSON.parse(api.body);
@@ -324,7 +380,7 @@ export async function inspectLiveProduction(siteUrl = DEFAULT_SITE_URL) {
       result(
         "block",
         "wordpress-api",
-        `WordPress REST API failed: ${error.message}`,
+        `WordPress REST API failed: ${errorMessage(error)}`,
       ),
     );
   }
@@ -347,7 +403,7 @@ export async function inspectLiveProduction(siteUrl = DEFAULT_SITE_URL) {
       result(
         "block",
         "wordpress-admin",
-        `WordPress admin entry failed: ${error.message}`,
+        `WordPress admin entry failed: ${errorMessage(error)}`,
       ),
     );
   }
@@ -363,7 +419,7 @@ export async function inspectLiveProduction(siteUrl = DEFAULT_SITE_URL) {
     );
   } catch (error) {
     checks.push(
-      result("block", "tls", `TLS verification failed: ${error.message}`),
+      result("block", "tls", `TLS verification failed: ${errorMessage(error)}`),
     );
   }
   try {
@@ -380,8 +436,37 @@ export async function inspectLiveProduction(siteUrl = DEFAULT_SITE_URL) {
     );
   } catch (error) {
     checks.push(
-      result("block", "mail-dns", `MX lookup failed: ${error.message}`),
+      result("block", "mail-dns", `MX lookup failed: ${errorMessage(error)}`),
     );
+  }
+  for (const alias of ["sonnenblume-mg.de", "sonnenblume-mg.org"]) {
+    checks.push(
+      await inspectRedirect(
+        `http://${alias}/`,
+        `${base.origin}/`,
+        `alias-http-${alias}`,
+        "warn",
+      ),
+    );
+    try {
+      await inspectTls(alias);
+      checks.push(
+        await inspectRedirect(
+          `https://${alias}/`,
+          `${base.origin}/`,
+          `alias-https-${alias}`,
+          "warn",
+        ),
+      );
+    } catch (error) {
+      checks.push(
+        result(
+          "warn",
+          `alias-https-${alias}`,
+          `HTTPS alias is not certificate-safe: ${errorMessage(error)}.`,
+        ),
+      );
+    }
   }
   return checks;
 }
