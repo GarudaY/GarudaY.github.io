@@ -102,7 +102,32 @@ export function resolvePagesApiBase(siteUrl, configuredApiBase) {
     : siteUrl.replace(/\/$/, "");
 }
 
+export function resolvePagesApiMode(apiBaseUrl, configuredApiMode) {
+  const mode = configuredApiMode?.trim().toLowerCase();
+  if (mode && mode !== "next" && mode !== "wordpress") {
+    throw new Error("NEXT_PUBLIC_API_MODE must be next or wordpress.");
+  }
+  if (mode) return mode;
+
+  return new URL(apiBaseUrl).origin === new URL(temporaryApiBaseUrl).origin
+    ? "next"
+    : "wordpress";
+}
+
 export function verifyPagesApiConfiguration(siteUrl, apiBaseUrl, apiMode) {
+  if (apiMode !== "next" && apiMode !== "wordpress") {
+    throw new Error("Pages API mode must be next or wordpress.");
+  }
+
+  if (
+    apiMode === "wordpress" &&
+    new URL(apiBaseUrl).origin === new URL(temporaryApiBaseUrl).origin
+  ) {
+    throw new Error(
+      "The temporary API exposes Next routes; use NEXT_PUBLIC_API_MODE=next.",
+    );
+  }
+
   if (apiMode !== "wordpress") return;
   if (
     new URL(siteUrl).hostname.toLowerCase().endsWith(".github.io") &&

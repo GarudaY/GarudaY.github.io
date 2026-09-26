@@ -6,6 +6,7 @@ import {
   prepareGitHubPagesRedirects,
   prepareGitHubPagesSegmentFiles,
   resolvePagesApiBase,
+  resolvePagesApiMode,
   verifyPagesApiConfiguration,
   verifyPreviewIndexProtection,
 } from "./prepare-github-pages.mjs";
@@ -16,10 +17,13 @@ const outputDirectory = path.join(root, ".pages-out");
 const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://garuday.github.io"
 ).replace(/\/$/, "");
-const apiMode = process.env.NEXT_PUBLIC_API_MODE || "wordpress";
 const apiBaseUrl = resolvePagesApiBase(
   siteUrl,
   process.env.NEXT_PUBLIC_API_BASE_URL,
+);
+const apiMode = resolvePagesApiMode(
+  apiBaseUrl,
+  process.env.NEXT_PUBLIC_API_MODE,
 );
 verifyPagesApiConfiguration(siteUrl, apiBaseUrl, apiMode);
 
