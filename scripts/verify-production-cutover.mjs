@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { resolveMx } from "node:dns/promises";
+import { resolveMx, resolveTxt } from "node:dns/promises";
 import { access, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { gunzip } from "node:zlib";
@@ -437,6 +437,34 @@ export async function inspectLiveProduction(siteUrl = DEFAULT_SITE_URL) {
   } catch (error) {
     checks.push(
       result("block", "mail-dns", `MX lookup failed: ${errorMessage(error)}`),
+    );
+  }
+  try {
+    const [rootTxt, dmarcTxt] = await Promise.all([
+      resolveTxt(base.hostname),
+      resolveTxt(`_dmarc.${base.hostname}`),
+    ]);
+    const rootRecords = rootTxt.map((parts) => parts.join(""));
+    const dmarcRecords = dmarcTxt.map((parts) => parts.join(""));
+    const spf = rootRecords.find((record) => record.startsWith("v=spf1"));
+    const dmarc = dmarcRecords.find((record) => record.startsWith("v=DMARC1"));
+    checks.push(
+      result(
+        spf && dmarc ? "pass" : "warn",
+        "mail-policy-dns",
+        spf && dmarc
+          ? "SPF and DMARC records remain published for the domain."
+          : `Mail policy DNS is incomplete (SPF ${spf ? "present" : "missing"}, DMARC ${dmarc ? "present" : "missing"}).`,
+        { spf: spf ?? null, dmarc: dmarc ?? null },
+      ),
+    );
+  } catch (error) {
+    checks.push(
+      result(
+        "warn",
+        "mail-policy-dns",
+        `SPF/DMARC lookup failed: ${errorMessage(error)}`,
+      ),
     );
   }
   for (const alias of ["sonnenblume-mg.de", "sonnenblume-mg.org"]) {
