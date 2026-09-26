@@ -1,34 +1,8 @@
-name: Check WordPress editorial workflow
+name: Check application and WordPress workflow
 
 on:
   push:
     branches: [code]
-    paths:
-      - "cms/**"
-      - "scripts/*wordpress*"
-      - "scripts/test-cms-updates.mjs"
-      - "scripts/test-cms-people.mjs"
-      - "scripts/test-cms-courses.mjs"
-      - "scripts/test-cms-events.mjs"
-      - "scripts/test-cms-volunteer.mjs"
-      - "scripts/test-cms-partners.mjs"
-      - "scripts/test-cms-admin.mjs"
-      - "src/lib/verein-updates.ts"
-      - "src/lib/cms-people.ts"
-      - "src/lib/cms-courses.ts"
-      - "src/lib/cms-events.ts"
-      - "src/lib/cms-volunteer.ts"
-      - "src/lib/cms-partners.ts"
-      - "src/server/cms-people.ts"
-      - "src/server/cms-courses.ts"
-      - "src/server/cms-events.ts"
-      - "src/server/volunteer-opportunities.ts"
-      - "src/server/cms-partners.ts"
-      - "src/content/mock/volunteer-opportunities.ts"
-      - "scripts/prepare-cms-snapshot.mjs"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/cms.yml"
   pull_request:
     paths:
       - "cms/**"
@@ -72,6 +46,16 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Check code style
+        run: npm run lint
+      - name: Check TypeScript
+        run: npm run typecheck
+      - name: Test static hosting and cutover gates
+        run: npm run test:pages
+      - name: Test localized routing
+        run: npm run test:routing
+      - name: Test email routing and donation QR
+        run: npm run test:notifications
       - name: Test WordPress backup integrity gate
         run: python3 scripts/test-wordpress-backup.py
       - run: npm run test:cms
