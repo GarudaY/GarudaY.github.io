@@ -72,4 +72,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Test WordPress backup integrity gate
+        run: python3 scripts/test-wordpress-backup.py
       - run: npm run test:cms

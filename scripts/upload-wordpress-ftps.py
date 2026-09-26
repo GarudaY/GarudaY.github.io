@@ -8,8 +8,10 @@ and production database credentials are never overwritten into staging.
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import hashlib
 import json
 import os
+import re
 import ssl
 import threading
 import time
@@ -18,6 +20,15 @@ from pathlib import Path, PurePosixPath
 
 
 EXCLUDED_ROOT_FILES = {".htaccess", ".htpasswd", "wp-config.php"}
+SHA256_PATTERN = re.compile(r"[0-9a-f]{64}")
+
+
+def sha256_file(path):
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def local_path(path):
@@ -25,6 +36,75 @@ def local_path(path):
     if os.name == "nt" and not str(resolved).startswith("\\\\?\\"):
         return Path("\\\\?\\" + str(resolved))
     return resolved
+
+
+def validate_manifest(manifest, source, progress=None):
+    """Validate every manifest entry and local file before any network write."""
+    if not isinstance(manifest, dict):
+        raise ValueError("Manifest root must be an object")
+    if not isinstance(manifest.get("host"), str) or not manifest["host"].strip():
+        raise ValueError("Manifest host must be a non-empty string")
+    if not isinstance(manifest.get("files"), list) or not manifest["files"]:
+        raise ValueError("Manifest files must be a non-empty array")
+
+    source_root = source.resolve()
+    seen = set()
+    validated = []
+    calculated_total = 0
+
+    for index, entry in enumerate(manifest["files"]):
+        label = f"Manifest entry {index}"
+        if not isinstance(entry, dict):
+            raise ValueError(f"{label} must be an object")
+
+        path = entry.get("path")
+        if not isinstance(path, str) or not path:
+            raise ValueError(f"{label} path must be a non-empty string")
+        normalized = PurePosixPath(path)
+        if (
+            normalized.is_absolute()
+            or "\\" in path
+            or path != str(normalized)
+            or any(part in ("", ".", "..") for part in normalized.parts)
+        ):
+            raise ValueError(f"Unsafe manifest path: {path!r}")
+        if path in seen:
+            raise ValueError(f"Duplicate manifest path: {path}")
+        seen.add(path)
+
+        size = entry.get("size")
+        if isinstance(size, bool) or not isinstance(size, int) or size < 0:
+            raise ValueError(f"Invalid size for {path}")
+        expected_digest = entry.get("sha256")
+        if not isinstance(expected_digest, str) or not SHA256_PATTERN.fullmatch(expected_digest):
+            raise ValueError(f"Invalid SHA-256 for {path}")
+
+        candidate = source_root.joinpath(*normalized.parts).resolve()
+        try:
+            candidate.relative_to(source_root)
+        except ValueError as error:
+            raise ValueError(f"Manifest path escapes source root: {path}") from error
+        source_file = local_path(candidate)
+        if not source_file.is_file():
+            raise ValueError(f"Backup file is missing: {path}")
+        if source_file.stat().st_size != size:
+            raise ValueError(f"Backup size mismatch: {path}")
+        if sha256_file(source_file) != expected_digest:
+            raise ValueError(f"Backup SHA-256 mismatch: {path}")
+
+        calculated_total += size
+        validated.append(entry)
+        if progress and ((index + 1) % 500 == 0 or index + 1 == len(manifest["files"])):
+            progress(index + 1, len(manifest["files"]), calculated_total)
+
+    total_bytes = manifest.get("total_bytes")
+    if isinstance(total_bytes, bool) or not isinstance(total_bytes, int):
+        raise ValueError("Manifest total_bytes must be an integer")
+    if total_bytes != calculated_total:
+        raise ValueError(
+            f"Manifest total_bytes mismatch: expected {total_bytes}, calculated {calculated_total}"
+        )
+    return validated
 
 
 def connect(host):
@@ -99,15 +179,17 @@ def upload(host, source, files, workers=8):
         expected = int(entry["size"])
         if not source_file.is_file() or source_file.stat().st_size != expected:
             raise RuntimeError(f"Local source validation failed for {path}")
+        if sha256_file(source_file) != entry["sha256"]:
+            raise RuntimeError(f"Local source changed after validation for {path}")
 
         remote = "/" + path.replace("\\", "/")
-        partial = remote + ".snb-upload-part"
+        # The digest-scoped name makes an interrupted upload resumable only for
+        # this exact file content. An existing destination is never trusted by
+        # size alone; a restore always replaces it with the verified backup.
+        partial = remote + f".{entry['sha256'][:16]}.snb-upload-part"
         for attempt in range(4):
             try:
                 ftp = get_connection()
-                if remote_size(ftp, remote) == expected:
-                    return 0, expected
-
                 offset = remote_size(ftp, partial) or 0
                 if offset > expected:
                     ftp.delete(partial)
@@ -183,22 +265,48 @@ def main():
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=8)
+    parser.add_argument(
+        "--verify-only",
+        action="store_true",
+        help="Verify manifest, sizes, and SHA-256 hashes without connecting to FTPS",
+    )
     args = parser.parse_args()
 
-    if not os.environ.get("SNB_FTPS_USER") or not os.environ.get("SNB_FTPS_PASSWORD"):
-        raise SystemExit("SNB_FTPS_USER and SNB_FTPS_PASSWORD are required")
     if not 1 <= args.workers <= 8:
         raise SystemExit("workers must be between 1 and 8")
 
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+    try:
+        manifest_files = validate_manifest(
+            manifest,
+            args.source,
+            progress=lambda checked, count, size: print(
+                f"Verified {checked}/{count} files ({size / 1024 / 1024:.1f} MiB)",
+                flush=True,
+            ),
+        )
+    except ValueError as error:
+        raise SystemExit(f"Backup integrity verification failed: {error}") from error
+
+    print(
+        f"Backup integrity verified: {len(manifest_files)} files, "
+        f"{manifest['total_bytes'] / 1024 / 1024:.1f} MiB",
+        flush=True,
+    )
+    if args.verify_only:
+        return
+
+    if not os.environ.get("SNB_FTPS_USER") or not os.environ.get("SNB_FTPS_PASSWORD"):
+        raise SystemExit("SNB_FTPS_USER and SNB_FTPS_PASSWORD are required")
+
     files = [
         entry
-        for entry in manifest["files"]
+        for entry in manifest_files
         if entry["path"] not in EXCLUDED_ROOT_FILES
     ]
     if len(files) + len(
-        {entry["path"] for entry in manifest["files"] if entry["path"] in EXCLUDED_ROOT_FILES}
-    ) != len(manifest["files"]):
+        {entry["path"] for entry in manifest_files if entry["path"] in EXCLUDED_ROOT_FILES}
+    ) != len(manifest_files):
         raise SystemExit("Manifest filtering was not exhaustive")
 
     total = sum(int(entry["size"]) for entry in files)
