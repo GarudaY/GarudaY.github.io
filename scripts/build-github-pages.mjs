@@ -16,6 +16,7 @@ import {
   validateLegacyRedirectConfiguration,
   verifyLegacyRedirectTargets,
 } from "./legacy-redirects.mjs";
+import { verifyProductionExport } from "./verify-production-export.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const workDirectory = path.join(root, ".pages-work");
@@ -207,8 +208,14 @@ await writeFile(
 );
 await verifyLegacyRedirectTargets(outputDirectory);
 const exportVerification = await verifyStaticExport(outputDirectory, siteUrl);
+const productionVerification = await verifyProductionExport(
+  outputDirectory,
+  siteUrl,
+  apiMode,
+);
 
 console.log(
   `GitHub Pages export ready: ${outputDirectory}; verified ` +
-    `${exportVerification.checkedReferences} local references.`,
+    `${exportVerification.checkedReferences} local references` +
+    `${productionVerification ? " and production-only metadata" : ""}.`,
 );
