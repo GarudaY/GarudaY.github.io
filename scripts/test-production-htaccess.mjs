@@ -3,7 +3,10 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { fileURLToPath } from "node:url";
+import {
+  renderApacheLegacyRedirects,
+  validateLegacyRedirectConfiguration,
+} from "./legacy-redirects.mjs";
 import {
   mergeHtaccess,
   writeMergedHtaccess,
@@ -24,8 +27,6 @@ const wordpress = [
   "</IfModule>",
   "# END WordPress",
 ].join("\r\n");
-
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 test("htaccess merge inserts redirects before WordPress and preserves CRLF", () => {
   const current = `Options -Indexes\r\n${wordpress}\r\n# custom tail\r\n`;
@@ -52,9 +53,8 @@ test("htaccess merge replaces a stale block and is idempotent", () => {
 });
 
 test("htaccess merge accepts the complete production redirect block", async () => {
-  const productionRules = await readFile(
-    path.join(root, "artifacts", "legacy-redirects.htaccess"),
-    "utf8",
+  const productionRules = renderApacheLegacyRedirects(
+    (await validateLegacyRedirectConfiguration()).redirects,
   );
   const current = `Options -Indexes\r\n${wordpress}\r\n`;
   const merged = mergeHtaccess(current, productionRules);
