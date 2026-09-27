@@ -52,7 +52,17 @@ npm run backup:production
 
 1. Выполнить `npm run lint`, `npm run typecheck`, `npm run test:pages`, `npm run test:notifications`.
 2. Для GitHub Pages создать `.pages-out` через `npm run build:pages`; workflow выполняет это автоматически при push в `source`, вручную и каждые 15 минут, всегда собирая свежую ветку `code`. Каждый push в `code` сразу проходит полный CI без попытки обойти защиту Pages environment. CMS/API остаются в WordPress.
-3. Выполнить `npm run verify:legacy-redirects` и `node scripts/legacy-redirects.mjs --fetch-live`. Production-экспорт содержит `legacy-redirects.htaccess`; его правила нужно вставить перед `# BEGIN WordPress`, сохранив штатные WordPress rewrite и доступ к `/wp-admin/` и `/wp-json/`.
+3. Выполнить `npm run verify:legacy-redirects` и `node scripts/legacy-redirects.mjs --fetch-live`. Production-экспорт содержит `legacy-redirects.htaccess`. Скачать текущий production `.htaccess` в приватный каталог и создать отдельный проверяемый файл, не перезаписывая оригинал:
+
+   ```powershell
+   npm run merge:production-htaccess -- `
+     --current "<private>/production-current.htaccess" `
+     --rules ".production-upload/server-config/legacy-redirects.htaccess" `
+     --output "<private>/production-merged-preview.htaccess"
+   ```
+
+   Команда требует один целый WordPress-блок, вставляет или обновляет редиректы строго перед ним, сохраняет его байт-в-байт, отказывается от неоднозначных маркеров и никогда не перезаписывает входной или уже существующий файл. Загрузка preview разрешена только после просмотра diff и свежей проверенной резервной копии.
+
 4. После production-сборки выполнить `npm run prepare:production-upload`. Команда повторно проверяет пакет, запрещает коллизии с `wp-admin`, `wp-content`, `wp-includes`, `wp-config.php`, `.htaccess` и другими WordPress-путями, создаёт `.production-upload/webroot` и SHA-256 manifest. Загружается только содержимое `webroot`; конфигурация редиректов лежит отдельно в `server-config` для контролируемого слияния.
    Workflow `Build verified production package` выполняет эти же шаги в GitHub с настроенным доступом к staging CMS и хранит проверенный приватный artifact 7 дней. Он не публикует файлы и не меняет production; перед загрузкой artifact всё равно требуется свежий backup старого сайта.
 5. Непосредственно перед переключением выполнить `npm run verify:production-cutover`. Это только чтение: команда сверяет SHA-256 каждого файла upload-пакета, проверяет структуру и gzip базы последней приватной копии, требует возраст пакета и backup не более 24 часов, а также проверяет HTTPS, TLS, WordPress REST/admin, MX/SPF/DMARC, canonical `www`/HTTP и доменные алиасы production. Любой `BLOCK` запрещает переключение. Для полностью локальной проверки без сетевых запросов используется `npm run verify:production-cutover:offline`; явный каталог можно проверить напрямую: `node scripts/verify-production-cutover.mjs --offline --backup "<private-backup>"`.
