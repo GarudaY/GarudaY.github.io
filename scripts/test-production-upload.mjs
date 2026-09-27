@@ -60,6 +60,9 @@ test("production package separates webroot from server configuration", async () 
     await access(
       path.join(destination, "server-config", "legacy-redirects.htaccess"),
     );
+    await access(
+      path.join(destination, "server-config", "merge-production-htaccess.mjs"),
+    );
     await assert.rejects(access(path.join(destination, "webroot", ".github")));
     await assert.rejects(
       access(path.join(destination, "webroot", ".nojekyll")),
@@ -74,6 +77,15 @@ test("production package separates webroot from server configuration", async () 
       ),
     );
     assert.equal(manifest.webroot.files, 4);
+    assert.deepEqual(
+      manifest.serverConfig.map((entry) => entry.path),
+      ["legacy-redirects.htaccess", "merge-production-htaccess.mjs"],
+    );
+    assert.ok(
+      manifest.serverConfig.every((entry) =>
+        /^[a-f0-9]{64}$/.test(entry.sha256),
+      ),
+    );
     assert.ok(
       manifest.webroot.entries.every((entry) =>
         /^[a-f0-9]{64}$/.test(entry.sha256),

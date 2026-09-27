@@ -104,6 +104,10 @@ export async function prepareProductionUpload({
     path.join(source, "legacy-redirects.htaccess"),
     path.join(serverConfig, "legacy-redirects.htaccess"),
   );
+  await copyFile(
+    path.join(root, "scripts", "merge-production-htaccess.mjs"),
+    path.join(serverConfig, "merge-production-htaccess.mjs"),
+  );
 
   const described = [];
   for (const relative of files.sort()) {
@@ -112,6 +116,10 @@ export async function prepareProductionUpload({
   const legacyRules = await describeFile(
     serverConfig,
     "legacy-redirects.htaccess",
+  );
+  const htaccessMergeTool = await describeFile(
+    serverConfig,
+    "merge-production-htaccess.mjs",
   );
   const totalBytes = described.reduce((sum, item) => sum + item.bytes, 0);
   const manifest = {
@@ -123,7 +131,7 @@ export async function prepareProductionUpload({
       bytes: totalBytes,
       entries: described,
     },
-    serverConfig: [legacyRules],
+    serverConfig: [legacyRules, htaccessMergeTool],
   };
   await writeFile(
     path.join(destination, "production-upload-manifest.json"),
@@ -137,9 +145,12 @@ export async function prepareProductionUpload({
       "",
       "1. Create and verify a fresh WordPress files + database backup before changing production.",
       "2. Upload only the CONTENTS of webroot/; do not delete existing WordPress files or directories.",
-      "3. Merge server-config/legacy-redirects.htaccess before the existing # BEGIN WordPress block.",
-      "4. Never replace wp-config.php, wp-admin/, wp-content/, wp-includes/ or the WordPress rewrite block.",
-      "5. Verify /de/, /uk/, /wp-admin/, /wp-json/, forms, QR, old URLs and rollback before approval.",
+      "3. Download the current production .htaccess and keep the untouched file as part of the rollback backup.",
+      "4. Create a separate preview without overwriting either input:",
+      "   node server-config/merge-production-htaccess.mjs --current <downloaded-.htaccess> --rules server-config/legacy-redirects.htaccess --output <merged-preview.htaccess>",
+      "5. Review the diff before uploading the preview. The helper preserves the WordPress rewrite block byte-for-byte.",
+      "6. Never replace wp-config.php, wp-admin/, wp-content/, wp-includes/ or the WordPress rewrite block.",
+      "7. Verify /de/, /uk/, /wp-admin/, /wp-json/, forms, QR, old URLs and rollback before approval.",
       "",
     ].join("\n"),
     "utf8",
