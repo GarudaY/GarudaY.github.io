@@ -20,7 +20,7 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "test:operations": "node scripts/smoke-operations.mjs",
-    "test:pages": "node --test scripts/test-github-pages.mjs scripts/test-legacy-redirects.mjs scripts/test-production-export.mjs scripts/test-production-upload.mjs scripts/test-production-cutover.mjs scripts/test-production-backup.mjs scripts/test-production-htaccess.mjs scripts/test-production-stage.mjs",
+    "test:pages": "node --test scripts/test-github-pages.mjs scripts/test-legacy-redirects.mjs scripts/test-production-export.mjs scripts/test-production-upload.mjs scripts/test-production-cutover.mjs scripts/test-production-backup.mjs scripts/test-production-htaccess.mjs scripts/test-production-stage.mjs scripts/test-production-switch.mjs",
     "verify:pages-api": "node scripts/verify-pages-api.mjs",
     "verify:pages-export": "node scripts/verify-static-export.mjs",
     "verify:legacy-redirects": "node scripts/legacy-redirects.mjs --output .pages-out",
@@ -31,6 +31,7 @@
     "backup:production": "node scripts/backup-production.mjs",
     "merge:production-htaccess": "node scripts/merge-production-htaccess.mjs",
     "stage:production": "node scripts/stage-production.mjs",
+    "switch:production": "node scripts/switch-production.mjs",
     "test:routing": "node --test scripts/test-localized-routing.mjs",
     "generate:qr": "node scripts/donation-qr.mjs",
     "test:notifications": "node --test scripts/test-email-notifications.mjs scripts/test-donation-qr.mjs"

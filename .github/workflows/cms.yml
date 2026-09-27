@@ -57,5 +57,5 @@ jobs:
       - name: Test email routing and donation QR
         run: npm run test:notifications
       - name: Test WordPress backup integrity gate
-        run: python3 scripts/test-wordpress-backup.py && python3 scripts/test-production-deploy.py
+        run: python3 scripts/test-wordpress-backup.py && python3 scripts/test-production-deploy.py && python3 scripts/test-production-switch.py
       - run: npm run test:cms

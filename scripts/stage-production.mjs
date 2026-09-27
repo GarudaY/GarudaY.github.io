@@ -1,4 +1,6 @@
 import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -8,6 +10,14 @@ import {
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const productionDomain = "sonnenblume-mg.com";
+const productionOrigin = `https://${productionDomain}`;
+const remoteSamplePaths = [
+  "de/index.html",
+  "uk/index.html",
+  "robots.txt",
+  "sitemap.xml",
+  "images/donation/bank-transfer-epc-qr.png",
+];
 
 function run(command, args, environment = process.env) {
   return new Promise((resolve, reject) => {
@@ -54,6 +64,50 @@ export function parseStageArguments(args) {
     );
   }
   return options;
+}
+
+export async function verifyRemoteSamples(
+  packageDirectory,
+  { fetchImpl = fetch, siteUrl = productionOrigin } = {},
+) {
+  const manifest = JSON.parse(
+    await readFile(
+      path.join(packageDirectory, "production-upload-manifest.json"),
+      "utf8",
+    ),
+  );
+  const byPath = new Map(
+    manifest.webroot?.entries?.map((entry) => [entry.path, entry]) || [],
+  );
+  const verified = [];
+  for (const relative of remoteSamplePaths) {
+    const entry = byPath.get(relative);
+    if (!entry)
+      throw new Error(`Remote sample is missing from manifest: ${relative}`);
+    const pathname =
+      relative === "de/index.html"
+        ? "/de/"
+        : relative === "uk/index.html"
+          ? "/uk/"
+          : `/${relative}`;
+    const response = await fetchImpl(new URL(pathname, siteUrl), {
+      redirect: "follow",
+      signal: AbortSignal.timeout(20_000),
+      headers: { "User-Agent": "Sonnenblume staged-file verification/1.0" },
+    });
+    if (response.status !== 200) {
+      throw new Error(
+        `Remote sample ${pathname} returned HTTP ${response.status}`,
+      );
+    }
+    const content = Buffer.from(await response.arrayBuffer());
+    const digest = createHash("sha256").update(content).digest("hex");
+    if (content.length !== entry.bytes || digest !== entry.sha256) {
+      throw new Error(`Remote sample checksum mismatch: ${pathname}`);
+    }
+    verified.push(pathname);
+  }
+  return verified;
 }
 
 export async function stageProduction(options) {
@@ -118,6 +172,10 @@ export async function stageProduction(options) {
       ? { ...process.env, SNB_PRODUCTION_DEPLOY_CONFIRM: productionDomain }
       : process.env,
   );
+  if (options.apply) {
+    const samples = await verifyRemoteSamples(options.packageDirectory);
+    console.log(`Verified staged production samples: ${samples.join(", ")}`);
+  }
   return { report, backupDirectory, applied: options.apply };
 }
 
