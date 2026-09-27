@@ -1,0 +1,77 @@
+name: Build verified production package
+
+on:
+  push:
+    branches: [code]
+    paths:
+      - ".github/workflows/production-package.yml"
+      - "public/**"
+      - "src/**"
+      - "scripts/build-github-pages.mjs"
+      - "scripts/legacy-redirects.json"
+      - "scripts/legacy-redirects.mjs"
+      - "scripts/prepare-cms-snapshot.mjs"
+      - "scripts/prepare-github-pages.mjs"
+      - "scripts/prepare-production-upload.mjs"
+      - "scripts/verify-production-export.mjs"
+      - "scripts/verify-static-export.mjs"
+      - "next.config.ts"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-package
+  cancel-in-progress: true
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: code
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build production export from the editorial CMS
+        run: npm run build:pages
+        env:
+          WORDPRESS_CMS_URL: ${{ vars.WORDPRESS_CMS_URL }}
+          WORDPRESS_CMS_HTTP_USER: ${{ secrets.WORDPRESS_CMS_HTTP_USER }}
+          WORDPRESS_CMS_HTTP_PASSWORD: ${{ secrets.WORDPRESS_CMS_HTTP_PASSWORD }}
+          NEXT_PUBLIC_SITE_URL: https://sonnenblume-mg.com
+          NEXT_PUBLIC_API_BASE_URL: https://sonnenblume-mg.com
+          NEXT_PUBLIC_API_MODE: wordpress
+
+      - name: Verify production metadata and server endpoints
+        run: npm run verify:production-export
+        env:
+          NEXT_PUBLIC_SITE_URL: https://sonnenblume-mg.com
+          NEXT_PUBLIC_API_BASE_URL: https://sonnenblume-mg.com
+          NEXT_PUBLIC_API_MODE: wordpress
+
+      - name: Prepare collision-safe upload package
+        run: npm run prepare:production-upload
+        env:
+          NEXT_PUBLIC_SITE_URL: https://sonnenblume-mg.com
+          NEXT_PUBLIC_API_BASE_URL: https://sonnenblume-mg.com
+          NEXT_PUBLIC_API_MODE: wordpress
+
+      - name: Upload verified package
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonnenblume-production-${{ github.sha }}
+          path: .production-upload/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
