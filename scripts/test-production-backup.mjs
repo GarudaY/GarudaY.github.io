@@ -10,6 +10,7 @@ import {
   buildBackupSummary,
   findMissingCredentials,
   validateBackupDestination,
+  validateBackupResumeDestination,
 } from "./backup-production.mjs";
 
 const gzipAsync = promisify(gzip);
@@ -33,6 +34,29 @@ test("production backup refuses repository and existing destinations", async () 
         projectRoot: path.join(fixture, "project"),
       }),
       /already exists/,
+    );
+  } finally {
+    await rm(fixture, { recursive: true, force: true });
+  }
+});
+
+test("production backup resumes only a marked incomplete destination", async () => {
+  const fixture = await mkdtemp(path.join(os.tmpdir(), "ukr-backup-resume-"));
+  try {
+    const existing = path.join(fixture, "existing");
+    await mkdir(existing);
+    await assert.rejects(
+      validateBackupResumeDestination(existing, {
+        projectRoot: path.join(fixture, "project"),
+      }),
+      /incomplete backup marker/,
+    );
+    await writeFile(path.join(existing, "INCOMPLETE.txt"), "incomplete\n");
+    assert.equal(
+      await validateBackupResumeDestination(existing, {
+        projectRoot: path.join(fixture, "project"),
+      }),
+      path.resolve(existing),
     );
   } finally {
     await rm(fixture, { recursive: true, force: true });
@@ -65,15 +89,16 @@ test("production backup summary binds files, wp-config and database", async () =
   const fixture = await mkdtemp(path.join(os.tmpdir(), "ukr-backup-summary-"));
   try {
     const files = path.join(fixture, "wordpress-files");
-    await mkdir(files);
+    const siteFiles = path.join(files, "example.test");
+    await mkdir(siteFiles, { recursive: true });
     const wpConfig = Buffer.from("<?php define('DB_NAME', 'private');");
-    await writeFile(path.join(files, "wp-config.php"), wpConfig);
+    await writeFile(path.join(siteFiles, "wp-config.php"), wpConfig);
     await writeFile(path.join(fixture, "wp-config.php"), wpConfig);
     const manifest = {
       host: "example.test",
       files: [
         {
-          path: "wp-config.php",
+          path: "example.test/wp-config.php",
           size: wpConfig.length,
           modified: "20260927000000",
           sha256: digest(wpConfig),
@@ -110,6 +135,7 @@ test("production backup summary binds files, wp-config and database", async () =
     assert.equal(summary.files, 1);
     assert.equal(summary.totalBytes, wpConfig.length);
     assert.equal(summary.databaseTables, 10);
+    assert.equal(summary.wpConfigSource, "example.test/wp-config.php");
     assert.equal(summary.wpConfigSha256, digest(wpConfig));
   } finally {
     await rm(fixture, { recursive: true, force: true });

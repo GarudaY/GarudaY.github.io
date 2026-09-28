@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { writeFile } from "node:fs/promises";
 import { request as httpsRequest } from "node:https";
+import { setTimeout as delay } from "node:timers/promises";
 import { gunzipSync } from "node:zlib";
 
 const base = new URL(process.env.SNB_PMA_URL ?? "");
@@ -21,7 +22,7 @@ if (
 
 const cookies = new Map();
 
-async function request(url, { method = "GET", body } = {}) {
+async function requestOnce(url, { method = "GET", body } = {}) {
   const target = new URL(url, base);
   if (target.protocol !== "https:" || target.origin !== base.origin) {
     throw new Error("phpMyAdmin redirected outside its HTTPS origin.");
@@ -38,6 +39,7 @@ async function request(url, { method = "GET", body } = {}) {
     const client = httpsRequest(target, { method, headers }, (response) => {
       const chunks = [];
       response.on("data", (chunk) => chunks.push(chunk));
+      response.on("error", reject);
       response.on("end", () => {
         for (const cookie of response.headers["set-cookie"] ?? []) {
           const pair = cookie.split(";", 1)[0];
@@ -56,6 +58,23 @@ async function request(url, { method = "GET", body } = {}) {
     client.on("error", reject);
     client.end(body);
   });
+}
+
+async function request(url, options = {}) {
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      return await requestOnce(url, options);
+    } catch (error) {
+      if (
+        attempt === 3 ||
+        !["ECONNRESET", "ETIMEDOUT", "EPIPE"].includes(error?.code)
+      ) {
+        throw error;
+      }
+      await delay(attempt * 1000);
+    }
+  }
+  throw new Error("phpMyAdmin request retry loop ended unexpectedly");
 }
 
 await request(base);

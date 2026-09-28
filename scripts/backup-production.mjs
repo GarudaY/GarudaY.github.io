@@ -51,6 +51,28 @@ export async function validateBackupDestination(
   return resolved;
 }
 
+export async function validateBackupResumeDestination(
+  destination,
+  { projectRoot = root } = {},
+) {
+  const resolved = path.resolve(destination);
+  const relative = path.relative(path.resolve(projectRoot), resolved);
+  if (!relative || (!relative.startsWith("..") && !path.isAbsolute(relative))) {
+    throw new Error("Backup destination must be outside the repository");
+  }
+  try {
+    await access(path.join(resolved, "INCOMPLETE.txt"));
+  } catch (error) {
+    if (error?.code === "ENOENT") {
+      throw new Error(
+        `Backup resume requires an incomplete backup marker: ${resolved}`,
+      );
+    }
+    throw error;
+  }
+  return resolved;
+}
+
 function run(command, args, options = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
@@ -85,10 +107,13 @@ export async function buildBackupSummary(destination, databasePath) {
   if (!Array.isArray(manifest.files) || manifest.files.length === 0) {
     throw new Error("Backup manifest is empty");
   }
+  const rootConfigSha256 = sha256(rootConfig);
   const configEntry = manifest.files.find(
-    (entry) => entry.path === "wp-config.php",
+    (entry) =>
+      entry.path.endsWith("wp-config.php") &&
+      entry.sha256 === rootConfigSha256,
   );
-  if (!configEntry || configEntry.sha256 !== sha256(rootConfig)) {
+  if (!configEntry) {
     throw new Error(
       "Root wp-config.php does not match the verified file backup",
     );
@@ -118,7 +143,8 @@ export async function buildBackupSummary(destination, databasePath) {
     databaseBytes: databaseContent.length,
     databaseSha256: sha256(databaseContent),
     databaseTables: tables.length,
-    wpConfigSha256: sha256(rootConfig),
+    wpConfigSource: configEntry.path,
+    wpConfigSha256: rootConfigSha256,
   };
 }
 
@@ -134,6 +160,7 @@ function renderVerification(summary) {
     `- Database: \`${summary.database}\``,
     `- Database tables: ${summary.databaseTables}`,
     `- Database SHA-256: \`${summary.databaseSha256}\``,
+    `- wp-config.php source: \`${summary.wpConfigSource}\``,
     `- wp-config.php SHA-256: \`${summary.wpConfigSha256}\``,
     "",
     "Every WordPress file was re-read and verified against the manifest after download.",
@@ -151,14 +178,19 @@ export async function backupProduction({
   if (missing.length > 0) {
     throw new Error(`Missing backup credentials: ${missing.join(", ")}`);
   }
-  destination = await validateBackupDestination(destination);
-  await mkdir(destination);
+  const resume = environment.SNB_BACKUP_RESUME?.trim() === "1";
+  destination = resume
+    ? await validateBackupResumeDestination(destination)
+    : await validateBackupDestination(destination);
+  if (!resume) await mkdir(destination);
   const incompleteMarker = path.join(destination, "INCOMPLETE.txt");
-  await writeFile(
-    incompleteMarker,
-    "Backup is incomplete until this marker is removed by the verified backup command.\n",
-    "utf8",
-  );
+  if (!resume) {
+    await writeFile(
+      incompleteMarker,
+      "Backup is incomplete until this marker is removed by the verified backup command.\n",
+      "utf8",
+    );
+  }
 
   const python =
     environment.PYTHON?.trim() ||
@@ -170,22 +202,42 @@ export async function backupProduction({
     `database-${new Date().toISOString().slice(0, 10)}.sql.gz`,
   );
   const host = environment.SNB_FTPS_HOST?.trim() || "w01e41a4.kasserver.com";
-
-  await run(
-    python,
-    [
-      path.join(root, "scripts", "backup-wordpress-ftps.py"),
-      "--host",
-      host,
-      "--output",
-      filesDirectory,
-    ],
-    { env: environment },
+  const wordpressRoot = environment.SNB_WORDPRESS_ROOT?.trim() || "";
+  if (
+    path.isAbsolute(wordpressRoot) ||
+    path.relative(".", wordpressRoot).startsWith("..")
+  ) {
+    throw new Error("SNB_WORDPRESS_ROOT must be a relative server path");
+  }
+  const configSource = path.join(
+    filesDirectory,
+    wordpressRoot,
+    "wp-config.php",
   );
+  const reuseFiles = environment.SNB_BACKUP_REUSE_FILES?.trim() === "1";
+  if (reuseFiles && !resume) {
+    throw new Error("SNB_BACKUP_REUSE_FILES requires SNB_BACKUP_RESUME=1");
+  }
+
+  if (reuseFiles) {
+    await Promise.all([access(filesDirectory), access(manifestPath)]);
+  } else {
+    await run(
+      python,
+      [
+        path.join(root, "scripts", "backup-wordpress-ftps.py"),
+        "--host",
+        host,
+        "--output",
+        filesDirectory,
+      ],
+      { env: environment },
+    );
+  }
   await copyFile(
-    path.join(filesDirectory, "wp-config.php"),
+    configSource,
     path.join(destination, "wp-config.php"),
-    constants.COPYFILE_EXCL,
+    resume ? 0 : constants.COPYFILE_EXCL,
   );
   await run(
     process.execPath,
